@@ -3,6 +3,7 @@ import { useInventoryActions } from '../../Application/useInventoryActions.js';
 import { useProductActions } from '../../Application/useProductActions.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
+import { StakeholderSearchBar } from '../../../Stakeholder/UI/components/StakeholderSearchBar.jsx';
 
 export const PointOfSalePage = () => {
     const { registerSale, loading, error } = useInventoryActions();
@@ -11,6 +12,7 @@ export const PointOfSalePage = () => {
     const [selectedProduct, setSelectedProduct] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [unitPrice, setUnitPrice] = useState('');
+    const [customerId, setCustomerId] = useState('');
     const [lastSale, setLastSale] = useState(null);
 
     useEffect(() => {
@@ -39,6 +41,7 @@ export const PointOfSalePage = () => {
         try {
             const dataToSubmit = {
                 product_id: selectedProduct,
+                customer_id: customerId || null,
                 quantity: parseInt(quantity, 10),
                 unit_price: parseFloat(unitPrice),
                 notes: 'POS Sale'
@@ -76,16 +79,28 @@ export const PointOfSalePage = () => {
                 <form onSubmit={handleSubmit} className="p-6 md:p-10">
 
                     <div className="space-y-8">
-                        <div>
-                            <label className={`${labelClasses} text-base`}>Escanear o Seleccionar Producto</label>
-                            <CustomSelect
-                                options={productOptions}
-                                value={selectedProduct}
-                                onChange={handleProductChange}
-                                placeholder="-- Buscar Producto --"
-                                required={true}
-                                className="text-lg"
-                            />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div>
+                                <label className={`${labelClasses} text-base`}>Escanear o Seleccionar Producto <span className="text-green-500">*</span></label>
+                                <CustomSelect
+                                    options={productOptions}
+                                    value={selectedProduct}
+                                    onChange={handleProductChange}
+                                    placeholder="-- Buscar Producto --"
+                                    required={true}
+                                    className="text-lg"
+                                />
+                            </div>
+
+                            <div>
+                                <label className={`${labelClasses} text-base`}>Cliente (Opcional)</label>
+                                <StakeholderSearchBar
+                                    type="customer"
+                                    placeholder="Buscar cliente..."
+                                    onSelect={(id) => setCustomerId(id || '')}
+                                    className="text-lg"
+                                />
+                            </div>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
