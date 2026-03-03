@@ -9,6 +9,9 @@ from Stakeholder.Domain.supplier import Supplier
 from Stakeholder.Adapters.customer_controller import router as customer_router
 from Stakeholder.Adapters.supplier_controller import router as supplier_router
 from Stakeholder.Adapters.stakeholder_controller import router as stakeholder_router
+from Report.Adapters.report_controller import router as report_router
+from Audit.Adapters.audit_controller import router as audit_router
+from Audit.Domain.audit_log import AuditLog
 
 # Create all tables
 Base.metadata.create_all(bind=engine)
@@ -28,6 +31,8 @@ app.register_blueprint(movement_router)
 app.register_blueprint(customer_router)
 app.register_blueprint(supplier_router)
 app.register_blueprint(stakeholder_router)
+app.register_blueprint(report_router)
+app.register_blueprint(audit_router)
 
 @app.route("/", methods=["GET"])
 def read_root():
