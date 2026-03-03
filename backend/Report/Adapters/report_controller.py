@@ -5,6 +5,7 @@ from Database.config import get_db
 from Report.Domain.dashboard import DashboardService
 from Report.Domain.metrics import MetricsService
 from Report.Adapters.sql_report_repository import SqlReportRepository
+from CommonLayer.middleware.auth_middleware import require_role
 from datetime import datetime, timezone
 from io import StringIO
 import csv
@@ -13,6 +14,7 @@ router = Blueprint('reports', __name__, url_prefix='/api/v1/reports')
 
 
 @router.route('/dashboard', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_dashboard():
     """Obtiene el resumen del dashboard con todos los indicadores clave"""
     try:
@@ -31,6 +33,7 @@ def get_dashboard():
 
 
 @router.route('/dashboard/inventory-value', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_inventory_value():
     """Obtiene el valor total del inventario"""
     try:
@@ -48,6 +51,7 @@ def get_inventory_value():
 
 
 @router.route('/dashboard/low-stock', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_low_stock():
     """Obtiene productos con stock bajo"""
     try:
@@ -67,6 +71,7 @@ def get_low_stock():
 
 
 @router.route('/dashboard/recent-movements', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_recent_movements():
     """Obtiene los últimos movimientos"""
     try:
@@ -85,6 +90,7 @@ def get_recent_movements():
 
 
 @router.route('/dashboard/rotation', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_rotation_summary():
     """Obtiene el resumen de rotación del inventario"""
     try:
@@ -103,6 +109,7 @@ def get_rotation_summary():
 
 
 @router.route('/valorization', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_valorization_report():
     """
     Obtiene el reporte de valorización de inventario a una fecha determinada
@@ -132,6 +139,7 @@ def get_valorization_report():
 
 
 @router.route('/valorization/export', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def export_valorization_report():
     """
     Exporta el reporte de valorización en CSV o PDF
@@ -210,6 +218,7 @@ def export_valorization_report():
 
 
 @router.route('/rotation', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_rotation_report():
     """
     Obtiene el reporte de rotación de inventario
@@ -239,6 +248,7 @@ def get_rotation_report():
 
 
 @router.route('/movements/search', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def search_movements():
     """
     Búsqueda avanzada de movimientos con filtros

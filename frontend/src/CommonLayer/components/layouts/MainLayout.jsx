@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { NAV_ITEMS } from '../../../Router/routes.js';
+import { useUserRole } from '../../hooks/useUserRole.js';
 
 export const MainLayout = ({ children, currentView, setView }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const { userRole, userName, clearUserData } = useUserRole();
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
     const handleNav = (id) => {
@@ -10,7 +12,11 @@ export const MainLayout = ({ children, currentView, setView }) => {
         setIsMobileMenuOpen(false);
     };
 
-    // NAV_ITEMS is imported from routes.js (single source of truth for navigation)
+    // Filtrar items de navegación según el rol del usuario
+    const filteredNavItems = NAV_ITEMS.filter(item => {
+        if (!item.roles || item.roles.length === 0) return true;
+        return item.roles.includes(userRole);
+    });
 
     return (
         <div className="flex h-screen bg-transparent overflow-hidden text-gray-100 font-sans relative">
@@ -49,7 +55,7 @@ export const MainLayout = ({ children, currentView, setView }) => {
 
                 <div className="flex-1 py-4 md:py-6 overflow-y-auto custom-scrollbar mt-16 md:mt-0">
                     <ul className="space-y-1">
-                        {NAV_ITEMS.map(item => (
+                        {filteredNavItems.map(item => (
                             <li
                                 key={item.id}
                                 className={`px-6 py-3 cursor-pointer transition-all duration-200 border-r-4 ${currentView === item.id
@@ -67,6 +73,33 @@ export const MainLayout = ({ children, currentView, setView }) => {
                             </li>
                         ))}
                     </ul>
+                </div>
+
+                {/* User Info Section */}
+                <div className="p-4 border-t border-white/10">
+                    <div className="bg-white/5 rounded-xl p-4 space-y-3">
+                        <div className="flex items-center gap-3">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center shrink-0">
+                                <span className="text-gray-900 font-bold text-sm">
+                                    {userName?.[0]?.toUpperCase() || '?'}
+                                </span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-white text-sm font-medium truncate">{userName}</p>
+                                <p className="text-gray-500 text-xs uppercase tracking-wider">
+                                    {userRole === 'admin' && 'Administrador'}
+                                    {userRole === 'gestor' && 'Gestor'}
+                                    {userRole === 'consultor' && 'Consultor'}
+                                </p>
+                            </div>
+                        </div>
+                        <button
+                            onClick={clearUserData}
+                            className="w-full px-3 py-2 text-xs bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg border border-red-500/30 transition-colors"
+                        >
+                            Cerrar sesión
+                        </button>
+                    </div>
                 </div>
             </nav>
 

@@ -3,12 +3,14 @@ from flask import Blueprint, request, jsonify
 from Database.config import get_db
 from Stakeholder.Domain.supplier import Supplier
 from Stakeholder.Adapters.supplier_repository import SupplierRepository
+from CommonLayer.middleware.auth_middleware import require_role
 from sqlalchemy.exc import IntegrityError
 
 
 router = Blueprint('suppliers', __name__, url_prefix='/api/v1/suppliers')
 
 @router.route('/', methods=['POST'])
+@require_role('admin', 'gestor')
 def create_supplier():
     data = request.get_json()
     if not data or not data.get('nombre') or not data.get('numero_documento'):
@@ -54,6 +56,7 @@ def create_supplier():
         return jsonify({"error": "Database integrity error"}), 400
 
 @router.route('/', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_suppliers():
     skip = int(request.args.get('skip', 0))
     limit = int(request.args.get('limit', 100))
@@ -82,6 +85,7 @@ def get_suppliers():
     return jsonify(result), 200
 
 @router.route('/<supplier_id>', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_supplier(supplier_id):
     db = next(get_db())
     repo = SupplierRepository(db)
@@ -102,6 +106,7 @@ def get_supplier(supplier_id):
     }), 200
 
 @router.route('/<supplier_id>', methods=['PUT', 'PATCH'])
+@require_role('admin', 'gestor')
 def update_supplier(supplier_id):
     data = request.get_json()
     db = next(get_db())
@@ -143,6 +148,7 @@ def update_supplier(supplier_id):
     }), 200
 
 @router.route('/<supplier_id>', methods=['DELETE'])
+@require_role('admin', 'gestor')
 def delete_supplier(supplier_id):
     db = next(get_db())
     repo = SupplierRepository(db)

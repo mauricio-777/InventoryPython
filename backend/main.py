@@ -12,6 +12,10 @@ from Stakeholder.Adapters.stakeholder_controller import router as stakeholder_ro
 from Report.Adapters.report_controller import router as report_router
 from Audit.Adapters.audit_controller import router as audit_router
 from Audit.Domain.audit_log import AuditLog
+from User.Domain.role import Role
+from User.Domain.user import User
+from User.Adapters.user_controller import router as user_router
+from User.Domain.user_service import UserService
 from CommonLayer.middleware.exception_handler import register_exception_handlers
 from CommonLayer.middleware.logging_middleware import register_logging_middleware
 from CommonLayer.logging.logger import get_logger
@@ -42,6 +46,15 @@ app.register_blueprint(supplier_router)
 app.register_blueprint(stakeholder_router)
 app.register_blueprint(report_router)
 app.register_blueprint(audit_router)
+app.register_blueprint(user_router)
+
+# ── Seed: roles y usuario admin inicial ──────────────────────────────────────
+with app.app_context():
+    seed_db = SessionLocal()
+    try:
+        UserService.seed_roles_and_admin(seed_db)
+    finally:
+        seed_db.close()
 
 @app.route("/", methods=["GET"])
 def read_root():
@@ -55,3 +68,4 @@ def health_check():
 if __name__ == "__main__":
     logger.info("Starting Inventory API on http://0.0.0.0:8000")
     app.run(host="0.0.0.0", port=8000, debug=True)
+

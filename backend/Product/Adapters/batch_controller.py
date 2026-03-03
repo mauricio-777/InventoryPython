@@ -6,11 +6,13 @@ from Product.Domain.batch import Batch
 from Product.Adapters.movement_repository import MovementRepository
 from Product.Adapters.product_repository import ProductRepository
 from Product.Domain.stock_service import StockService
+from CommonLayer.middleware.auth_middleware import require_role
 from datetime import datetime, timezone
 
 router = Blueprint('batches', __name__, url_prefix='/api/v1/batches')
 
 @router.route('/receive', methods=['POST'])
+@require_role('admin', 'gestor')
 def receive_purchase():
     data = request.get_json()
     if not data or not data.get('product_id') or not data.get('quantity') or not data.get('unit_cost'):
@@ -47,6 +49,7 @@ def receive_purchase():
         return jsonify({"detail": str(e)}), 400
 
 @router.route('/product/<product_id>', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_batches_by_product(product_id):
     db = next(get_db())
     repo = MovementRepository(db)

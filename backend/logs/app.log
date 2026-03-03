@@ -147,3 +147,158 @@
 2026-03-03 01:10:24 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.2ms | ip=127.0.0.1
 2026-03-03 01:10:28 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
 2026-03-03 01:10:28 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.7ms | ip=127.0.0.1
+2026-03-03 09:04:03 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 09:04:05 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 09:06:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 92.7ms | ip=127.0.0.1
+2026-03-03 09:06:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.7ms | ip=127.0.0.1
+2026-03-03 09:06:39 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.1ms | ip=127.0.0.1
+2026-03-03 09:06:40 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-03 09:06:40 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.7ms | ip=127.0.0.1
+2026-03-03 09:06:40 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-03 09:06:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.6ms | ip=127.0.0.1
+2026-03-03 09:06:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.1ms | ip=127.0.0.1
+2026-03-03 09:06:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.1ms | ip=127.0.0.1
+2026-03-03 09:06:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.8ms | ip=127.0.0.1
+2026-03-03 09:06:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=200 | 4.2ms | ip=127.0.0.1
+2026-03-03 09:06:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-03 09:06:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=200 | 5.0ms | ip=127.0.0.1
+2026-03-03 09:06:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=200 | 0.8ms | ip=127.0.0.1
+2026-03-03 09:06:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 17.3ms | ip=127.0.0.1
+2026-03-03 09:06:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 7.8ms | ip=127.0.0.1
+2026-03-03 09:06:47 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-03 09:06:48 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-03 09:06:48 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.1ms | ip=127.0.0.1
+2026-03-03 09:06:48 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.3ms | ip=127.0.0.1
+2026-03-03 09:06:49 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-03 09:06:49 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.8ms | ip=127.0.0.1
+2026-03-03 09:06:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.9ms | ip=127.0.0.1
+2026-03-03 09:06:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.3ms | ip=127.0.0.1
+2026-03-03 09:06:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-03 09:06:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.2ms | ip=127.0.0.1
+2026-03-03 09:06:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.2ms | ip=127.0.0.1
+2026-03-03 09:06:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-03 09:06:58 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-03 09:06:58 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-03 09:09:30 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-03 09:09:30 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-03 09:09:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.2ms | ip=127.0.0.1
+2026-03-03 09:09:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-03 09:09:37 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.4ms | ip=127.0.0.1
+2026-03-03 09:09:37 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-03 09:09:39 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=200 | 1.3ms | ip=127.0.0.1
+2026-03-03 09:09:39 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-03 09:09:40 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-03 09:09:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-03 09:09:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 4.9ms | ip=127.0.0.1
+2026-03-03 09:09:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 3.9ms | ip=127.0.0.1
+2026-03-03 09:09:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/valorization | user=anonymous | status=200 | 2.7ms | ip=127.0.0.1
+2026-03-03 09:10:07 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-03 09:10:08 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-03 09:10:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.7ms | ip=127.0.0.1
+2026-03-03 09:10:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.1ms | ip=127.0.0.1
+2026-03-03 09:10:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.7ms | ip=127.0.0.1
+2026-03-03 09:10:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-03 09:10:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/summary | user=anonymous | status=200 | 3.9ms | ip=127.0.0.1
+2026-03-03 09:10:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/summary | user=anonymous | status=200 | 1.6ms | ip=127.0.0.1
+2026-03-03 09:10:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 12.4ms | ip=127.0.0.1
+2026-03-03 09:10:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 2.1ms | ip=127.0.0.1
+2026-03-03 09:10:13 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-03 09:10:13 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-03 09:15:41 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 09:15:42 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 09:16:38 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 79.0ms | ip=127.0.0.1
+2026-03-03 09:16:38 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.2ms | ip=127.0.0.1
+2026-03-03 10:15:08 | INFO     | inventory.User.Domain.user_service | Rol 'admin' creado.
+2026-03-03 10:15:08 | INFO     | inventory.User.Domain.user_service | Rol 'gestor' creado.
+2026-03-03 10:15:08 | INFO     | inventory.User.Domain.user_service | Rol 'consultor' creado.
+2026-03-03 10:15:09 | INFO     | inventory.User.Domain.user_service | Usuario admin inicial creado: admin / Admin1234!
+2026-03-03 10:15:09 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:15:13 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:15:33 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:15:35 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:16:23 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:16:25 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:17:20 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:17:20 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 1.5ms | ip=127.0.0.1
+2026-03-03 10:17:21 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:17:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 4.0ms | ip=127.0.0.1
+2026-03-03 10:17:34 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:17:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 40.8ms | ip=127.0.0.1
+2026-03-03 10:17:34 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:17:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 3.4ms | ip=127.0.0.1
+2026-03-03 10:17:56 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': header X-User-Role ausente.
+2026-03-03 10:17:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=401 | 2.0ms | ip=127.0.0.1
+2026-03-03 10:17:57 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': header X-User-Role ausente.
+2026-03-03 10:17:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=401 | 0.9ms | ip=127.0.0.1
+2026-03-03 10:17:57 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:17:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.8ms | ip=127.0.0.1
+2026-03-03 10:17:57 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:17:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 1.0ms | ip=127.0.0.1
+2026-03-03 10:17:57 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:17:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:17:57 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:17:57 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:17:58 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/suppliers/': header X-User-Role ausente.
+2026-03-03 10:17:58 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=401 | 0.7ms | ip=127.0.0.1
+2026-03-03 10:17:58 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/suppliers/': header X-User-Role ausente.
+2026-03-03 10:17:58 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=401 | 0.4ms | ip=127.0.0.1
+2026-03-03 10:17:58 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': header X-User-Role ausente.
+2026-03-03 10:17:58 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=401 | 5.1ms | ip=127.0.0.1
+2026-03-03 10:17:59 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': header X-User-Role ausente.
+2026-03-03 10:17:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=401 | 0.9ms | ip=127.0.0.1
+2026-03-03 10:17:59 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:17:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:17:59 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:17:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.5ms | ip=127.0.0.1
+2026-03-03 10:18:00 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:18:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 2.0ms | ip=127.0.0.1
+2026-03-03 10:18:00 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:18:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:18:00 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:18:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.5ms | ip=127.0.0.1
+2026-03-03 10:18:00 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:18:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:18:08 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:18:08 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.4ms | ip=127.0.0.1
+2026-03-03 10:18:08 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:18:08 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.4ms | ip=127.0.0.1
+2026-03-03 10:21:26 | INFO     | inventory.User.Domain.user_service | Rol 'admin' creado.
+2026-03-03 10:21:26 | INFO     | inventory.User.Domain.user_service | Rol 'gestor' creado.
+2026-03-03 10:21:26 | INFO     | inventory.User.Domain.user_service | Rol 'consultor' creado.
+2026-03-03 10:21:27 | INFO     | inventory.User.Domain.user_service | Usuario admin inicial creado: admin / Admin1234!
+2026-03-03 10:21:27 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:21:29 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:22:06 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:22:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.8ms | ip=127.0.0.1
+2026-03-03 10:22:06 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:22:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.7ms | ip=127.0.0.1
+2026-03-03 10:22:17 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:22:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 2.0ms | ip=127.0.0.1
+2026-03-03 10:22:17 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': header X-User-Role ausente.
+2026-03-03 10:22:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=401 | 0.5ms | ip=127.0.0.1
+2026-03-03 10:22:17 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:22:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 1.0ms | ip=127.0.0.1
+2026-03-03 10:22:18 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:22:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:22:18 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/suppliers/': header X-User-Role ausente.
+2026-03-03 10:22:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=401 | 1.5ms | ip=127.0.0.1
+2026-03-03 10:22:19 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/suppliers/': header X-User-Role ausente.
+2026-03-03 10:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:22:19 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': header X-User-Role ausente.
+2026-03-03 10:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=401 | 1.0ms | ip=127.0.0.1
+2026-03-03 10:22:19 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': header X-User-Role ausente.
+2026-03-03 10:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=401 | 0.4ms | ip=127.0.0.1
+2026-03-03 10:25:12 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:25:14 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-03 10:25:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-03 10:25:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-03 10:25:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.9ms | ip=127.0.0.1
+2026-03-03 10:25:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-03 10:26:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-03 10:26:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-03 10:26:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-03 10:26:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-03 10:26:01 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:26:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.6ms | ip=127.0.0.1
+2026-03-03 10:26:01 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/customers/': header X-User-Role ausente.
+2026-03-03 10:26:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=401 | 0.9ms | ip=127.0.0.1

@@ -1,10 +1,12 @@
 from flask import Blueprint, request, jsonify
 from Database.config import get_db
 from Stakeholder.Adapters.stakeholder_service import StakeholderService
+from CommonLayer.middleware.auth_middleware import require_role
 
 router = Blueprint('stakeholders', __name__, url_prefix='/api/v1/stakeholders')
 
 @router.route('/search', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def search_stakeholders():
     query = request.args.get('q', '').strip()
     stakeholder_type = request.args.get('type', 'all').lower()

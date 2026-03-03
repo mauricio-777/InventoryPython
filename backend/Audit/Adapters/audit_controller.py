@@ -4,12 +4,14 @@ from flask import Blueprint, request, jsonify
 from Database.config import get_db
 from Audit.Domain.audit_log import AuditLog
 from Audit.Adapters.audit_repository import AuditRepository
+from CommonLayer.middleware.auth_middleware import require_role
 from datetime import datetime, timezone
 
 router = Blueprint('audit', __name__, url_prefix='/api/v1/audit')
 
 
 @router.route('/logs', methods=['GET'])
+@require_role('admin')
 def get_audit_logs():
     """
     Obtiene los registros de auditoría con filtros opcionales
@@ -72,6 +74,7 @@ def get_audit_logs():
 
 
 @router.route('/logs/<log_id>', methods=['GET'])
+@require_role('admin')
 def get_audit_log(log_id):
     """Obtiene un registro de auditoría específico"""
     try:
@@ -103,6 +106,7 @@ def get_audit_log(log_id):
 
 
 @router.route('/logs', methods=['POST'])
+@require_role('admin')
 def create_audit_log():
     """
     Crea un nuevo registro de auditoría
@@ -155,6 +159,7 @@ def create_audit_log():
 
 
 @router.route('/summary', methods=['GET'])
+@require_role('admin')
 def get_audit_summary():
     """Obtiene un resumen de la auditoría por tabla y usuario"""
     try:

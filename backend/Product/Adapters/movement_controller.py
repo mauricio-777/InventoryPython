@@ -3,11 +3,13 @@ from flask import Blueprint, request, jsonify
 from Database.config import get_db
 from Product.Domain.stock_service import StockService
 from Product.Adapters.movement_repository import MovementRepository
+from CommonLayer.middleware.auth_middleware import require_role
 from datetime import datetime
 
 router = Blueprint('movements', __name__, url_prefix='/api/v1/movements')
 
 @router.route('/sale', methods=['POST'])
+@require_role('admin', 'gestor')
 def register_sale():
     data = request.get_json()
     if not data or not data.get('product_id') or not data.get('quantity'):
@@ -40,6 +42,7 @@ def register_sale():
         return jsonify({"detail": str(e)}), 400
 
 @router.route('/product/<product_id>', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_movements_by_product(product_id):
     db = next(get_db())
     repo = MovementRepository(db)

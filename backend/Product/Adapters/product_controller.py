@@ -5,11 +5,13 @@ from Product.Domain.product import Product
 from Product.Domain.price_history import PriceHistory
 from Product.Adapters.product_repository import ProductRepository
 from Product.Adapters.price_history_repository import PriceHistoryRepository
+from CommonLayer.middleware.auth_middleware import require_role
 from datetime import datetime
 
 router = Blueprint('products', __name__, url_prefix='/api/v1/products')
 
 @router.route('/', methods=['POST'])
+@require_role('admin', 'gestor')
 def create_product():
     data = request.get_json()
     if not data or not data.get('name') or not data.get('category') or not data.get('unit_measure') or not data.get('sku'):
@@ -45,6 +47,7 @@ def create_product():
     }), 201
 
 @router.route('/', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_products():
     skip = int(request.args.get('skip', 0))
     limit = int(request.args.get('limit', 100))
@@ -69,6 +72,7 @@ def get_products():
     return jsonify(result), 200
 
 @router.route('/<product_id>', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_product(product_id):
     db = next(get_db())
     repo = ProductRepository(db)
@@ -89,6 +93,7 @@ def get_product(product_id):
     }), 200
 
 @router.route('/update-prices', methods=['POST'])
+@require_role('admin', 'gestor')
 def update_prices():
     updates = request.get_json()
     if not isinstance(updates, list):
@@ -117,6 +122,7 @@ def update_prices():
     return jsonify({"message": f"Updated {updated_count} product prices successfully"}), 200
 
 @router.route('/<product_id>/price-history', methods=['GET'])
+@require_role('admin', 'gestor', 'consultor')
 def get_price_history(product_id):
     db = next(get_db())
     hist_repo = PriceHistoryRepository(db)
