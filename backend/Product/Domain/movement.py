@@ -14,6 +14,8 @@ class Movement(Base, AuditableEntity):
 
     id = Column(String(50), primary_key=True, index=True)
     product_id = Column(String(50), ForeignKey("products.id"), nullable=False)
+    supplier_id = Column(String(50), ForeignKey("suppliers.id"), nullable=True)
+    customer_id = Column(String(50), ForeignKey("customers.id"), nullable=True)
     type = Column(String(50), nullable=False) # Use MovementType values
     quantity = Column(Integer, nullable=False)
     unit_price = Column(Float, nullable=True) # Price applied to this transaction
@@ -23,3 +25,5 @@ class Movement(Base, AuditableEntity):
     notes = Column(String(500), nullable=True)
 
     product = relationship("Product", back_populates="movements")
+    supplier = relationship("Supplier", back_populates="movements")
+    customer = relationship("Customer", back_populates="movements")

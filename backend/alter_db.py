@@ -28,6 +28,26 @@ def update_db():
             else:
                 print(f"Error adding expiration_date: {e}")
                 
+        # Add supplier_id to movements
+        try:
+            cursor.execute("ALTER TABLE movements ADD COLUMN supplier_id VARCHAR(50) REFERENCES suppliers(id);")
+            print("Added supplier_id column to movements.")
+        except sqlite3.OperationalError as e:
+            if "duplicate column name" in str(e):
+                print("Column supplier_id already exists.")
+            else:
+                print(f"Error adding supplier_id: {e}")
+
+        # Add customer_id to movements
+        try:
+            cursor.execute("ALTER TABLE movements ADD COLUMN customer_id VARCHAR(50) REFERENCES customers(id);")
+            print("Added customer_id column to movements.")
+        except sqlite3.OperationalError as e:
+            if "duplicate column name" in str(e):
+                print("Column customer_id already exists.")
+            else:
+                print(f"Error adding customer_id: {e}")
+                
         conn.commit()
         conn.close()
         print("Database update complete.")

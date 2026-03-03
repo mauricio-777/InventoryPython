@@ -3,6 +3,7 @@ import { useInventoryActions } from '../../Application/useInventoryActions.js';
 import { useProductActions } from '../../Application/useProductActions.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
+import { StakeholderSearchBar } from '../../../Stakeholder/UI/components/StakeholderSearchBar.jsx';
 
 export const PurchaseEntryPage = () => {
     const { receivePurchase, loading, error } = useInventoryActions();
@@ -98,8 +99,12 @@ export const PurchaseEntryPage = () => {
                             </div>
 
                             <div>
-                                <label className={labelClasses}>RUC / ID Proveedor (Opcional)</label>
-                                <input type="text" className={inputClasses} placeholder="Ej. PRV-2900" value={formData.supplier_id} onChange={e => setFormData({ ...formData, supplier_id: e.target.value })} />
+                                <label className={labelClasses}>Proveedor (Opcional)</label>
+                                <StakeholderSearchBar
+                                    type="supplier"
+                                    placeholder="Buscar proveedor..."
+                                    onSelect={(id) => setFormData({ ...formData, supplier_id: id || '' })}
+                                />
                             </div>
                         </div>
                     </div>

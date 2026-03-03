@@ -6,6 +6,8 @@ import { PurchaseEntryPage } from './Product/UI/pages/PurchaseEntryPage.jsx';
 import { PointOfSalePage } from './Product/UI/pages/PointOfSalePage.jsx';
 import { BatchDetailsPage } from './Product/UI/pages/BatchDetailsPage.jsx';
 import { MovementHistoryPage } from './Audit/UI/pages/MovementHistoryPage.jsx';
+import { CustomersPage } from './Stakeholder/UI/pages/CustomersPage.jsx';
+import { SuppliersPage } from './Stakeholder/UI/pages/SuppliersPage.jsx';
 
 function App() {
   const [currentView, setView] = useState('products');
@@ -16,6 +18,8 @@ function App() {
       {currentView === 'purchases' && <PurchaseEntryPage />}
       {currentView === 'pos' && <PointOfSalePage />}
       {currentView === 'batches' && <BatchDetailsPage />}
+      {currentView === 'customers' && <CustomersPage />}
+      {currentView === 'suppliers' && <SuppliersPage />}
       {currentView === 'audit' && <MovementHistoryPage />}
     </MainLayout>
   );
