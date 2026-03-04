@@ -16,6 +16,7 @@ from User.Domain.role import Role
 from User.Domain.user import User
 from User.Adapters.user_controller import router as user_router
 from User.Domain.user_service import UserService
+from Auth.Adapters.auth_controller import router as auth_router
 from CommonLayer.middleware.exception_handler import register_exception_handlers
 from CommonLayer.middleware.logging_middleware import register_logging_middleware
 from CommonLayer.logging.logger import get_logger
@@ -26,6 +27,7 @@ logger = get_logger(__name__)
 Base.metadata.create_all(bind=engine)
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = 'SuperSecretKeyForResetTokens123!@#' # Hardcoded para entorno de desarrollo / MVP
 CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 # ── Middlewares ──────────────────────────────────────────────────────────────
@@ -47,6 +49,7 @@ app.register_blueprint(stakeholder_router)
 app.register_blueprint(report_router)
 app.register_blueprint(audit_router)
 app.register_blueprint(user_router)
+app.register_blueprint(auth_router)
 
 # ── Seed: roles y usuario admin inicial ──────────────────────────────────────
 with app.app_context():
