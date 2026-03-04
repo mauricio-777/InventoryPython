@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useProductActions } from '../../Application/useProductActions.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { ProductFormPage } from './ProductFormPage.jsx';
+import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
 
 export const ProductListPage = () => {
     const { products, fetchProducts, loading, error } = useProductActions();
+    const { hasRole } = useUserRole();
     const [isFormVisible, setFormVisible] = useState(false);
 
     useEffect(() => {
@@ -25,12 +27,14 @@ export const ProductListPage = () => {
                         <p className="text-gray-500 text-sm md:text-base mt-2">Gestiona el inventario maestro de todo tu negocio.</p>
                     </div>
                 </div>
-                <Button onClick={() => setFormVisible(true)} variant="primary" className="w-full md:w-auto shadow-green-500/30 text-base py-3 md:py-3 px-6">
-                    <span className="flex items-center justify-center gap-2">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
-                        Nuevo Producto
-                    </span>
-                </Button>
+                {hasRole(['admin', 'gestor']) && (
+                    <Button onClick={() => setFormVisible(true)} variant="primary" className="w-full md:w-auto shadow-green-500/30 text-base py-3 md:py-3 px-6">
+                        <span className="flex items-center justify-center gap-2">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                            Nuevo Producto
+                        </span>
+                    </Button>
+                )}
             </div>
 
             {loading && (

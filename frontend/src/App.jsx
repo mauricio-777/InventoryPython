@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import { MainLayout } from './CommonLayer/components/layouts/MainLayout.jsx';
 import { LoginForm } from './Auth/UI/components/LoginForm.jsx';
+import { ForgotPasswordPage } from './Auth/UI/pages/ForgotPasswordPage.jsx';
+import { ResetPasswordPage } from './Auth/UI/pages/ResetPasswordPage.jsx';
 import { RoleGuard } from './Auth/UI/components/RoleGuard.jsx';
 import { useUserRole } from './CommonLayer/hooks/useUserRole.js';
 import { ProductListPage } from './Product/UI/pages/ProductListPage.jsx';
@@ -28,17 +30,45 @@ function App() {
     return false;
   });
 
+  const [authView, setAuthView] = useState('login'); // 'login', 'forgot', 'reset'
+  const [resetToken, setResetToken] = useState(null);
+
+  useEffect(() => {
+    // Check if the URL has a token parameter
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    if (token) {
+      setResetToken(token);
+      setAuthView('reset');
+
+      // Clean up the URL visually without reloading
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []);
+
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
 
-  // Si no está autenticado, mostrar LoginForm
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    // useUserRole ya maneja el localStorage, pero al setear state aquí, 
+    // forzamos el re-render para mostrar LoginForm.
+  };
+
+  // Si no está autenticado, mostrar vistas públicas
   if (!isLoggedIn) {
-    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+    if (authView === 'forgot') {
+      return <ForgotPasswordPage onBackToLogin={() => setAuthView('login')} />;
+    }
+    if (authView === 'reset' && resetToken) {
+      return <ResetPasswordPage token={resetToken} onBackToLogin={() => setAuthView('login')} />;
+    }
+    return <LoginForm onLoginSuccess={handleLoginSuccess} onForgotPassword={() => setAuthView('forgot')} />;
   }
 
   return (
-    <MainLayout currentView={currentView} setView={setView}>
+    <MainLayout currentView={currentView} setView={setView} onLogout={handleLogout}>
       {currentView === 'products' && <ProductListPage />}
       {currentView === 'purchases' && (
         <RoleGuard allowedRoles={['admin', 'gestor']}>

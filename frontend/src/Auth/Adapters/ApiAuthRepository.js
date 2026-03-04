@@ -1,53 +1,55 @@
-import { API_URL } from '../../CommonLayer/config/env.js';
-
-// Helper para obtener el rol del usuario del localStorage
-function getUserRole() {
-    if (typeof window !== 'undefined') {
-        return localStorage.getItem('userRole') || 'consultor';
-    }
-    return 'consultor';
-}
-
-// Headers con el rol del usuario para autorización temporal (hasta implementar JWT - Epic 3.2)
-function getAuthHeaders() {
-    return { 'X-User-Role': getUserRole() };
-}
+import { axiosInstance } from '../../CommonLayer/config/axios-instance.js';
 
 const BASE = '/users';
 
-/**
- * Wrapper de fetch con inyección de headers de rol.
- * API_URL ya incluye /api/v1, así que BASE solo necesita el segmento del recurso.
- */
-async function apiFetch(method, url, body = null) {
-    const opts = {
-        method: method.toUpperCase(),
-        headers: { 'Content-Type': 'application/json', ...getAuthHeaders() },
-    };
-    if (body) opts.body = JSON.stringify(body);
-
-    const res = await fetch(`${API_URL}${url}`, opts);
-    if (!res.ok) {
-        const errText = await res.text();
-        throw new Error(errText);
-    }
-    return res.json();
-}
-
 export const userApi = {
+    /** Inicia sesión */
+    login: async (username, password) => {
+        // As auth endpoints are under /auth not /users
+        const { data } = await axiosInstance.post('/auth/login', { username, password });
+        return data; // Returns the full payload { status, message, user }
+    },
+
+    /** Solicita enlace de restablecimiento de contraseña */
+    forgotPassword: async (username) => {
+        const { data } = await axiosInstance.post('/auth/forgot-password', { username });
+        return data;
+    },
+
+    /** Restablece la contraseña con un token válido */
+    resetPassword: async (token, newPassword) => {
+        const { data } = await axiosInstance.post('/auth/reset-password', { token, new_password: newPassword });
+        return data;
+    },
+
     /** Lista todos los usuarios */
-    getUsers: () => apiFetch('GET', `${BASE}/`),
+    getUsers: async () => {
+        const { data } = await axiosInstance.get(`${BASE}/`);
+        return data;
+    },
 
     /** Lista los roles disponibles */
-    getRoles: () => apiFetch('GET', `${BASE}/roles`),
+    getRoles: async () => {
+        const { data } = await axiosInstance.get(`${BASE}/roles`);
+        return data;
+    },
 
     /** Crea un nuevo usuario */
-    createUser: (data) => apiFetch('POST', `${BASE}/`, data),
+    createUser: async (userData) => {
+        const { data } = await axiosInstance.post(`${BASE}/`, userData);
+        return data;
+    },
 
     /** Actualiza un usuario por ID */
-    updateUser: (id, data) => apiFetch('PUT', `${BASE}/${id}`, data),
+    updateUser: async (id, userData) => {
+        const { data } = await axiosInstance.put(`${BASE}/${id}`, userData);
+        return data;
+    },
 
     /** Desactiva un usuario por ID */
-    deactivateUser: (id) => apiFetch('PATCH', `${BASE}/${id}/deactivate`),
+    deactivateUser: async (id) => {
+        const { data } = await axiosInstance.patch(`${BASE}/${id}/deactivate`);
+        return data;
+    },
 };
 

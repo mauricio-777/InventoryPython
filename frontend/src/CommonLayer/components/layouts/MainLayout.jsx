@@ -2,11 +2,18 @@ import React, { useState } from 'react';
 import { NAV_ITEMS } from '../../../Router/routes.js';
 import { useUserRole } from '../../hooks/useUserRole.js';
 
-export const MainLayout = ({ children, currentView, setView }) => {
+export const MainLayout = ({ children, currentView, setView, onLogout }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const { userRole, userName, clearUserData } = useUserRole();
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
+    /** Cierra sesión y llama al callback del App */
+    const handleLogoutClick = () => {
+        clearUserData();
+        if (onLogout) onLogout();
+    };
+
     const handleNav = (id) => {
         setView(id);
         setIsMobileMenuOpen(false);
@@ -94,7 +101,7 @@ export const MainLayout = ({ children, currentView, setView }) => {
                             </div>
                         </div>
                         <button
-                            onClick={clearUserData}
+                            onClick={handleLogoutClick}
                             className="w-full px-3 py-2 text-xs bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg border border-red-500/30 transition-colors"
                         >
                             Cerrar sesión

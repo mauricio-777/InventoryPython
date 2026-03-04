@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useUserManager } from '../../Application/useAuth.js';
 import { UserForm } from '../components/UserForm.jsx';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
+import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
 
 const ROLE_LABELS = {
     admin: 'Administrador',
@@ -21,6 +22,9 @@ export const UsersPage = () => {
         fetchUsers, fetchRoles,
         createUser, updateUser, deactivateUser,
     } = useUserManager();
+
+    const { hasRole } = useUserRole();
+    const isAdmin = hasRole('admin');
 
     const [isFormVisible, setFormVisible] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
@@ -91,18 +95,20 @@ export const UsersPage = () => {
                         </p>
                     </div>
                 </div>
-                <Button
-                    onClick={handleOpenCreate}
-                    variant="primary"
-                    className="w-full md:w-auto text-base py-3 px-6"
-                >
-                    <span className="flex items-center justify-center gap-2">
-                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                        </svg>
-                        Nuevo Usuario
-                    </span>
-                </Button>
+                {isAdmin && (
+                    <Button
+                        onClick={handleOpenCreate}
+                        variant="primary"
+                        className="w-full md:w-auto text-base py-3 px-6"
+                    >
+                        <span className="flex items-center justify-center gap-2">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                            </svg>
+                            Nuevo Usuario
+                        </span>
+                    </Button>
+                )}
             </div>
 
             {/* Search */}
@@ -163,7 +169,7 @@ export const UsersPage = () => {
                                 <th className="px-6 py-4 font-medium">Email</th>
                                 <th className="px-6 py-4 font-medium">Rol</th>
                                 <th className="px-6 py-4 font-medium">Estado</th>
-                                <th className="px-6 py-4 font-medium text-right">Acciones</th>
+                                {isAdmin && <th className="px-6 py-4 font-medium text-right">Acciones</th>}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 text-sm">
@@ -198,30 +204,32 @@ export const UsersPage = () => {
                                         </span>
                                     </td>
                                     {/* Actions */}
-                                    <td className="px-6 py-4 text-right">
-                                        <div className="flex justify-end gap-2">
-                                            <button
-                                                onClick={() => handleOpenEdit(user)}
-                                                title="Editar usuario"
-                                                className="p-2 bg-gray-800 hover:bg-gray-700 text-green-400 rounded-lg transition-colors border border-gray-700"
-                                            >
-                                                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                                </svg>
-                                            </button>
-                                            {user.active && (
+                                    {isAdmin && (
+                                        <td className="px-6 py-4 text-right">
+                                            <div className="flex justify-end gap-2">
                                                 <button
-                                                    onClick={() => handleDeactivate(user)}
-                                                    title="Desactivar usuario"
-                                                    className="p-2 bg-gray-800 hover:bg-gray-700 text-red-400 rounded-lg transition-colors border border-gray-700"
+                                                    onClick={() => handleOpenEdit(user)}
+                                                    title="Editar usuario"
+                                                    className="p-2 bg-gray-800 hover:bg-gray-700 text-green-400 rounded-lg transition-colors border border-gray-700"
                                                 >
                                                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
                                                     </svg>
                                                 </button>
-                                            )}
-                                        </div>
-                                    </td>
+                                                {user.active && (
+                                                    <button
+                                                        onClick={() => handleDeactivate(user)}
+                                                        title="Desactivar usuario"
+                                                        className="p-2 bg-gray-800 hover:bg-gray-700 text-red-400 rounded-lg transition-colors border border-gray-700"
+                                                    >
+                                                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636" />
+                                                        </svg>
+                                                    </button>
+                                                )}
+                                            </div>
+                                        </td>
+                                    )}
                                 </tr>
                             ))}
                         </tbody>

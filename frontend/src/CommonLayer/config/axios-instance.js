@@ -43,6 +43,15 @@ export const axiosInstance = {
         if (!res.ok) throw new Error(await res.text());
         return { data: await res.json() };
     },
+    patch: async (url, data) => {
+        const res = await fetch(`${API_URL}${url}`, {
+            method: 'PATCH',
+            headers: getDefaultHeaders(),
+            body: data ? JSON.stringify(data) : undefined
+        });
+        if (!res.ok) throw new Error(await res.text());
+        return { data: await res.json() };
+    },
     delete: async (url) => {
         const res = await fetch(`${API_URL}${url}`, {
             method: 'DELETE',

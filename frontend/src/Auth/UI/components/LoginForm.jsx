@@ -1,46 +1,43 @@
 import React, { useState } from 'react';
-import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
+import { useAuthLogin } from '../../Application/useAuth.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 
 /**
- * LoginForm — Formulario de autenticación simplificado
- * Para esta POC, permite seleccionar rol directamente.
- * En producción, esto se basaría en credenciales y JWT.
+ * LoginForm — Formulario de autenticación real
+ * Se conecta al backend para verificar credenciales y obtener el rol.
  */
-export const LoginForm = ({ onLoginSuccess, loading = false }) => {
-    const { setUserRole, setUserName } = useUserRole();
-    const [form, setForm] = useState({ username: '', role: 'consultor' });
-    const [error, setError] = useState('');
-
-    const ROLES = [
-        { id: 'admin', label: 'Administrador', color: 'from-purple-500 to-purple-600' },
-        { id: 'gestor', label: 'Gestor de Inventario', color: 'from-green-500 to-emerald-600' },
-        { id: 'consultor', label: 'Consultor', color: 'from-blue-500 to-cyan-600' },
-    ];
+export const LoginForm = ({ onLoginSuccess, onForgotPassword }) => {
+    const { login, loading, error } = useAuthLogin();
+    const [form, setForm] = useState({ username: '', password: '' });
+    const [validationError, setValidationError] = useState('');
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm(prev => ({ ...prev, [name]: value }));
-        setError('');
+        setValidationError('');
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        
-        if (!form.username.trim()) {
-            setError('El nombre de usuario es requerido.');
+        setValidationError('');
+
+        if (!form.username.trim() || !form.password) {
+            setValidationError('Usuario y contraseña son requeridos.');
             return;
         }
 
-        // Simular autenticación y establecer rol
-        setUserName(form.username);
-        setUserRole(form.role);
-        
-        // Notificar al padre del login exitoso
-        if (onLoginSuccess) {
-            onLoginSuccess({ username: form.username, role: form.role });
+        try {
+            const user = await login(form.username, form.password);
+            if (onLoginSuccess) {
+                onLoginSuccess(user);
+            }
+        } catch (err) {
+            // El error ya es manejado y mostrado por el hook useAuthLogin, 
+            // pero podemos hacer catch aquí si necesitamos lógica adicional
         }
     };
+
+    const displayError = validationError || error;
 
     return (
         <div className="min-h-screen bg-black flex items-center justify-center p-4 relative overflow-hidden">
@@ -82,43 +79,29 @@ export const LoginForm = ({ onLoginSuccess, loading = false }) => {
                             />
                         </div>
 
-                        {/* Rol Selection */}
+                        {/* Password */}
                         <div>
-                            <label className="block text-xs text-gray-400 mb-3 font-medium uppercase tracking-wider">
-                                Selecciona tu rol
+                            <label className="block text-xs text-gray-400 mb-2 font-medium uppercase tracking-wider">
+                                Contraseña
                             </label>
-                            <div className="space-y-2">
-                                {ROLES.map(roleOption => (
-                                    <button
-                                        key={roleOption.id}
-                                        type="button"
-                                        onClick={() => handleChange({ target: { name: 'role', value: roleOption.id } })}
-                                        className={`w-full p-4 rounded-xl border-2 transition-all text-left font-medium ${
-                                            form.role === roleOption.id
-                                                ? `border-green-500 bg-gradient-to-r ${roleOption.color} text-white shadow-lg shadow-green-500/30`
-                                                : 'border-white/10 bg-white/5 text-gray-300 hover:bg-white/10 hover:border-white/20'
-                                        }`}
-                                    >
-                                        <div className="flex items-center justify-between">
-                                            <span>{roleOption.label}</span>
-                                            {form.role === roleOption.id && (
-                                                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                                </svg>
-                                            )}
-                                        </div>
-                                    </button>
-                                ))}
-                            </div>
+                            <input
+                                type="password"
+                                name="password"
+                                value={form.password}
+                                onChange={handleChange}
+                                placeholder="••••••••"
+                                autoComplete="current-password"
+                                className="w-full bg-black/40 border border-gray-700/50 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all placeholder-gray-600 text-sm"
+                            />
                         </div>
 
                         {/* Error message */}
-                        {error && (
-                            <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl text-sm flex items-center gap-2">
+                        {displayError && (
+                            <div className="bg-red-500/10 border border-red-500/50 text-red-500 px-4 py-3 rounded-xl text-sm flex items-center gap-3">
                                 <svg className="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                                 </svg>
-                                {error}
+                                <span>{displayError}</span>
                             </div>
                         )}
 
@@ -127,11 +110,11 @@ export const LoginForm = ({ onLoginSuccess, loading = false }) => {
                             type="submit"
                             variant="primary"
                             disabled={loading}
-                            className="w-full py-3"
+                            className="w-full py-3 mt-4"
                         >
                             {loading ? (
                                 <span className="flex items-center justify-center gap-2">
-                                    <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+                                    <svg className="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
                                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
                                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                                     </svg>
@@ -141,14 +124,16 @@ export const LoginForm = ({ onLoginSuccess, loading = false }) => {
                                 'Iniciar sesión'
                             )}
                         </Button>
+                        <div className="text-center mt-4">
+                            <button
+                                type="button"
+                                onClick={onForgotPassword}
+                                className="text-gray-400 hover:text-green-400 text-sm transition-colors cursor-pointer"
+                            >
+                                ¿Olvidaste tu contraseña?
+                            </button>
+                        </div>
                     </form>
-
-                    {/* Footer */}
-                    <div className="mt-6 pt-6 border-t border-white/10">
-                        <p className="text-xs text-gray-500 text-center">
-                            Para esta POC, selecciona un rol para acceder con permisos específicos.
-                        </p>
-                    </div>
                 </div>
             </div>
         </div>

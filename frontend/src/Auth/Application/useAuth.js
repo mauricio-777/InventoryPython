@@ -100,3 +100,39 @@ export const useUserManager = () => {
         deactivateUser,
     };
 };
+
+/**
+ * Hook para manejar el inicio de sesión.
+ */
+export const useAuthLogin = () => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const { setUserRole, setUserName } = useUserRole();
+
+    const login = useCallback(async (username, password) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await userApi.login(username, password);
+            if (data.status === 'success' && data.user) {
+                setUserName(data.user.username);
+                // Asegurarse de usar role_name recibido del backend
+                setUserRole(data.user.role_name);
+                return data.user;
+            }
+            throw new Error(data.message || 'Error en login');
+        } catch (err) {
+            const msg = err.response?.data?.message || err.message || 'Error de conexión';
+            setError(msg);
+            throw new Error(msg);
+        } finally {
+            setLoading(false);
+        }
+    }, [setUserRole, setUserName]);
+
+    return {
+        login,
+        loading,
+        error
+    };
+};
