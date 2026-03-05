@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 /**
  * Generic data table with built-in search filter and pagination.
@@ -54,30 +55,28 @@ export const Table = ({
     const SKELETON_ROWS = pageSize > 5 ? 5 : pageSize;
 
     return (
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-6">
             {/* Search bar */}
             {searchable && (
-                <div className="relative">
-                    <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z" />
-                    </svg>
+                <div className="relative max-w-md">
+                    <PhosphorIcons.MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" weight="bold" />
                     <input
                         type="text"
                         value={query}
                         onChange={handleSearch}
                         placeholder={searchPlaceholder}
-                        className="w-full bg-black/30 border border-gray-700/50 hover:border-gray-500 focus:border-green-500 focus:ring-2 focus:ring-green-500/30 text-gray-200 placeholder-gray-600 rounded-xl pl-9 pr-4 py-2.5 text-sm outline-none transition-all"
+                        className="w-full bg-[var(--color-quinary)] border border-gray-200 hover:border-gray-300 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/10 text-[var(--color-tertiary)] placeholder-gray-400 rounded-2xl pl-11 pr-4 py-3 text-sm font-medium outline-none transition-all shadow-sm"
                     />
                 </div>
             )}
 
             {/* Table */}
-            <div className="overflow-x-auto rounded-2xl border border-white/10">
+            <div className="overflow-x-auto rounded-3xl border border-gray-100 bg-[var(--color-quinary)] shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
                 <table className="w-full text-sm text-left">
                     <thead>
-                        <tr className="bg-white/5 border-b border-white/10">
+                        <tr className="bg-gray-50/50 border-b border-gray-100 uppercase">
                             {columns.map(col => (
-                                <th key={col.key} className="px-4 py-3 font-semibold text-gray-400 uppercase tracking-wider text-xs whitespace-nowrap">
+                                <th key={col.key} className="px-6 py-4 font-bold text-gray-400 tracking-wider text-xs whitespace-nowrap">
                                     {col.label}
                                 </th>
                             ))}
@@ -86,28 +85,31 @@ export const Table = ({
                     <tbody>
                         {loading ? (
                             Array.from({ length: SKELETON_ROWS }).map((_, i) => (
-                                <tr key={i} className="border-b border-white/5">
+                                <tr key={i} className="border-b border-gray-50">
                                     {columns.map(col => (
-                                        <td key={col.key} className="px-4 py-3">
-                                            <div className="h-4 bg-white/5 rounded animate-pulse" />
+                                        <td key={col.key} className="px-6 py-4">
+                                            <div className="h-4 bg-gray-100 rounded animate-pulse" />
                                         </td>
                                     ))}
                                 </tr>
                             ))
                         ) : paginated.length === 0 ? (
                             <tr>
-                                <td colSpan={columns.length} className="px-4 py-10 text-center text-gray-500">
-                                    {emptyMessage}
+                                <td colSpan={columns.length} className="px-6 py-12 text-center text-gray-500 font-medium">
+                                    <div className="flex flex-col items-center justify-center gap-3">
+                                        <PhosphorIcons.FolderOpen size={48} weight="duotone" className="text-gray-300" />
+                                        {emptyMessage}
+                                    </div>
                                 </td>
                             </tr>
                         ) : (
                             paginated.map((row, rowIdx) => (
                                 <tr
                                     key={row.id ?? rowIdx}
-                                    className="border-b border-white/5 hover:bg-white/5 transition-colors duration-150"
+                                    className="border-b last:border-0 border-gray-50 hover:bg-gray-50/50 transition-colors duration-150 group"
                                 >
                                     {columns.map(col => (
-                                        <td key={col.key} className="px-4 py-3 text-gray-300">
+                                        <td key={col.key} className="px-6 py-4 text-[var(--color-tertiary)] font-medium">
                                             {col.render
                                                 ? col.render(row[col.key], row)
                                                 : (row[col.key] ?? '—')}
@@ -122,28 +124,28 @@ export const Table = ({
 
             {/* Pagination */}
             {totalPages > 1 && (
-                <div className="flex items-center justify-between text-sm text-gray-400">
+                <div className="flex items-center justify-between text-sm text-gray-500 font-medium">
                     <span>
-                        {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
+                        Mostrando {paginated.length} de {filtered.length} resultado{filtered.length !== 1 ? 's' : ''}
                         {query && ` para "${query}"`}
                     </span>
                     <div className="flex items-center gap-2">
                         <button
                             onClick={() => setPage(p => Math.max(1, p - 1))}
                             disabled={currentPage === 1}
-                            className="px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                            className="p-2 rounded-xl border border-gray-200 bg-[var(--color-quinary)] hover:bg-gray-50 hover:text-[var(--color-primary)] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                         >
-                            ‹
+                            <PhosphorIcons.CaretLeft size={18} weight="bold" />
                         </button>
-                        <span className="px-2">
+                        <span className="px-3 py-1 font-bold text-[var(--color-tertiary)]">
                             {currentPage} / {totalPages}
                         </span>
                         <button
                             onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                             disabled={currentPage === totalPages}
-                            className="px-3 py-1.5 rounded-lg border border-white/10 hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                            className="p-2 rounded-xl border border-gray-200 bg-[var(--color-quinary)] hover:bg-gray-50 hover:text-[var(--color-primary)] disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm"
                         >
-                            ›
+                            <PhosphorIcons.CaretRight size={18} weight="bold" />
                         </button>
                     </div>
                 </div>

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const CustomSelect = ({ options, value, onChange, placeholder = "Seleccionar...", className = "", required = false }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -26,23 +27,20 @@ export const CustomSelect = ({ options, value, onChange, placeholder = "Seleccio
 
     return (
         <div className={`relative ${className}`} ref={dropdownRef}>
-            {/* Si es requerido, añadir input invisible de validación si en HTML5 (simplificado) */}
             <div
-                className={`w-full bg-black/40 border ${isOpen ? 'border-green-500 ring-2 ring-green-500/50' : 'border-gray-700/50 hover:border-gray-500'} text-white rounded-xl px-4 py-3 cursor-pointer transition-all flex items-center justify-between ${!selectedOption && 'text-gray-500'}`}
+                className={`w-full bg-[var(--color-quinary)] border ${isOpen ? 'border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]/20' : 'border-gray-200 hover:border-gray-300'} text-[var(--color-tertiary)] rounded-2xl px-4 py-3 cursor-pointer transition-all flex items-center justify-between ${!selectedOption && 'text-gray-400 font-medium'}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span className="truncate">{displayValue}</span>
-                <svg className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
+                <PhosphorIcons.CaretDown weight="bold" className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180 text-[var(--color-primary)]' : ''}`} />
             </div>
 
             {isOpen && (
-                <div className="absolute z-50 w-full mt-2 bg-gray-900 border border-gray-700/50 rounded-xl shadow-2xl overflow-hidden max-h-60 overflow-y-auto custom-scrollbar animate-fade-in">
+                <div className="absolute z-50 w-full mt-2 bg-[var(--color-quinary)] border border-gray-100 rounded-2xl shadow-lg overflow-hidden max-h-60 overflow-y-auto custom-scrollbar animate-fade-in">
                     <ul className="py-1">
                         {(!required || !value) && (
                             <li
-                                className="px-4 py-3 text-gray-500 hover:bg-gray-800 cursor-pointer transition-colors"
+                                className="px-4 py-3 text-gray-400 font-medium hover:bg-gray-50 cursor-pointer transition-colors"
                                 onClick={() => handleSelect('')}
                             >
                                 {placeholder}
@@ -52,16 +50,14 @@ export const CustomSelect = ({ options, value, onChange, placeholder = "Seleccio
                             <li
                                 key={opt.value}
                                 className={`px-4 py-3 cursor-pointer transition-colors flex justify-between items-center ${value === opt.value
-                                        ? 'bg-green-500/10 text-green-400 font-medium'
-                                        : 'text-gray-300 hover:bg-white/5 hover:text-white'
+                                    ? 'bg-[var(--color-primary)]/5 text-[var(--color-primary)] font-bold'
+                                    : 'text-[var(--color-tertiary)] hover:bg-gray-50'
                                     }`}
                                 onClick={() => handleSelect(opt.value)}
                             >
                                 <span className="truncate">{opt.label}</span>
                                 {value === opt.value && (
-                                    <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                                    </svg>
+                                    <PhosphorIcons.CheckCircle weight="fill" className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
                                 )}
                             </li>
                         ))}

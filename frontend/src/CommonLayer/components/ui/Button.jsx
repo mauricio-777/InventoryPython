@@ -1,11 +1,12 @@
 import React from 'react';
 
 export const Button = ({ children, onClick, type = "button", variant = "primary", className = "", disabled = false }) => {
-    const baseStyle = "flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transform hover:-translate-y-0.5 shadow-lg";
+    const baseStyle = "flex items-center justify-center px-5 py-2.5 text-sm font-semibold rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none transform hover:-translate-y-0.5 shadow-sm";
 
     const variants = {
-        primary: "bg-gradient-to-r from-green-500 to-emerald-400 hover:from-green-400 hover:to-emerald-300 text-gray-900 shadow-green-500/25 hover:shadow-green-500/40 focus:ring-green-400",
-        danger: "bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 text-red-400 hover:text-red-300 shadow-transparent focus:ring-red-500"
+        primary: "bg-[var(--color-primary)] hover:bg-[var(--color-secondary)] text-[var(--color-quinary)] shadow-[var(--color-primary)]/20 hover:shadow-[var(--color-primary)]/30 focus:ring-[var(--color-primary)]",
+        secondary: "bg-[var(--color-quaternary)] hover:bg-gray-200 text-[var(--color-tertiary)] border border-gray-200 focus:ring-gray-300",
+        danger: "bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 focus:ring-red-500"
     };
 
     return (
@@ -19,3 +20,4 @@ export const Button = ({ children, onClick, type = "button", variant = "primary"
         </button>
     );
 };
+

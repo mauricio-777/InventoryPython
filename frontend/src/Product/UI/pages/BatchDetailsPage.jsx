@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useInventoryActions } from '../../Application/useInventoryActions.js';
 import { useProductActions } from '../../Application/useProductActions.js';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const BatchDetailsPage = () => {
     const { fetchBatches, loading, error } = useInventoryActions();
@@ -29,22 +30,25 @@ export const BatchDetailsPage = () => {
     }));
 
     return (
-        <div className="animate-fade-in w-full max-w-6xl mx-auto">
-            <div className="mb-8 border-b border-white/10 pb-6 flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div className="p-3 md:p-4 bg-green-500/10 rounded-2xl relative border border-green-500/20 shadow-inner">
-                    <svg className="w-8 h-8 md:w-10 md:h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg>
+        <div className="animate-fade-in w-full max-w-6xl mx-auto space-y-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="p-3 md:p-4 bg-[var(--color-primary)]/10 rounded-2xl relative border border-[var(--color-primary)]/20 shadow-sm">
+                    <PhosphorIcons.Archive size={32} weight="fill" className="text-[var(--color-primary)]" />
                 </div>
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide">
-                        Detalle y <span className="font-bold text-green-400">Stock por Lotes</span>
+                    <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-tertiary)] tracking-tight">
+                        Detalle y <span className="text-[var(--color-primary)]">Stock por Lotes</span>
                     </h1>
-                    <p className="text-gray-500 mt-2 text-sm md:text-base">Visualiza la disponibilidad activa por lote de compra aplicando el modelo FIFO.</p>
+                    <p className="text-gray-500 mt-1 font-medium text-sm md:text-base">Visualiza la disponibilidad activa por lote de compra aplicando el modelo FIFO.</p>
                 </div>
             </div>
 
-            <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 md:p-8 mb-8 w-full max-w-2xl">
+            <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 md:p-8 w-full max-w-2xl">
                 <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-400 mb-3">Seleccionar Producto para ver stock activo</label>
+                    <label className="block text-sm font-bold text-gray-600 mb-3 flex items-center gap-1.5">
+                        <PhosphorIcons.MagnifyingGlass size={18} weight="bold" className="text-gray-400" />
+                        Seleccionar Producto para ver stock activo
+                    </label>
                     <CustomSelect
                         options={productOptions}
                         value={selectedProduct}
@@ -56,62 +60,68 @@ export const BatchDetailsPage = () => {
 
             {loading && (
                 <div className="flex justify-center flex-col items-center py-12 gap-4">
-                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-green-400"></div>
-                    <span className="text-gray-400">Revisando base de datos de lotes...</span>
+                    <PhosphorIcons.Spinner size={40} className="animate-spin text-[var(--color-primary)]" />
+                    <span className="text-gray-500 font-medium">Revisando base de datos de lotes...</span>
                 </div>
             )}
 
             {error && (
-                <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl mb-6 shadow-lg">
+                <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl shadow-sm font-medium flex items-center gap-3">
+                    <PhosphorIcons.WarningCircle size={24} weight="fill" className="shrink-0 text-red-500" />
                     <p>{error}</p>
                 </div>
             )}
 
             {selectedProduct && !loading && (
-                <div className="bg-gray-900/40 backdrop-blur-md rounded-3xl border border-white/5 shadow-2xl overflow-hidden w-full animate-slide-up">
+                <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden w-full animate-slide-up">
                     {batches.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-                            <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>
-                            <p className="text-lg">No hay stock o lotes activos para este producto.</p>
-                            <p className="text-sm mt-1">Este producto se ha quedado en 0.</p>
+                        <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+                            <PhosphorIcons.Empty size={64} weight="light" className="mb-4 opacity-50" />
+                            <p className="text-lg font-bold text-gray-600">No hay stock o lotes activos para este producto.</p>
+                            <p className="text-sm mt-1 font-medium">Este producto se ha quedado en 0.</p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto w-full custom-scrollbar">
                             <table className="w-full text-left min-w-[600px]">
                                 <thead>
-                                    <tr className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
-                                        <th className="px-6 py-4 font-medium">ID Lote</th>
-                                        <th className="px-6 py-4 font-medium">Comprado</th>
-                                        <th className="px-6 py-4 font-medium">Vence</th>
-                                        <th className="px-6 py-4 font-medium text-center">Cant. Disponible</th>
-                                        <th className="px-6 py-4 font-medium text-right">Costo Unitario</th>
+                                    <tr className="bg-[var(--color-quaternary)] text-gray-500 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
+                                        <th className="px-6 py-5">ID Lote</th>
+                                        <th className="px-6 py-5">Comprado</th>
+                                        <th className="px-6 py-5">Vence</th>
+                                        <th className="px-6 py-5 text-center">Cant. Disponible</th>
+                                        <th className="px-6 py-5 text-right">Costo Unitario</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5 text-sm">
+                                <tbody className="divide-y divide-gray-50 text-sm">
                                     {batches.map(b => (
-                                        <tr key={b.id} className="hover:bg-white/5 transition-colors duration-200">
-                                            <td className="px-6 py-4 font-mono text-gray-400 text-xs tracking-wider" title={b.id}>
+                                        <tr key={b.id} className="hover:bg-blue-50/50 transition-colors duration-200">
+                                            <td className="px-6 py-4 font-mono text-[var(--color-tertiary)] font-medium text-xs tracking-wider" title={b.id}>
                                                 {b.id.substring(0, 8)}...
                                             </td>
-                                            <td className="px-6 py-4 text-gray-300">
-                                                {new Date(b.purchase_date).toLocaleDateString()}
+                                            <td className="px-6 py-4 text-gray-600 font-medium whitespace-nowrap">
+                                                <div className="flex items-center gap-1.5">
+                                                    <PhosphorIcons.Calendar size={16} className="text-gray-400" />
+                                                    {new Date(b.purchase_date).toLocaleDateString()}
+                                                </div>
                                             </td>
                                             <td className="px-6 py-4">
                                                 {b.expiration_date ? (
-                                                    <span className="text-amber-400 font-medium">
+                                                    <span className="text-orange-600 font-bold bg-orange-50 px-2.5 py-1 rounded-lg border border-orange-100 flex inline-flex items-center gap-1.5">
+                                                        <PhosphorIcons.Warning size={14} weight="bold" />
                                                         {new Date(b.expiration_date).toLocaleDateString()}
                                                     </span>
                                                 ) : (
-                                                    <span className="text-gray-600">N/A</span>
+                                                    <span className="text-gray-400 font-medium">N/A</span>
                                                 )}
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                <span className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-green-500/20 text-green-400 font-bold border border-green-500/30 text-lg shadow-inner">
+                                                <span className="inline-flex items-center gap-1.5 justify-center px-4 py-1.5 rounded-full bg-[var(--color-primary)]/10 text-[var(--color-primary)] font-black border border-[var(--color-primary)]/20 text-lg shadow-sm">
+                                                    <PhosphorIcons.Package size={18} weight="bold" />
                                                     {b.available_quantity}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-right text-gray-300 font-mono tracking-wide">
-                                                {b.unit_cost.toFixed(2)} Bs
+                                            <td className="px-6 py-4 text-right text-[var(--color-tertiary)] font-mono font-bold tracking-wide">
+                                                {b.unit_cost.toFixed(2)} <span className="text-xs text-gray-400 font-bold">Bs</span>
                                             </td>
                                         </tr>
                                     ))}

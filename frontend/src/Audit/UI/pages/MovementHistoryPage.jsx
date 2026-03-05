@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuditLogs } from '../../Application/useAuditLogs.js';
 import { useProductActions } from '../../../Product/Application/useProductActions.js';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const MovementHistoryPage = () => {
     const { fetchMovements, loading, error } = useAuditLogs();
@@ -29,22 +30,25 @@ export const MovementHistoryPage = () => {
     }));
 
     return (
-        <div className="animate-fade-in w-full max-w-6xl mx-auto">
-            <div className="mb-8 border-b border-white/10 pb-6 flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div className="p-3 md:p-4 bg-green-500/10 rounded-2xl relative border border-green-500/20 shadow-inner">
-                    <svg className="w-8 h-8 md:w-10 md:h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>
+        <div className="animate-fade-in w-full max-w-7xl mx-auto space-y-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="p-3 md:p-4 bg-[var(--color-primary)]/10 rounded-2xl relative border border-[var(--color-primary)]/20 shadow-sm">
+                    <PhosphorIcons.ClockCounterClockwise size={32} weight="fill" className="text-[var(--color-primary)]" />
                 </div>
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide">
-                        Pista de <span className="font-bold text-green-400">Auditoría</span>
+                    <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-tertiary)] tracking-tight">
+                        Historial de Movimientos de <span className="text-[var(--color-primary)]">Producto</span>
                     </h1>
-                    <p className="text-gray-500 mt-2 text-sm md:text-base">Monitorea y revisa todo incremento o salida de inventario y sus costos históricos.</p>
+                    <p className="text-gray-500 mt-1 font-medium text-sm md:text-base">Monitorea y revisa todo incremento o salida de inventario y sus costos históricos por producto.</p>
                 </div>
             </div>
 
-            <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 md:p-8 mb-8 w-full max-w-2xl">
+            <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 md:p-8 mb-8 w-full max-w-2xl">
                 <div className="w-full">
-                    <label className="block text-sm font-medium text-gray-400 mb-3">Seleccionar Producto para ver historial de movimientos</label>
+                    <label className="block text-sm font-bold text-gray-500 mb-3 uppercase tracking-wider flex items-center gap-1.5">
+                        <PhosphorIcons.Package size={18} />
+                        Seleccionar Producto para ver historial de movimientos
+                    </label>
                     <CustomSelect
                         options={productOptions}
                         value={selectedProduct}
@@ -56,66 +60,70 @@ export const MovementHistoryPage = () => {
 
             {loading && (
                 <div className="flex justify-center flex-col items-center py-12 gap-4">
-                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-green-400"></div>
-                    <span className="text-gray-400">Consultando registros históricos...</span>
+                    <PhosphorIcons.Spinner size={40} className="animate-spin text-[var(--color-primary)]" />
+                    <span className="text-gray-500 font-medium">Consultando registros históricos...</span>
                 </div>
             )}
 
             {error && (
-                <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl mb-6 shadow-lg">
+                <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl shadow-sm flex items-center gap-3 font-medium mb-6">
+                    <PhosphorIcons.WarningCircle size={24} weight="fill" className="shrink-0 text-red-500" />
                     <p>{error}</p>
                 </div>
             )}
 
-            {selectedProduct && !loading && (
-                <div className="bg-gray-900/40 backdrop-blur-md rounded-3xl border border-white/5 shadow-2xl overflow-hidden w-full animate-slide-up">
+            {selectedProduct && !loading && !error && (
+                <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden w-full animate-slide-up">
                     {movements.length === 0 ? (
                         <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-                            <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" /></svg>
-                            <p className="text-lg">No hay movimientos registrados.</p>
+                            <div className="bg-gray-50 p-6 rounded-full border border-gray-100 mb-6 shadow-sm">
+                                <PhosphorIcons.ClockCounterClockwise size={48} weight="light" className="text-gray-400" />
+                            </div>
+                            <p className="text-lg font-bold text-gray-600">No hay movimientos registrados para este producto.</p>
                         </div>
                     ) : (
                         <div className="overflow-x-auto w-full custom-scrollbar">
                             <table className="w-full text-left min-w-[800px]">
                                 <thead>
-                                    <tr className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
-                                        <th className="px-6 py-4 font-medium">Fecha</th>
-                                        <th className="px-6 py-4 font-medium">Tipo</th>
-                                        <th className="px-6 py-4 font-medium">Cantidad</th>
-                                        <th className="px-6 py-4 font-medium text-right">Precio/Costo(Bs)</th>
-                                        <th className="px-6 py-4 font-medium">Notas</th>
-                                        <th className="px-6 py-4 font-medium">Usuario</th>
+                                    <tr className="bg-[var(--color-quaternary)]/50 text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
+                                        <th className="px-6 py-4">Fecha</th>
+                                        <th className="px-6 py-4 text-center">Tipo</th>
+                                        <th className="px-6 py-4 text-center">Cantidad</th>
+                                        <th className="px-6 py-4 text-right">Precio/Costo(Bs)</th>
+                                        <th className="px-6 py-4">Notas</th>
+                                        <th className="px-6 py-4">Usuario</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5 text-sm">
+                                <tbody className="divide-y divide-gray-50 text-sm">
                                     {movements.map(m => (
-                                        <tr key={m.id} className="hover:bg-white/5 transition-colors duration-200">
-                                            <td className="px-6 py-4 text-gray-400 whitespace-nowrap font-mono tracking-wide">
-                                                {new Date(m.created_at).toLocaleString()}
+                                        <tr key={m.id} className="hover:bg-gray-50/50 transition-colors duration-200">
+                                            <td className="px-6 py-4 text-gray-500 whitespace-nowrap font-medium text-xs tracking-wide">
+                                                {new Date(m.created_at).toLocaleString('es-ES')}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${m.type === 'ENTRY'
-                                                    ? 'bg-green-500/10 text-green-400 border-green-500/20 shadow-inner'
+                                            <td className="px-6 py-4 whitespace-nowrap text-center">
+                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border shadow-sm ${m.type === 'ENTRY'
+                                                    ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
                                                     : (m.type === 'EXIT'
-                                                        ? 'bg-red-500/10 text-red-400 border-red-500/20 shadow-inner'
-                                                        : 'bg-gray-500/10 text-gray-300 border-gray-500/20 shadow-inner')
+                                                        ? 'bg-red-50 text-red-600 border-red-100'
+                                                        : 'bg-amber-50 text-amber-600 border-amber-100')
                                                     }`}>
-                                                    {m.type === 'ENTRY' && <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 11l5-5m0 0l5 5m-5-5v12" /></svg>}
-                                                    {m.type === 'EXIT' && <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 13l-5 5m0 0l-5-5m5 5V6" /></svg>}
+                                                    {m.type === 'ENTRY' && <PhosphorIcons.ArrowDownLeft weight="bold" />}
+                                                    {m.type === 'EXIT' && <PhosphorIcons.ArrowUpRight weight="bold" />}
+                                                    {m.type !== 'ENTRY' && m.type !== 'EXIT' && <PhosphorIcons.ArrowsLeftRight weight="bold" />}
                                                     {m.type}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 font-bold text-gray-200 text-base">
-                                                {m.quantity}
+                                            <td className="px-6 py-4 text-center">
+                                                <span className="font-black text-[var(--color-tertiary)]">{m.quantity}</span>
                                             </td>
-                                            <td className="px-6 py-4 text-right text-gray-300 font-mono tracking-wide">
+                                            <td className="px-6 py-4 text-right text-gray-600 font-mono font-medium">
                                                 {m.unit_price ? `${m.unit_price.toFixed(2)}` : (m.total_cost ? `${(m.total_cost / m.quantity).toFixed(2)}` : '-')}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-400 max-w-xs truncate" title={m.notes}>
-                                                {m.notes}
+                                            <td className="px-6 py-4 text-gray-500 max-w-xs truncate font-medium" title={m.notes}>
+                                                {m.notes || '-'}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-500">
-                                                {m.created_by || 'System'}
+                                            <td className="px-6 py-4 text-gray-600 font-bold text-xs">
+                                                {m.created_by || 'Sistema'}
                                             </td>
                                         </tr>
                                     ))}
@@ -123,6 +131,15 @@ export const MovementHistoryPage = () => {
                             </table>
                         </div>
                     )}
+                </div>
+            )}
+            {!selectedProduct && !loading && (
+                <div className="bg-[var(--color-quinary)] rounded-3xl border border-dashed border-gray-200 p-16 text-center flex flex-col items-center justify-center">
+                    <div className="bg-gray-50 p-6 rounded-full border border-gray-100 mb-6 shadow-sm">
+                        <PhosphorIcons.Package size={64} weight="light" className="text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-600 mb-2">Selecciona un producto</h3>
+                    <p className="text-gray-500 font-medium">Busca y selecciona un producto para visualizar su historial de movimientos.</p>
                 </div>
             )}
         </div>

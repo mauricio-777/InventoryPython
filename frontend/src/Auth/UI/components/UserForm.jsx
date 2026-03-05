@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 const ROLE_LABELS = {
     admin: 'Administrador',
@@ -8,9 +9,9 @@ const ROLE_LABELS = {
 };
 
 const ROLE_COLORS = {
-    admin: 'from-purple-500/20 to-purple-600/10 border-purple-500/30 text-purple-300',
-    gestor: 'from-green-500/20 to-green-600/10 border-green-500/30 text-green-300',
-    consultor: 'from-blue-500/20 to-blue-600/10 border-blue-500/30 text-blue-300',
+    admin: 'from-purple-50 to-purple-100 border-purple-200 text-purple-700',
+    gestor: 'from-emerald-50 to-emerald-100 border-emerald-200 text-emerald-700',
+    consultor: 'from-blue-50 to-blue-100 border-blue-200 text-blue-700',
 };
 
 /**
@@ -68,35 +69,31 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
     };
 
     const inputClass = (field) =>
-        `w-full bg-black/40 border ${errors[field] ? 'border-red-500/70' : 'border-gray-700/50'} text-white rounded-xl px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all placeholder-gray-600 text-sm`;
+        `w-full bg-white text-[var(--color-tertiary)] rounded-2xl border ${errors[field] ? 'border-red-500' : 'border-gray-200'} px-4 py-3 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/10 outline-none transition-all shadow-sm font-medium`;
+
+    const labelClass = "block text-sm font-bold text-gray-500 mb-2 uppercase tracking-wider text-xs";
 
     return (
-        <div className="bg-gray-900/95 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-2xl shadow-green-500/5">
+        <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-2xl p-8">
             {/* Header */}
-            <div className="flex items-center gap-4 mb-7">
-                <div className="p-3 bg-green-500/10 rounded-2xl border border-green-500/20">
-                    <svg className="w-7 h-7 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                            d={isEditing
-                                ? "M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                                : "M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
-                            } />
-                    </svg>
+            <div className="flex items-center gap-4 mb-8 pb-4 border-b border-gray-100">
+                <div className="p-3 bg-[var(--color-primary)]/10 rounded-2xl border border-[var(--color-primary)]/20 text-[var(--color-primary)] shadow-sm">
+                    {isEditing ? <PhosphorIcons.PencilSimple size={24} weight="fill" /> : <PhosphorIcons.UserPlus size={24} weight="fill" />}
                 </div>
                 <div>
-                    <h2 className="text-xl font-semibold text-white">
+                    <h2 className="text-2xl font-bold text-[var(--color-tertiary)]">
                         {isEditing ? 'Editar Usuario' : 'Nuevo Usuario'}
                     </h2>
-                    <p className="text-gray-500 text-sm mt-0.5">
+                    <p className="text-gray-500 font-medium text-sm mt-1">
                         {isEditing ? `Modificando: ${initialData?.username}` : 'Completa los datos del nuevo usuario.'}
                     </p>
                 </div>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
                 {/* Username */}
                 <div>
-                    <label className="block text-xs text-gray-400 mb-1.5 font-medium uppercase tracking-wider">
+                    <label className={labelClass}>
                         Nombre de usuario
                     </label>
                     <input
@@ -106,12 +103,12 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
                         placeholder="ej. jdoe"
                         className={inputClass('username')}
                     />
-                    {errors.username && <p className="text-red-400 text-xs mt-1">{errors.username}</p>}
+                    {errors.username && <p className="text-red-500 text-xs font-bold mt-1.5 flex items-center gap-1"><PhosphorIcons.WarningCircle weight="fill" />{errors.username}</p>}
                 </div>
 
                 {/* Email */}
                 <div>
-                    <label className="block text-xs text-gray-400 mb-1.5 font-medium uppercase tracking-wider">
+                    <label className={labelClass}>
                         Correo electrónico
                     </label>
                     <input
@@ -122,13 +119,13 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
                         placeholder="ej. j.doe@empresa.com"
                         className={inputClass('email')}
                     />
-                    {errors.email && <p className="text-red-400 text-xs mt-1">{errors.email}</p>}
+                    {errors.email && <p className="text-red-500 text-xs font-bold mt-1.5 flex items-center gap-1"><PhosphorIcons.WarningCircle weight="fill" />{errors.email}</p>}
                 </div>
 
                 {/* Password */}
                 <div>
-                    <label className="block text-xs text-gray-400 mb-1.5 font-medium uppercase tracking-wider">
-                        Contraseña {isEditing && <span className="text-gray-600">(dejar vacío para no cambiar)</span>}
+                    <label className={labelClass}>
+                        Contraseña {isEditing && <span className="text-gray-400 font-normal normal-case ml-1">(dejar vacío para no cambiar)</span>}
                     </label>
                     <input
                         name="password"
@@ -138,41 +135,45 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
                         placeholder={isEditing ? '••••••••' : 'Contraseña segura'}
                         className={inputClass('password')}
                     />
-                    {errors.password && <p className="text-red-400 text-xs mt-1">{errors.password}</p>}
+                    {errors.password && <p className="text-red-500 text-xs font-bold mt-1.5 flex items-center gap-1"><PhosphorIcons.WarningCircle weight="fill" />{errors.password}</p>}
                 </div>
 
                 {/* Role */}
                 <div>
-                    <label className="block text-xs text-gray-400 mb-1.5 font-medium uppercase tracking-wider">Rol</label>
+                    <label className={labelClass}>Rol</label>
                     <select
                         name="role_id"
                         value={form.role_id}
                         onChange={handleChange}
-                        className={`${inputClass('role_id')} cursor-pointer`}
+                        className={`${inputClass('role_id')} cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239CA3AF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-[right_1rem_center] bg-no-repeat pr-10`}
                     >
-                        <option value="" className="bg-gray-900">Seleccionar rol...</option>
+                        <option value="" className="text-gray-500 bg-white">Seleccionar rol...</option>
                         {roles.map(r => (
-                            <option key={r.id} value={r.id} className="bg-gray-900">
+                            <option key={r.id} value={r.id} className="text-[var(--color-tertiary)] bg-white">
                                 {ROLE_LABELS[r.name] || r.name}
                             </option>
                         ))}
                     </select>
-                    {errors.role_id && <p className="text-red-400 text-xs mt-1">{errors.role_id}</p>}
+                    {errors.role_id && <p className="text-red-500 text-xs font-bold mt-1.5 flex items-center gap-1"><PhosphorIcons.WarningCircle weight="fill" />{errors.role_id}</p>}
                 </div>
 
                 {/* Active toggle (solo al editar) */}
                 {isEditing && (
-                    <div className="flex items-center gap-3 p-4 bg-white/5 rounded-xl border border-white/10">
-                        <input
-                            id="active-toggle"
-                            type="checkbox"
-                            name="active"
-                            checked={form.active}
-                            onChange={handleChange}
-                            className="w-4 h-4 rounded accent-green-500 cursor-pointer"
-                        />
-                        <label htmlFor="active-toggle" className="text-sm text-gray-300 cursor-pointer">
-                            Usuario <span className={form.active ? 'text-green-400' : 'text-red-400'}>
+                    <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl border border-gray-200">
+                        <div className="relative flex items-center">
+                            <input
+                                id="active-toggle"
+                                type="checkbox"
+                                name="active"
+                                checked={form.active}
+                                onChange={handleChange}
+                                className="sr-only"
+                            />
+                            <div className={`block w-12 h-6 rounded-full transition-colors ${form.active ? 'bg-emerald-500' : 'bg-gray-300'}`}></div>
+                            <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform ${form.active ? 'transform translate-x-6' : ''}`}></div>
+                        </div>
+                        <label htmlFor="active-toggle" className="text-sm font-bold text-gray-600 cursor-pointer flex-1">
+                            Usuario <span className={form.active ? 'text-emerald-600' : 'text-gray-400'}>
                                 {form.active ? 'activo' : 'inactivo'}
                             </span>
                         </label>
@@ -180,30 +181,28 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
                 )}
 
                 {/* Actions */}
-                <div className="flex gap-3 pt-2">
+                <div className="flex gap-4 pt-4 border-t border-gray-100">
                     <Button
                         type="submit"
                         variant="primary"
                         disabled={loading}
-                        className="flex-1"
+                        className="flex-1 py-3 justify-center shadow-sm"
                     >
                         {loading ? (
                             <span className="flex items-center gap-2">
-                                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                                </svg>
+                                <PhosphorIcons.Spinner size={20} className="animate-spin" />
                                 Guardando...
                             </span>
                         ) : (isEditing ? 'Guardar cambios' : 'Crear usuario')}
                     </Button>
-                    <button
+                    <Button
                         type="button"
                         onClick={onCancel}
-                        className="flex-1 px-4 py-2.5 rounded-xl border border-white/10 text-gray-400 hover:bg-white/5 hover:text-gray-200 transition-all text-sm font-medium"
+                        variant="secondary"
+                        className="flex-1 py-3 justify-center"
                     >
                         Cancelar
-                    </button>
+                    </Button>
                 </div>
             </form>
         </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDashboard } from '../../Application/useDashboard.js';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const DashboardPage = () => {
     const {
@@ -22,17 +23,18 @@ export const DashboardPage = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center flex-col items-center py-12 gap-4 w-full">
-                <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-400"></div>
-                <span className="text-gray-400">Cargando dashboard...</span>
+            <div className="flex justify-center flex-col items-center py-12 gap-4 w-full h-[60vh]">
+                <PhosphorIcons.Spinner size={40} className="animate-spin text-[var(--color-primary)]" />
+                <span className="text-gray-500 font-medium">Cargando dashboard...</span>
             </div>
         );
     }
 
     if (error) {
         return (
-            <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl w-full">
-                <p>{error}</p>
+            <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl w-full flex items-center gap-3 shadow-sm">
+                <PhosphorIcons.WarningCircle size={24} weight="fill" className="text-red-500" />
+                <p className="font-medium">{error}</p>
             </div>
         );
     }
@@ -43,144 +45,151 @@ export const DashboardPage = () => {
     const rotationData = dashboard?.rotation_summary || {};
 
     return (
-        <div className="animate-fade-in w-full max-w-7xl mx-auto">
+        <div className="animate-fade-in w-full max-w-7xl mx-auto space-y-8">
             {/* Header */}
-            <div className="mb-8 border-b border-white/10 pb-6 flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div className="p-3 md:p-4 bg-blue-500/10 rounded-2xl relative border border-blue-500/20 shadow-inner">
-                    <svg className="w-8 h-8 md:w-10 md:h-10 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
-                </div>
-                <div>
-                    <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide">
-                        <span className="font-bold text-blue-400">Dashboard</span> de Inventario
-                    </h1>
-                    <p className="text-gray-500 mt-2 text-sm md:text-base">Resumen ejecutivo del estado de tu inventario</p>
-                </div>
+            <div className="flex flex-col gap-2">
+                <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-tertiary)] tracking-tight">
+                    Real-time<br />inventory
+                </h1>
             </div>
 
             {/* KPI Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 {/* Total Inventory Value */}
-                <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 hover:border-blue-500/20 transition-colors">
-                    <div className="flex justify-between items-start">
-                        <div>
-                            <p className="text-gray-400 text-sm mb-2">Valor Total Inventario</p>
-                            <h3 className="text-2xl md:text-3xl font-bold text-blue-400">
-                                Bs {inventoryValue.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </h3>
+                <div className="bg-[var(--color-primary)] rounded-[2.5rem] p-8 shadow-[0_20px_40px_rgba(8,60,181,0.2)] text-[var(--color-quinary)] relative overflow-hidden group hover:-translate-y-1 transition-transform duration-300">
+                    <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl group-hover:bg-white/20 transition-colors"></div>
+                    <div className="flex flex-col h-full justify-between gap-6 relative z-10">
+                        <div className="flex justify-between items-start">
+                            <p className="text-blue-100 font-medium">Valor Total Inventario</p>
+                            <div className="w-10 h-10 bg-[var(--color-quinary)] rounded-full flex items-center justify-center -mr-2 -mt-2 shadow-sm">
+                                <PhosphorIcons.ArrowUpRight size={20} weight="bold" className="text-[var(--color-tertiary)]" />
+                            </div>
                         </div>
-                        <div className="p-3 bg-blue-500/10 rounded-xl">
-                            <svg className="w-6 h-6 text-blue-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M8.16 2.75a.75.75 0 00-1.08.6v1.514h-.429A2.25 2.25 0 004.25 7v6a2.25 2.25 0 002.25 2.25h8.5A2.25 2.25 0 0017.25 13V7a2.25 2.25 0 00-2.25-2.25h-.429V3.346a.75.75 0 10-1.5 0v1.429h-3.5V3.346a.75.75 0 00-.75-.596zM9 6.5a.75.75 0 000 1.5h2a.75.75 0 000-1.5H9z" />
-                            </svg>
+                        <div>
+                            <div className="flex items-center gap-2 mb-1 opacity-90">
+                                <PhosphorIcons.TrendUp size={16} weight="bold" />
+                                <span className="text-sm font-bold">+12%</span>
+                            </div>
+                            <h3 className="text-4xl font-bold tracking-tight">
+                                Bs {inventoryValue.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}
+                            </h3>
                         </div>
                     </div>
                 </div>
 
                 {/* Low Stock Products Count */}
-                <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 hover:border-yellow-500/20 transition-colors">
-                    <div className="flex justify-between items-start">
+                <div className="bg-[var(--color-quinary)] rounded-[2.5rem] border border-gray-100 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-[var(--color-tertiary)] group hover:-translate-y-1 transition-transform duration-300">
+                    <div className="flex flex-col h-full justify-between gap-6">
+                        <div className="flex justify-between items-start">
+                            <p className="text-gray-500 font-medium">Stock Bajo</p>
+                            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center -mr-2 -mt-2">
+                                <PhosphorIcons.ArrowUpRight size={20} weight="bold" className="text-gray-400" />
+                            </div>
+                        </div>
                         <div>
-                            <p className="text-gray-400 text-sm mb-2">Productos con Stock Bajo</p>
-                            <h3 className="text-2xl md:text-3xl font-bold text-yellow-400">
+                            <div className="flex items-center gap-2 mb-1 text-red-500">
+                                <PhosphorIcons.Warning size={16} weight="bold" />
+                                <span className="text-sm font-bold">Atención</span>
+                            </div>
+                            <h3 className="text-4xl font-bold tracking-tight">
                                 {lowStockProducts.length}
                             </h3>
-                            <p className="text-xs text-gray-500 mt-2">Umbral: {lowStockThreshold} unidades</p>
-                        </div>
-                        <div className="p-3 bg-yellow-500/10 rounded-xl">
-                            <svg className="w-6 h-6 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
                         </div>
                     </div>
                 </div>
 
                 {/* Recent Movements Count */}
-                <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 hover:border-green-500/20 transition-colors">
-                    <div className="flex justify-between items-start">
+                <div className="bg-gray-400 rounded-[2.5rem] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.08)] text-[var(--color-quinary)] group hover:-translate-y-1 transition-transform duration-300">
+                    <div className="flex flex-col h-full justify-between gap-6">
+                        <div className="flex justify-between items-start">
+                            <p className="text-gray-100 font-medium">Últimos Mov. (24h)</p>
+                            <div className="w-10 h-10 bg-[var(--color-quinary)] rounded-full flex items-center justify-center -mr-2 -mt-2 shadow-sm">
+                                <PhosphorIcons.ArrowUpRight size={20} weight="bold" className="text-[var(--color-tertiary)]" />
+                            </div>
+                        </div>
                         <div>
-                            <p className="text-gray-400 text-sm mb-2">Últimos Movimientos</p>
-                            <h3 className="text-2xl md:text-3xl font-bold text-green-400">
+                            <div className="flex items-center gap-2 mb-1 text-green-300">
+                                <PhosphorIcons.TrendUp size={16} weight="bold" />
+                                <span className="text-sm font-bold">Activo</span>
+                            </div>
+                            <h3 className="text-4xl font-bold tracking-tight">
                                 {recentMovements.length}
                             </h3>
-                            <p className="text-xs text-gray-500 mt-2">Últimas 24 horas aprox</p>
-                        </div>
-                        <div className="p-3 bg-green-500/10 rounded-xl">
-                            <svg className="w-6 h-6 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M3.5 2A1.5 1.5 0 002 3.5v13A1.5 1.5 0 003.5 18h13a1.5 1.5 0 001.5-1.5V3.5A1.5 1.5 0 0016.5 2h-13zm0 2h13v13h-13v-13z" />
-                            </svg>
                         </div>
                     </div>
                 </div>
 
                 {/* Rotation Index Count */}
-                <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 hover:border-purple-500/20 transition-colors">
-                    <div className="flex justify-between items-start">
+                <div className="bg-[var(--color-quinary)] rounded-[2.5rem] border border-gray-100 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] text-[var(--color-tertiary)] group hover:-translate-y-1 transition-transform duration-300">
+                    <div className="flex flex-col h-full justify-between gap-6">
+                        <div className="flex justify-between items-start">
+                            <p className="text-gray-500 font-medium">Rotación (30d)</p>
+                            <div className="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center -mr-2 -mt-2">
+                                <PhosphorIcons.ArrowUpRight size={20} weight="bold" className="text-gray-400" />
+                            </div>
+                        </div>
                         <div>
-                            <p className="text-gray-400 text-sm mb-2">Rotación (30 días)</p>
-                            <h3 className="text-2xl md:text-3xl font-bold text-purple-400">
+                            <div className="flex items-center gap-2 mb-1 text-[var(--color-primary)]">
+                                <PhosphorIcons.ArrowsClockwise size={16} weight="bold" />
+                                <span className="text-sm font-bold">Salidas</span>
+                            </div>
+                            <h3 className="text-4xl font-bold tracking-tight">
                                 {rotationData.total_exits || 0}
                             </h3>
-                            <p className="text-xs text-gray-500 mt-2">Movimientos de salida</p>
-                        </div>
-                        <div className="p-3 bg-purple-500/10 rounded-xl">
-                            <svg className="w-6 h-6 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M4.72 3.97a.75.75 0 011.06 0L10 8.94l4.22-4.97a.75.75 0 111.12 1.006l-5 5.5a.75.75 0 01-1.12 0l-5-5.5a.75.75 0 010-1.006zm0 6a.75.75 0 011.06 0L10 14.94l4.22-4.97a.75.75 0 111.12 1.006l-5 5.5a.75.75 0 01-1.12 0l-5-5.5a.75.75 0 010-1.006z" clipRule="evenodd" />
-                            </svg>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Threshold Control */}
-            <div className="flex gap-4 mb-8 items-center">
-                <label className="text-gray-400">Umbral de Stock Bajo:</label>
+            <div className="flex gap-4 items-center bg-[var(--color-quinary)] w-max px-6 py-4 rounded-2xl shadow-sm border border-gray-100">
+                <label className="text-gray-500 font-medium text-sm">Umbral Stock Bajo:</label>
                 <input
                     type="number"
                     min="1"
                     value={lowStockThreshold}
                     onChange={(e) => setLowStockThreshold(parseInt(e.target.value))}
-                    className="px-3 py-2 bg-gray-800 text-white rounded border border-gray-700 w-20"
+                    className="px-3 py-1.5 bg-gray-50 text-[var(--color-tertiary)] font-bold rounded-xl border border-gray-200 w-20 outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
                 />
-                <span className="text-gray-500 text-sm">unidades</span>
+                <span className="text-gray-400 text-sm font-medium">unidades</span>
             </div>
 
-            {/* Content Tabs */}
-            <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 md:p-8 w-full">
+            {/* Content Display */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
                 {/* Low Stock Products */}
                 {lowStockProducts.length > 0 && (
-                    <div className="mb-8">
-                        <h2 className="text-xl font-bold text-yellow-400 mb-4 flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
-                            Productos con Stock Bajo
-                        </h2>
+                    <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-xl font-bold text-[var(--color-tertiary)]">
+                                Stock Crítico
+                            </h2>
+                            <button className="w-10 h-10 bg-[var(--color-tertiary)] text-[var(--color-quinary)] rounded-full flex items-center justify-center shadow-lg">
+                                <PhosphorIcons.ArrowUpRight size={20} weight="bold" />
+                            </button>
+                        </div>
                         <div className="overflow-x-auto custom-scrollbar">
-                            <table className="w-full text-left min-w-[600px]">
+                            <table className="w-full text-left">
                                 <thead>
-                                    <tr className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
-                                        <th className="px-6 py-4 font-medium">Producto</th>
-                                        <th className="px-6 py-4 font-medium">SKU</th>
-                                        <th className="px-6 py-4 font-medium">Stock Actual</th>
-                                        <th className="px-6 py-4 font-medium">Umbral</th>
-                                        <th className="px-6 py-4 font-medium">Diferencia</th>
+                                    <tr className="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
+                                        <th className="pb-4">Producto</th>
+                                        <th className="pb-4">Stock</th>
+                                        <th className="pb-4 text-right">Diferencia</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5 text-sm">
-                                    {lowStockProducts.map(product => (
-                                        <tr key={product.product_id} className="hover:bg-white/5 transition-colors">
-                                            <td className="px-6 py-4 text-white font-medium">{product.name}</td>
-                                            <td className="px-6 py-4 text-gray-400">{product.sku}</td>
-                                            <td className="px-6 py-4">
-                                                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/20">
-                                                    {product.current_stock} {product.unit_measure}
+                                <tbody className="text-sm divide-y divide-gray-50">
+                                    {lowStockProducts.slice(0, 5).map(product => (
+                                        <tr key={product.product_id} className="group">
+                                            <td className="py-4 text-[var(--color-tertiary)] font-bold">
+                                                {product.name}
+                                                <div className="text-xs text-gray-400 font-medium">{product.sku}</div>
+                                            </td>
+                                            <td className="py-4">
+                                                <span className="px-3 py-1 rounded-xl text-xs font-bold bg-red-50 text-red-600 border border-red-100">
+                                                    {product.current_stock}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-gray-400">{product.threshold}</td>
-                                            <td className="px-6 py-4 text-red-400 font-medium">
-                                                {product.threshold - product.current_stock}
+                                            <td className="py-4 text-red-500 font-bold text-right">
+                                                -{product.threshold - product.current_stock}
                                             </td>
                                         </tr>
                                     ))}
@@ -192,46 +201,45 @@ export const DashboardPage = () => {
 
                 {/* Recent Movements */}
                 {recentMovements.length > 0 && (
-                    <div>
-                        <h2 className="text-xl font-bold text-green-400 mb-4 flex items-center gap-2">
-                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M3.5 2A1.5 1.5 0 002 3.5v13A1.5 1.5 0 003.5 18h13a1.5 1.5 0 001.5-1.5V3.5A1.5 1.5 0 0016.5 2h-13zm0 2h13v13h-13v-13z" />
-                            </svg>
-                            Últimos Movimientos
-                        </h2>
+                    <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-8">
+                        <div className="flex items-center justify-between mb-8">
+                            <h2 className="text-xl font-bold text-[var(--color-tertiary)]">
+                                Historial de Movimientos
+                            </h2>
+                            <button className="w-10 h-10 bg-[var(--color-tertiary)] text-[var(--color-quinary)] rounded-full flex items-center justify-center shadow-lg">
+                                <PhosphorIcons.ArrowUpRight size={20} weight="bold" />
+                            </button>
+                        </div>
                         <div className="overflow-x-auto custom-scrollbar">
-                            <table className="w-full text-left min-w-[800px]">
+                            <table className="w-full text-left">
                                 <thead>
-                                    <tr className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
-                                        <th className="px-6 py-4 font-medium">Fecha</th>
-                                        <th className="px-6 py-4 font-medium">Producto</th>
-                                        <th className="px-6 py-4 font-medium">Tipo</th>
-                                        <th className="px-6 py-4 font-medium">Cantidad</th>
-                                        <th className="px-6 py-4 font-medium text-right">Total</th>
-                                        <th className="px-6 py-4 font-medium">Usuario</th>
+                                    <tr className="text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
+                                        <th className="pb-4">Producto</th>
+                                        <th className="pb-4">Tipo</th>
+                                        <th className="pb-4 text-right">Cant.</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5 text-sm">
-                                    {recentMovements.map(movement => (
-                                        <tr key={movement.id} className="hover:bg-white/5 transition-colors">
-                                            <td className="px-6 py-4 text-gray-400 whitespace-nowrap">
-                                                {new Date(movement.created_at).toLocaleString('es-ES')}
+                                <tbody className="text-sm divide-y divide-gray-50">
+                                    {recentMovements.slice(0, 5).map(movement => (
+                                        <tr key={movement.id} className="group">
+                                            <td className="py-4 text-[var(--color-tertiary)] font-bold">
+                                                {movement.product_name}
+                                                <div className="text-xs text-gray-400 font-medium">
+                                                    {new Date(movement.created_at).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
+                                                </div>
                                             </td>
-                                            <td className="px-6 py-4 text-white font-medium">{movement.product_name}</td>
-                                            <td className="px-6 py-4">
-                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${
-                                                    movement.type === 'ENTRY'
-                                                        ? 'bg-green-500/10 text-green-400 border-green-500/20'
-                                                        : 'bg-red-500/10 text-red-400 border-red-500/20'
-                                                }`}>
+                                            <td className="py-4">
+                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-xl text-xs font-bold border ${movement.type === 'ENTRY'
+                                                        ? 'bg-green-50 text-green-600 border-green-100'
+                                                        : 'bg-red-50 text-red-600 border-red-100'
+                                                    }`}>
+                                                    {movement.type === 'ENTRY' ? <PhosphorIcons.ArrowDownLeft weight="bold" /> : <PhosphorIcons.ArrowUpRight weight="bold" />}
                                                     {movement.type}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-gray-400">{movement.quantity}</td>
-                                            <td className="px-6 py-4 text-right text-white font-semibold">
-                                                Bs {movement.total_price?.toFixed(2) || '0.00'}
+                                            <td className="py-4 text-right text-[var(--color-tertiary)] font-bold">
+                                                {movement.quantity}
                                             </td>
-                                            <td className="px-6 py-4 text-gray-400">{movement.created_by || 'Sistema'}</td>
                                         </tr>
                                     ))}
                                 </tbody>

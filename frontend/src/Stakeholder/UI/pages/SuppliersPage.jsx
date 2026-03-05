@@ -3,6 +3,7 @@ import { useSupplierActions } from '../../Application/useStakeholderSearch.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { StakeholderForm } from '../components/StakeholderForm.jsx';
 import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const SuppliersPage = () => {
     const { suppliers, fetchSuppliers, createSupplier, updateSupplier, deleteSupplier, loading, error } = useSupplierActions();
@@ -54,90 +55,115 @@ export const SuppliersPage = () => {
     };
 
     return (
-        <div className="animate-fade-in w-full">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-white/10 pb-6 gap-4">
+        <div className="animate-fade-in w-full max-w-7xl mx-auto space-y-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div className="flex items-center gap-4">
-                    <div className="p-3 md:p-4 bg-emerald-500/10 rounded-2xl relative border border-emerald-500/20 shadow-inner">
-                        <svg className="w-8 h-8 md:w-10 md:h-10 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
+                    <div className="p-3 md:p-4 bg-[var(--color-primary)]/10 rounded-2xl relative border border-[var(--color-primary)]/20 shadow-sm">
+                        <PhosphorIcons.Truck size={32} weight="fill" className="text-[var(--color-primary)]" />
                     </div>
                     <div>
-                        <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide">
-                            Gestión de <span className="font-bold text-emerald-400">Proveedores</span>
+                        <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-tertiary)] tracking-tight">
+                            Gestión de Proveedores
                         </h1>
-                        <p className="text-gray-500 text-sm md:text-base mt-2">Administra los proveedores de tu inventario.</p>
+                        <p className="text-gray-500 text-sm md:text-base mt-1 font-medium">Administra los proveedores de tu inventario.</p>
                     </div>
                 </div>
                 {hasRole(['admin', 'gestor']) && (
-                    <Button onClick={() => handleOpenForm(null)} variant="primary" className="w-full md:w-auto shadow-emerald-500/30 text-base py-3 md:py-3 px-6 bg-emerald-600 hover:bg-emerald-500 border-emerald-500">
+                    <Button onClick={() => handleOpenForm(null)} variant="primary" className="w-full md:w-auto shadow-sm text-base py-3 px-6">
                         <span className="flex items-center justify-center gap-2">
-                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>
+                            <PhosphorIcons.Plus size={20} weight="bold" />
                             Nuevo Proveedor
                         </span>
                     </Button>
                 )}
             </div>
 
-            <form onSubmit={handleSearch} className="mb-6 flex gap-2 w-full md:max-w-md">
+            <form onSubmit={handleSearch} className="flex gap-2 w-full md:max-w-md relative">
+                <PhosphorIcons.MagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" weight="bold" />
                 <input
                     type="text"
                     placeholder="Buscar por nombre o documento..."
-                    className="flex-1 bg-black/40 border border-gray-700/50 text-white rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-emerald-500/50"
+                    className="flex-1 bg-[var(--color-quinary)] border border-gray-200 hover:border-gray-300 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/10 text-[var(--color-tertiary)] rounded-2xl pl-11 pr-4 py-3 text-sm font-medium outline-none transition-all shadow-sm"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                 />
-                <Button type="submit" variant="secondary" className="px-4">Buscar</Button>
+                <Button type="submit" variant="secondary" className="px-6 rounded-2xl shadow-sm">Buscar</Button>
             </form>
 
             {loading && !isFormVisible && (
-                <div className="flex justify-center flex-col items-center py-12 gap-4">
-                    <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-400"></div>
+                <div className="flex justify-center flex-col items-center py-12 gap-4 h-[50vh]">
+                    <PhosphorIcons.Spinner size={40} className="animate-spin text-[var(--color-primary)]" />
+                    <span className="text-gray-500 font-medium">Cargando proveedores...</span>
                 </div>
             )}
 
             {error && (
-                <div className="mb-6 bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl flex items-center gap-3">
-                    <p>{error}</p>
+                <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                    <PhosphorIcons.WarningCircle size={24} weight="fill" className="text-red-500 shrink-0" />
+                    <p className="font-medium">{error}</p>
                 </div>
             )}
 
-            <div className="bg-gray-900/60 backdrop-blur-xl rounded-3xl border border-white/5 shadow-2xl overflow-hidden w-full">
+            <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden w-full">
                 <div className="overflow-x-auto custom-scrollbar w-full">
                     <table className="w-full text-left min-w-[900px]">
                         <thead>
-                            <tr className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
-                                <th className="px-6 py-4 font-medium">Empresa / Proveedor</th>
-                                <th className="px-6 py-4 font-medium">Documento</th>
-                                <th className="px-6 py-4 font-medium">Contacto</th>
-                                <th className="px-6 py-4 font-medium">Condición Pago</th>
-                                {hasRole(['admin', 'gestor']) && <th className="px-6 py-4 font-medium text-right">Acciones</th>}
+                            <tr className="bg-gray-50/50 text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
+                                <th className="px-6 py-4">Empresa / Proveedor</th>
+                                <th className="px-6 py-4">Documento</th>
+                                <th className="px-6 py-4">Contacto</th>
+                                <th className="px-6 py-4">Condición Pago</th>
+                                {hasRole(['admin', 'gestor']) && <th className="px-6 py-4 text-right">Acciones</th>}
                             </tr>
                         </thead>
-                        <tbody className="divide-y divide-white/5 text-sm">
+                        <tbody className="divide-y divide-gray-50 text-sm">
                             {suppliers.map(s => (
-                                <tr key={s.id} className="hover:bg-white/5 transition-colors duration-200">
-                                    <td className="px-6 py-4 text-gray-200 font-medium">{s.nombre}</td>
-                                    <td className="px-6 py-4 text-gray-400 font-mono text-xs">
-                                        <span className="text-gray-500 mr-1">{s.tipo_documento}</span>
+                                <tr key={s.id} className="hover:bg-gray-50/50 transition-colors duration-200 group">
+                                    <td className="px-6 py-4 text-[var(--color-tertiary)] font-bold">{s.nombre}</td>
+                                    <td className="px-6 py-4 text-[var(--color-tertiary)] font-mono font-medium tracking-wide">
+                                        <span className="text-gray-400 mr-2 font-semibold">{s.tipo_documento}</span>
                                         {s.numero_documento}
                                     </td>
-                                    <td className="px-6 py-4 text-gray-400">
-                                        <div className="flex flex-col gap-1">
-                                            {s.email && <span className="text-xs truncate max-w-[150px]">{s.email}</span>}
-                                            {s.telefono && <span className="text-xs">{s.telefono}</span>}
+                                    <td className="px-6 py-4 text-gray-500">
+                                        <div className="flex flex-col gap-1.5">
+                                            {s.email && (
+                                                <div className="flex items-center gap-1.5 text-xs">
+                                                    <PhosphorIcons.EnvelopeSimple size={14} className="text-gray-400" />
+                                                    <span className="truncate max-w-[150px]">{s.email}</span>
+                                                </div>
+                                            )}
+                                            {s.telefono && (
+                                                <div className="flex items-center gap-1.5 text-xs">
+                                                    <PhosphorIcons.Phone size={14} className="text-gray-400" />
+                                                    <span>{s.telefono}</span>
+                                                </div>
+                                            )}
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-gray-400 text-xs">
-                                        {s.plazo_entrega_dias && <span className="block mb-1 font-bold text-gray-300">{s.plazo_entrega_dias} días (Entrega)</span>}
-                                        {s.condiciones_compra && <span className="text-gray-500 truncate max-w-[150px] block" title={s.condiciones_compra}>{s.condiciones_compra}</span>}
+                                    <td className="px-6 py-4 text-gray-500">
+                                        <div className="flex flex-col gap-1.5 text-xs">
+                                            {s.plazo_entrega_dias && (
+                                                <div className="flex items-center gap-1.5">
+                                                    <PhosphorIcons.CalendarBlank size={14} className="text-gray-400" />
+                                                    <span className="font-bold text-[var(--color-tertiary)]">{s.plazo_entrega_dias} días (Entrega)</span>
+                                                </div>
+                                            )}
+                                            {s.condiciones_compra && (
+                                                <div className="flex flex-col mt-0.5">
+                                                    <span className="text-gray-400 font-medium">Condiciones:</span>
+                                                    <span className="truncate max-w-[150px]" title={s.condiciones_compra}>{s.condiciones_compra}</span>
+                                                </div>
+                                            )}
+                                        </div>
                                     </td>
                                     {hasRole(['admin', 'gestor']) && (
                                         <td className="px-6 py-4 text-right">
-                                            <div className="flex justify-end gap-2">
-                                                <button onClick={() => handleOpenForm(s)} className="p-2 bg-gray-800 hover:bg-gray-700 text-emerald-400 rounded-lg transition-colors border border-gray-700">
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" /></svg>
+                                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => handleOpenForm(s)} className="p-2 bg-[var(--color-quaternary)] hover:bg-[var(--color-primary)]/10 text-[var(--color-secondary)] hover:text-[var(--color-primary)] rounded-xl transition-colors border border-transparent hover:border-[var(--color-primary)]/20 shadow-sm">
+                                                    <PhosphorIcons.PencilSimple size={16} weight="bold" />
                                                 </button>
-                                                <button onClick={() => handleDelete(s.id)} className="p-2 bg-gray-800 hover:bg-gray-700 text-red-400 rounded-lg transition-colors border border-gray-700">
-                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                                                <button onClick={() => handleDelete(s.id)} className="p-2 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 rounded-xl transition-colors border border-transparent hover:border-red-200 shadow-sm">
+                                                    <PhosphorIcons.Trash size={16} weight="bold" />
                                                 </button>
                                             </div>
                                         </td>
@@ -148,17 +174,17 @@ export const SuppliersPage = () => {
                     </table>
                 </div>
                 {suppliers.length === 0 && !loading && (
-                    <div className="flex flex-col items-center justify-center py-20 text-gray-500">
-                        <svg className="w-16 h-16 mb-4 opacity-20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>
-                        <p className="text-lg">No se encontraron proveedores.</p>
+                    <div className="flex flex-col items-center justify-center py-20 text-gray-400">
+                        <PhosphorIcons.Truck size={64} weight="duotone" className="mb-4 opacity-50 text-gray-300" />
+                        <p className="text-lg font-bold text-[var(--color-tertiary)]">No se encontraron proveedores.</p>
                     </div>
                 )}
             </div>
 
             {isFormVisible && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in">
-                    <div className="absolute inset-0 bg-black/80 backdrop-blur-md" onClick={handleCloseForm}></div>
-                    <div className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl animate-slide-up shadow-2xl shadow-emerald-500/10">
+                    <div className="absolute inset-0 bg-[var(--color-tertiary)]/30 backdrop-blur-sm" onClick={handleCloseForm}></div>
+                    <div className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl animate-slide-up shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
                         <StakeholderForm
                             type="supplier"
                             initialData={editingSupplier}

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuditLogs } from '../../Application/useAuditLogs.js';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
+import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const AuditLogPage = () => {
     const {
@@ -26,6 +28,7 @@ export const AuditLogPage = () => {
 
     useEffect(() => {
         loadInitialData();
+        // eslint-disable-next-line
     }, []);
 
     const loadInitialData = async () => {
@@ -100,70 +103,95 @@ export const AuditLogPage = () => {
         label: `${user} (${summary.by_user[user]})`
     }));
 
+    const inputClasses = "w-full px-4 py-3 bg-white text-[var(--color-tertiary)] rounded-2xl border border-gray-200 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/10 outline-none transition-all shadow-sm font-medium";
+    const labelClasses = "block text-sm font-bold text-gray-500 mb-2 uppercase tracking-wider text-xs flex items-center gap-1.5";
+
     return (
-        <div className="animate-fade-in w-full max-w-7xl mx-auto">
+        <div className="animate-fade-in w-full max-w-7xl mx-auto space-y-8">
             {/* Header */}
-            <div className="mb-8 border-b border-white/10 pb-6 flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div className="p-3 md:p-4 bg-orange-500/10 rounded-2xl relative border border-orange-500/20 shadow-inner">
-                    <svg className="w-8 h-8 md:w-10 md:h-10 text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="p-3 md:p-4 bg-[var(--color-primary)]/10 rounded-2xl relative border border-[var(--color-primary)]/20 shadow-sm">
+                    <PhosphorIcons.ShieldCheck size={32} weight="fill" className="text-[var(--color-primary)]" />
                 </div>
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide">
-                        Pista de <span className="font-bold text-orange-400">Auditoría</span>
+                    <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-tertiary)] tracking-tight">
+                        Pista de <span className="text-[var(--color-primary)]">Auditoría</span>
                     </h1>
-                    <p className="text-gray-500 mt-2 text-sm md:text-base">Supervisar quién cambió qué y cuándo - Integridad de datos</p>
+                    <p className="text-gray-500 mt-1 font-medium text-sm md:text-base">Supervisar quién cambió qué y cuándo - Integridad de datos</p>
                 </div>
             </div>
 
             {/* Summary Cards */}
             {summary && (
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6">
-                        <p className="text-gray-400 text-sm mb-2">Total de Registros</p>
-                        <h3 className="text-3xl font-bold text-blue-400">{summary.total_logs}</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+                        <div className="absolute -right-4 -top-4 w-24 h-24 bg-[var(--color-primary)]/5 rounded-full blur-xl group-hover:bg-[var(--color-primary)]/10 transition-colors"></div>
+                        <div className="w-12 h-12 bg-[var(--color-primary)]/10 rounded-2xl flex items-center justify-center mb-4 text-[var(--color-primary)] shadow-sm">
+                            <PhosphorIcons.Database size={24} weight="fill" />
+                        </div>
+                        <h3 className="text-4xl font-black text-[var(--color-tertiary)] tracking-tight mb-1">{summary.total_logs}</h3>
+                        <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Total de Registros</p>
                     </div>
-                    <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6">
-                        <p className="text-gray-400 text-sm mb-2">Tablas Auditadas</p>
-                        <h3 className="text-3xl font-bold text-purple-400">{tableNames.length}</h3>
+                    <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+                        <div className="absolute -right-4 -top-4 w-24 h-24 bg-purple-500/5 rounded-full blur-xl group-hover:bg-purple-500/10 transition-colors"></div>
+                        <div className="w-12 h-12 bg-purple-50 rounded-2xl flex items-center justify-center mb-4 text-purple-600 border border-purple-100 shadow-sm">
+                            <PhosphorIcons.Table size={24} weight="fill" />
+                        </div>
+                        <h3 className="text-4xl font-black text-[var(--color-tertiary)] tracking-tight mb-1">{tableNames.length}</h3>
+                        <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Tablas Auditadas</p>
                     </div>
-                    <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6">
-                        <p className="text-gray-400 text-sm mb-2">Usuarios Activos</p>
-                        <h3 className="text-3xl font-bold text-orange-400">{userNames.length}</h3>
+                    <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 flex flex-col items-center justify-center text-center relative overflow-hidden group">
+                        <div className="absolute -right-4 -top-4 w-24 h-24 bg-amber-500/5 rounded-full blur-xl group-hover:bg-amber-500/10 transition-colors"></div>
+                        <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center mb-4 text-amber-600 border border-amber-100 shadow-sm">
+                            <PhosphorIcons.Users size={24} weight="fill" />
+                        </div>
+                        <h3 className="text-4xl font-black text-[var(--color-tertiary)] tracking-tight mb-1">{userNames.length}</h3>
+                        <p className="text-sm font-bold text-gray-500 uppercase tracking-wider">Usuarios Activos</p>
                     </div>
                 </div>
             )}
 
             {/* Filters */}
-            <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-white/5 shadow-xl p-6 md:p-8 mb-8">
-                <h2 className="text-lg font-bold text-white mb-6">Filtros de Búsqueda</h2>
-                
+            <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 md:p-8 w-full">
+                <h2 className="text-xl font-bold text-[var(--color-tertiary)] flex items-center gap-2 mb-6">
+                    <PhosphorIcons.Faders size={24} weight="fill" className="text-[var(--color-primary)]" />
+                    Filtros de Búsqueda
+                </h2>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
                     {/* Date Range */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-3">Fecha Inicio</label>
+                        <label className={labelClasses}>
+                            <PhosphorIcons.Calendar size={16} />
+                            Fecha Inicio
+                        </label>
                         <input
                             type="date"
                             value={filters.start_date}
                             onChange={(e) => handleFilterChange('start_date', e.target.value)}
-                            className="w-full px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 focus:border-orange-500 outline-none"
+                            className={inputClasses}
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-3">Fecha Fin</label>
+                        <label className={labelClasses}>
+                            <PhosphorIcons.Calendar size={16} />
+                            Fecha Fin
+                        </label>
                         <input
                             type="date"
                             value={filters.end_date}
                             onChange={(e) => handleFilterChange('end_date', e.target.value)}
-                            className="w-full px-4 py-2 bg-gray-800 text-white rounded border border-gray-700 focus:border-orange-500 outline-none"
+                            className={inputClasses}
                         />
                     </div>
 
                     {/* Table Filter */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-3">Tabla</label>
+                        <label className={labelClasses}>
+                            <PhosphorIcons.Table size={16} />
+                            Tabla
+                        </label>
                         <CustomSelect
                             options={tableOptions}
                             value={filters.table_name}
@@ -174,7 +202,10 @@ export const AuditLogPage = () => {
 
                     {/* User Filter */}
                     <div>
-                        <label className="block text-sm font-medium text-gray-400 mb-3">Usuario</label>
+                        <label className={labelClasses}>
+                            <PhosphorIcons.User size={16} />
+                            Usuario
+                        </label>
                         <CustomSelect
                             options={userOptions}
                             value={filters.user_id}
@@ -185,69 +216,86 @@ export const AuditLogPage = () => {
 
                     {/* Search Button */}
                     <div className="flex items-end">
-                        <button
+                        <Button
                             onClick={handleSearch}
                             disabled={loading}
-                            className="w-full px-6 py-2 bg-orange-600 hover:bg-orange-700 text-white rounded font-medium transition-colors disabled:opacity-50">
-                            {loading ? 'Buscando...' : 'Buscar'}
-                        </button>
+                            className="w-full py-3 shadow-sm flex items-center justify-center gap-2">
+                            {loading ? (
+                                <>
+                                    <PhosphorIcons.Spinner size={20} className="animate-spin" />
+                                    <span>Buscando...</span>
+                                </>
+                            ) : (
+                                <>
+                                    <PhosphorIcons.MagnifyingGlass size={20} weight="bold" />
+                                    <span>Buscar</span>
+                                </>
+                            )}
+                        </Button>
                     </div>
                 </div>
             </div>
 
             {error && (
-                <div className="bg-red-500/10 border border-red-500/50 text-red-400 px-4 py-3 rounded-xl mb-6 w-full">
+                <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl shadow-sm flex items-center gap-3 font-medium">
+                    <PhosphorIcons.WarningCircle size={24} weight="fill" className="shrink-0 text-red-500" />
                     <p>{error}</p>
                 </div>
             )}
 
             {auditLogs.length > 0 && (
-                <>
+                <div className="animate-slide-up space-y-6">
                     {/* Audit Logs Table */}
-                    <div className="bg-gray-900/40 backdrop-blur-md rounded-3xl border border-white/5 shadow-2xl overflow-hidden w-full mb-6">
+                    <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden w-full">
                         <div className="overflow-x-auto w-full custom-scrollbar">
                             <table className="w-full text-left min-w-[1000px]">
                                 <thead>
-                                    <tr className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
-                                        <th className="px-6 py-4 font-medium">Timestamp</th>
-                                        <th className="px-6 py-4 font-medium">Usuario</th>
-                                        <th className="px-6 py-4 font-medium">Tabla</th>
-                                        <th className="px-6 py-4 font-medium">Acción</th>
-                                        <th className="px-6 py-4 font-medium">ID Registro</th>
-                                        <th className="px-6 py-4 font-medium">Descripción</th>
-                                        <th className="px-6 py-4 font-medium">Acciones</th>
+                                    <tr className="bg-[var(--color-quaternary)]/50 text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
+                                        <th className="px-6 py-4">Timestamp</th>
+                                        <th className="px-6 py-4">Usuario</th>
+                                        <th className="px-6 py-4">Tabla</th>
+                                        <th className="px-6 py-4 text-center">Acción</th>
+                                        <th className="px-6 py-4">ID Registro</th>
+                                        <th className="px-6 py-4">Descripción</th>
+                                        <th className="px-6 py-4 text-center">Acciones</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-white/5 text-sm">
+                                <tbody className="divide-y divide-gray-50 text-sm">
                                     {auditLogs.map(log => (
-                                        <tr key={log.id} className="hover:bg-white/5 transition-colors duration-200">
-                                            <td className="px-6 py-4 text-gray-400 whitespace-nowrap font-mono text-xs">
+                                        <tr key={log.id} className="hover:bg-gray-50/50 transition-colors duration-200">
+                                            <td className="px-6 py-4 text-gray-500 whitespace-nowrap font-medium text-xs tracking-wide">
                                                 {new Date(log.timestamp).toLocaleString('es-ES')}
                                             </td>
-                                            <td className="px-6 py-4 text-white font-medium">{log.user_name || log.user_id}</td>
+                                            <td className="px-6 py-4 text-[var(--color-tertiary)] font-bold">{log.user_name || log.user_id}</td>
                                             <td className="px-6 py-4">
-                                                <span className="px-3 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-400 border border-blue-500/20">
+                                                <span className="px-3 py-1.5 rounded-xl text-xs font-bold bg-blue-50 text-blue-600 border border-blue-100 shadow-sm flex items-center gap-1.5 w-max">
+                                                    <PhosphorIcons.Table size={14} weight="bold" />
                                                     {log.table_name}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4">
-                                                <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-bold border ${
-                                                    log.action === 'CREATE' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                                                    log.action === 'UPDATE' ? 'bg-yellow-500/10 text-yellow-400 border-yellow-500/20' :
-                                                    log.action === 'DELETE' ? 'bg-red-500/10 text-red-400 border-red-500/20' :
-                                                    'bg-gray-500/10 text-gray-400 border-gray-500/20'
-                                                }`}>
+                                            <td className="px-6 py-4 text-center">
+                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border shadow-sm w-max ${log.action === 'CREATE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                        log.action === 'UPDATE' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                                            log.action === 'DELETE' ? 'bg-red-50 text-red-600 border-red-100' :
+                                                                'bg-gray-50 text-gray-600 border-gray-200'
+                                                    }`}>
+                                                    {log.action === 'CREATE' ? <PhosphorIcons.PlusCircle weight="bold" /> :
+                                                        log.action === 'UPDATE' ? <PhosphorIcons.PencilSimple weight="bold" /> :
+                                                            log.action === 'DELETE' ? <PhosphorIcons.Trash weight="bold" /> :
+                                                                <PhosphorIcons.Info weight="bold" />}
                                                     {log.action}
                                                 </span>
                                             </td>
-                                            <td className="px-6 py-4 text-gray-400 font-mono text-xs">{log.record_id}</td>
-                                            <td className="px-6 py-4 text-gray-400 max-w-xs truncate">{log.description || '-'}</td>
-                                            <td className="px-6 py-4">
-                                                <button
+                                            <td className="px-6 py-4 text-gray-500 font-mono text-xs">{log.record_id}</td>
+                                            <td className="px-6 py-4 text-gray-500 max-w-xs truncate font-medium">{log.description || '-'}</td>
+                                            <td className="px-6 py-4 text-center">
+                                                <Button
                                                     onClick={() => handleViewDetails(log.id)}
-                                                    className="px-3 py-1 bg-orange-600 hover:bg-orange-700 text-white text-xs rounded transition-colors">
-                                                    Ver Detalles
-                                                </button>
+                                                    variant="secondary"
+                                                    className="px-3 py-1.5 text-xs flex items-center justify-center gap-1 mx-auto">
+                                                    <PhosphorIcons.Eye weight="bold" />
+                                                    Ver
+                                                </Button>
                                             </td>
                                         </tr>
                                     ))}
@@ -257,111 +305,153 @@ export const AuditLogPage = () => {
                     </div>
 
                     {/* Pagination */}
-                    <div className="flex justify-between items-center mb-8">
-                        <button
+                    <div className="flex justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                        <Button
                             onClick={handlePrevPage}
                             disabled={pagination.skip === 0}
-                            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded transition-colors disabled:opacity-50">
-                            ← Anterior
-                        </button>
-                        <span className="text-gray-400 text-sm">
+                            variant="secondary"
+                            className="px-5 py-2 flex items-center gap-2">
+                            <PhosphorIcons.CaretLeft weight="bold" />
+                            Anterior
+                        </Button>
+                        <span className="text-gray-600 font-bold text-sm bg-gray-50 px-4 py-2 rounded-xl border border-gray-100">
                             Página {Math.floor(pagination.skip / pagination.limit) + 1}
                         </span>
-                        <button
+                        <Button
                             onClick={handleNextPage}
                             disabled={auditLogs.length < pagination.limit}
-                            className="px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded transition-colors disabled:opacity-50">
-                            Siguiente →
-                        </button>
+                            variant="secondary"
+                            className="px-5 py-2 flex items-center gap-2">
+                            Siguiente
+                            <PhosphorIcons.CaretRight weight="bold" />
+                        </Button>
                     </div>
-                </>
+                </div>
             )}
 
-            {auditLogs.length === 0 && !loading && (
-                <div className="bg-gray-900/40 backdrop-blur-md rounded-2xl border border-dashed border-white/10 p-12 text-center">
-                    <svg className="w-16 h-16 mx-auto mb-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    <p className="text-gray-500">No hay registros de auditoría en el período seleccionado</p>
+            {auditLogs.length === 0 && !loading && !error && (
+                <div className="bg-[var(--color-quinary)] rounded-3xl border border-dashed border-gray-200 p-16 text-center flex flex-col items-center justify-center">
+                    <div className="bg-gray-50 p-6 rounded-full border border-gray-100 mb-6 shadow-sm">
+                        <PhosphorIcons.ShieldCheck size={64} weight="light" className="text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-bold text-gray-600 mb-2">Sin Registros de Auditoría</h3>
+                    <p className="text-gray-500 font-medium">No hay registros de auditoría en el período seleccionado.</p>
                 </div>
             )}
 
             {/* Details Modal */}
             {showDetails && selectedLogDetails && (
-                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-                    <div className="bg-gray-900 rounded-2xl border border-white/10 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+                    <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-slide-up">
                         <div className="p-8">
-                            <div className="flex justify-between items-start mb-6">
-                                <h2 className="text-2xl font-bold text-white">Detalles del Cambio</h2>
+                            <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
+                                <h2 className="text-2xl font-bold text-[var(--color-tertiary)] flex items-center gap-3">
+                                    <div className="p-2 bg-[var(--color-primary)]/10 rounded-xl text-[var(--color-primary)]">
+                                        <PhosphorIcons.ListMagnifyingGlass size={24} weight="fill" />
+                                    </div>
+                                    Detalles del Cambio
+                                </h2>
                                 <button
                                     onClick={handleCloseDetails}
-                                    className="text-gray-400 hover:text-white transition-colors">
-                                    ✕
+                                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-colors">
+                                    <PhosphorIcons.X size={24} weight="bold" />
                                 </button>
                             </div>
 
                             <div className="space-y-6">
                                 {/* Basic Info */}
-                                <div className="bg-gray-800/40 rounded-lg p-4">
-                                    <h3 className="text-sm font-bold text-orange-400 mb-3">Información General</h3>
-                                    <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div className="bg-[var(--color-quaternary)]/50 rounded-2xl p-6 border border-gray-100">
+                                    <h3 className="text-sm font-bold text-[var(--color-primary)] mb-4 flex items-center gap-2">
+                                        <PhosphorIcons.Info size={18} weight="fill" />
+                                        Información General
+                                    </h3>
+                                    <div className="grid grid-cols-2 gap-y-4 gap-x-6 text-sm">
                                         <div>
-                                            <p className="text-gray-400">Acción</p>
-                                            <p className="text-white font-medium">{selectedLogDetails.action}</p>
+                                            <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mb-1">Acción</p>
+                                            <p className="font-medium text-[var(--color-tertiary)] flex items-center gap-1.5">
+                                                <span className={`w-2 h-2 rounded-full ${selectedLogDetails.action === 'CREATE' ? 'bg-emerald-500' :
+                                                        selectedLogDetails.action === 'UPDATE' ? 'bg-amber-500' :
+                                                            selectedLogDetails.action === 'DELETE' ? 'bg-red-500' : 'bg-gray-500'
+                                                    }`}></span>
+                                                {selectedLogDetails.action}
+                                            </p>
                                         </div>
                                         <div>
-                                            <p className="text-gray-400">Usuario</p>
-                                            <p className="text-white font-medium">{selectedLogDetails.user_name || selectedLogDetails.user_id}</p>
+                                            <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mb-1">Usuario</p>
+                                            <p className="font-medium text-[var(--color-tertiary)] flex items-center gap-1.5">
+                                                <PhosphorIcons.User size={16} className="text-gray-400" />
+                                                {selectedLogDetails.user_name || selectedLogDetails.user_id}
+                                            </p>
                                         </div>
                                         <div>
-                                            <p className="text-gray-400">Tabla</p>
-                                            <p className="text-white font-medium">{selectedLogDetails.table_name}</p>
+                                            <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mb-1">Tabla</p>
+                                            <p className="font-medium text-[var(--color-tertiary)] flex items-center gap-1.5">
+                                                <PhosphorIcons.Table size={16} className="text-gray-400" />
+                                                {selectedLogDetails.table_name}
+                                            </p>
                                         </div>
                                         <div>
-                                            <p className="text-gray-400">ID Registro</p>
-                                            <p className="text-white font-mono text-xs">{selectedLogDetails.record_id}</p>
+                                            <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mb-1">ID Registro</p>
+                                            <p className="font-mono text-gray-600 font-medium bg-white px-2 py-0.5 rounded border border-gray-200 w-max">{selectedLogDetails.record_id}</p>
                                         </div>
                                         <div className="col-span-2">
-                                            <p className="text-gray-400">Timestamp</p>
-                                            <p className="text-white font-mono text-xs">{new Date(selectedLogDetails.timestamp).toLocaleString('es-ES')}</p>
+                                            <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mb-1">Timestamp</p>
+                                            <p className="text-gray-600 font-medium flex items-center gap-1.5">
+                                                <PhosphorIcons.Clock size={16} className="text-gray-400" />
+                                                {new Date(selectedLogDetails.timestamp).toLocaleString('es-ES')}
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
 
-                                {/* Old Values */}
-                                {selectedLogDetails.old_values && (
-                                    <div className="bg-gray-800/40 rounded-lg p-4">
-                                        <h3 className="text-sm font-bold text-red-400 mb-3">Valores Anteriores</h3>
-                                        <pre className="bg-gray-900 p-3 rounded text-xs text-gray-300 overflow-x-auto">
-                                            {JSON.stringify(selectedLogDetails.old_values, null, 2)}
-                                        </pre>
-                                    </div>
-                                )}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {/* Old Values */}
+                                    {selectedLogDetails.old_values && (
+                                        <div className="bg-red-50/50 rounded-2xl p-6 border border-red-100 flex flex-col h-full">
+                                            <h3 className="text-sm font-bold text-red-600 mb-3 flex items-center gap-2">
+                                                <PhosphorIcons.MinusCircle size={18} weight="fill" />
+                                                Valores Anteriores
+                                            </h3>
+                                            <pre className="bg-white p-4 rounded-xl border border-red-100 text-xs text-gray-700 overflow-x-auto flex-1 shadow-inner font-mono">
+                                                {JSON.stringify(selectedLogDetails.old_values, null, 2)}
+                                            </pre>
+                                        </div>
+                                    )}
 
-                                {/* New Values */}
-                                {selectedLogDetails.new_values && (
-                                    <div className="bg-gray-800/40 rounded-lg p-4">
-                                        <h3 className="text-sm font-bold text-green-400 mb-3">Valores Nuevos</h3>
-                                        <pre className="bg-gray-900 p-3 rounded text-xs text-gray-300 overflow-x-auto">
-                                            {JSON.stringify(selectedLogDetails.new_values, null, 2)}
-                                        </pre>
-                                    </div>
-                                )}
+                                    {/* New Values */}
+                                    {selectedLogDetails.new_values && (
+                                        <div className="bg-emerald-50/50 rounded-2xl p-6 border border-emerald-100 flex flex-col h-full">
+                                            <h3 className="text-sm font-bold text-emerald-600 mb-3 flex items-center gap-2">
+                                                <PhosphorIcons.PlusCircle size={18} weight="fill" />
+                                                Valores Nuevos
+                                            </h3>
+                                            <pre className="bg-white p-4 rounded-xl border border-emerald-100 text-xs text-gray-700 overflow-x-auto flex-1 shadow-inner font-mono">
+                                                {JSON.stringify(selectedLogDetails.new_values, null, 2)}
+                                            </pre>
+                                        </div>
+                                    )}
+                                </div>
 
                                 {/* Description */}
                                 {selectedLogDetails.description && (
-                                    <div className="bg-gray-800/40 rounded-lg p-4">
-                                        <h3 className="text-sm font-bold text-blue-400 mb-3">Descripción</h3>
-                                        <p className="text-gray-300 text-sm">{selectedLogDetails.description}</p>
+                                    <div className="bg-blue-50/50 rounded-2xl p-6 border border-blue-100">
+                                        <h3 className="text-sm font-bold text-blue-600 mb-2 flex items-center gap-2">
+                                            <PhosphorIcons.TextAa size={18} weight="fill" />
+                                            Descripción
+                                        </h3>
+                                        <p className="text-gray-700 font-medium text-sm leading-relaxed">{selectedLogDetails.description}</p>
                                     </div>
                                 )}
                             </div>
 
-                            <button
-                                onClick={handleCloseDetails}
-                                className="mt-8 w-full px-4 py-2 bg-gray-800 hover:bg-gray-700 text-white rounded font-medium transition-colors">
-                                Cerrar
-                            </button>
+                            <div className="mt-8 pt-6 border-t border-gray-100">
+                                <Button
+                                    onClick={handleCloseDetails}
+                                    variant="secondary"
+                                    className="w-full py-3 justify-center">
+                                    Cerrar Detalles
+                                </Button>
+                            </div>
                         </div>
                     </div>
                 </div>

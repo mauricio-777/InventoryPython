@@ -4,6 +4,7 @@ import { useProductActions } from '../../Application/useProductActions.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
 import { StakeholderSearchBar } from '../../../Stakeholder/UI/components/StakeholderSearchBar.jsx';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const PointOfSalePage = () => {
     const { registerSale, loading, error } = useInventoryActions();
@@ -58,47 +59,49 @@ export const PointOfSalePage = () => {
 
     const subtotal = (quantity * unitPrice) || 0;
 
-    const inputClasses = "w-full bg-black/40 border border-gray-700/50 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all placeholder-gray-600 shadow-inner";
-    const labelClasses = "block text-sm font-medium text-gray-400 mb-2";
+    const inputClasses = "w-full bg-[var(--color-quinary)] border border-gray-200 text-[var(--color-tertiary)] rounded-2xl px-4 py-3 placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] transition-all shadow-sm";
+    const labelClasses = "block text-sm font-bold text-gray-600 mb-2";
 
     return (
-        <div className="animate-fade-in w-full max-w-5xl mx-auto">
-            <div className="mb-8 border-b border-white/10 pb-6 flex flex-col md:flex-row items-start md:items-center gap-4">
-                <div className="p-3 md:p-4 bg-green-500/10 rounded-2xl relative border border-green-500/20 shadow-inner">
-                    <svg className="w-8 h-8 md:w-10 md:h-10 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+        <div className="animate-fade-in w-full max-w-5xl mx-auto space-y-8">
+            <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
+                <div className="p-3 md:p-4 bg-[var(--color-primary)]/10 rounded-2xl relative border border-[var(--color-primary)]/20 shadow-sm">
+                    <PhosphorIcons.ShoppingCart size={32} weight="fill" className="text-[var(--color-primary)]" />
                 </div>
                 <div>
-                    <h1 className="text-3xl md:text-4xl font-light text-white tracking-wide">
-                        Punto de <span className="font-bold text-green-400">Venta</span>
+                    <h1 className="text-3xl md:text-4xl font-bold text-[var(--color-tertiary)] tracking-tight">
+                        Punto de Venta
                     </h1>
-                    <p className="text-gray-500 text-sm md:text-base mt-2">Salida rápida de Stock (Cajero) con descuento FIFO automatizado.</p>
+                    <p className="text-gray-500 text-sm md:text-base mt-1 font-medium">Salida rápida de Stock (Cajero) con descuento FIFO automatizado.</p>
                 </div>
             </div>
 
-            <div className="bg-gray-900/60 backdrop-blur-2xl rounded-3xl border border-white/5 shadow-2xl overflow-hidden shadow-black/50">
+            <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] overflow-hidden">
                 <form onSubmit={handleSubmit} className="p-6 md:p-10">
 
                     <div className="space-y-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
-                                <label className={`${labelClasses} text-base`}>Escanear o Seleccionar Producto <span className="text-green-500">*</span></label>
+                                <label className={`${labelClasses} text-base flex items-center gap-1.5`}>
+                                    Escanear o Seleccionar Producto <span className="text-red-500">*</span>
+                                </label>
                                 <CustomSelect
                                     options={productOptions}
                                     value={selectedProduct}
                                     onChange={handleProductChange}
                                     placeholder="-- Buscar Producto --"
                                     required={true}
-                                    className="text-lg"
                                 />
                             </div>
 
                             <div>
-                                <label className={`${labelClasses} text-base`}>Cliente (Opcional)</label>
+                                <label className={`${labelClasses} text-base flex items-center gap-1.5`}>
+                                    Cliente (Opcional)
+                                </label>
                                 <StakeholderSearchBar
                                     type="customer"
                                     placeholder="Buscar cliente..."
                                     onSelect={(id) => setCustomerId(id || '')}
-                                    className="text-lg"
                                 />
                             </div>
                         </div>
@@ -106,70 +109,78 @@ export const PointOfSalePage = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
                                 <label className={labelClasses}>Cant. (Unidades Físicas)</label>
-                                <input type="number" min="1" required className={`${inputClasses} text-lg md:text-xl font-bold font-mono`} value={quantity} onChange={e => setQuantity(e.target.value)} />
+                                <input type="number" min="1" required className={`${inputClasses} text-xl md:text-2xl font-bold text-center`} value={quantity} onChange={e => setQuantity(e.target.value)} />
                             </div>
 
                             <div>
                                 <label className={labelClasses}>Precio Unit. (Modificable)</label>
                                 <div className="relative">
                                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
-                                        <span className="text-gray-500 font-medium">Bs</span>
+                                        <span className="text-gray-400 font-bold">Bs</span>
                                     </div>
-                                    <input type="number" step="0.50" min="0" required className={`${inputClasses} text-lg md:text-xl pl-12 text-green-400 font-bold font-mono`} value={unitPrice} onChange={e => setUnitPrice(e.target.value)} />
+                                    <input type="number" step="0.50" min="0" required className={`${inputClasses} text-xl md:text-2xl pl-12 text-[var(--color-primary)] font-bold`} value={unitPrice} onChange={e => setUnitPrice(e.target.value)} />
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="mt-10 bg-black/40 border border-white/5 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center text-xl shadow-inner gap-4 md:gap-0">
-                        <span className="text-gray-400 font-medium uppercase tracking-wider text-sm md:text-base">Subtotal a cobrar:</span>
-                        <span className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent truncate max-w-full">
-                            {subtotal.toFixed(2)} Bs
+                    <div className="mt-10 bg-[var(--color-quaternary)] border border-gray-100 rounded-2xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-center text-xl shadow-sm gap-4 md:gap-0">
+                        <span className="text-gray-500 font-bold uppercase tracking-wider text-sm md:text-base flex items-center gap-2">
+                            <PhosphorIcons.Receipt size={24} weight="duotone" className="text-[var(--color-primary)]" />
+                            Subtotal a cobrar:
+                        </span>
+                        <span className="text-4xl md:text-5xl font-black text-[var(--color-tertiary)] tracking-tight">
+                            {subtotal.toFixed(2)} <span className="text-2xl md:text-3xl text-gray-400 font-bold">Bs</span>
                         </span>
                     </div>
 
                     {error && (
-                        <div className="mt-8 bg-red-500/10 border border-red-500/50 text-red-400 px-6 py-4 rounded-xl flex items-center gap-3 shadow-lg">
-                            <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        <div className="mt-8 bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl flex items-center gap-3 shadow-sm font-medium">
+                            <PhosphorIcons.WarningCircle size={24} weight="fill" className="text-red-500 shrink-0" />
                             <p className="text-base">{error}</p>
                         </div>
                     )}
 
                     <div className="mt-10">
-                        <Button type="submit" disabled={loading} className="w-full text-lg md:text-xl py-4 md:py-5 shadow-green-500/30">
+                        <Button type="submit" disabled={loading} className="w-full text-lg md:text-xl py-4 md:py-5 shadow-sm">
                             {loading ? (
                                 <span className="flex items-center justify-center gap-3">
-                                    <div className="animate-spin h-6 w-6 border-2 border-gray-900 border-t-transparent rounded-full"></div>
+                                    <PhosphorIcons.Spinner size={24} className="animate-spin" />
                                     Procesando Transacción Segura...
                                 </span>
-                            ) : 'Confirmar Venta / Cobrar'}
+                            ) : (
+                                <span className="flex items-center justify-center gap-3">
+                                    <PhosphorIcons.CheckCircle size={24} weight="bold" />
+                                    Confirmar Venta / Cobrar
+                                </span>
+                            )}
                         </Button>
                     </div>
                 </form>
             </div>
 
             {lastSale && (
-                <div className="mt-8 p-6 md:p-8 bg-green-500/10 border border-green-500/20 rounded-3xl animate-slide-up relative overflow-hidden shadow-2xl">
-                    <div className="absolute -top-10 -right-10 p-4 opacity-5">
-                        <svg className="w-48 h-48 text-green-500 transform rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                <div className="mt-8 p-6 md:p-8 bg-emerald-50 border border-emerald-100 rounded-3xl animate-slide-up relative overflow-hidden shadow-sm">
+                    <div className="absolute -top-10 -right-10 p-4 opacity-10">
+                        <PhosphorIcons.CheckCircle size={200} weight="fill" className="text-emerald-500 transform rotate-12" />
                     </div>
                     <div className="relative z-10">
-                        <h3 className="text-xl md:text-2xl font-light text-green-400 mb-4 block flex items-center gap-2">
-                            <svg className="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
-                            ¡Transacción <span className="font-bold">Exitosa</span>!
+                        <h3 className="text-xl md:text-2xl font-bold text-emerald-600 mb-6 flex items-center gap-2 tracking-tight">
+                            <PhosphorIcons.CheckCircle size={28} weight="fill" />
+                            ¡Transacción Exitosa!
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm md:text-base bg-black/20 p-4 rounded-2xl border border-white/5">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm md:text-base bg-white p-6 rounded-2xl border border-emerald-100 shadow-sm">
                             <div>
-                                <span className="text-gray-500 block text-xs uppercase tracking-wider mb-1">Cód. Operación</span>
-                                <span className="text-gray-300 font-mono text-sm max-w-[150px] truncate block">{lastSale.movement_id}</span>
+                                <span className="text-gray-500 block text-xs font-bold uppercase tracking-wider mb-1">Cód. Operación</span>
+                                <span className="text-[var(--color-tertiary)] font-mono font-medium text-sm max-w-[150px] truncate block">{lastSale.movement_id}</span>
                             </div>
                             <div>
-                                <span className="text-gray-500 block text-xs uppercase tracking-wider mb-1">Total Ingreso</span>
-                                <span className="font-bold text-white text-lg">{lastSale.total_price.toFixed(2)} Bs</span>
+                                <span className="text-gray-500 block text-xs font-bold uppercase tracking-wider mb-1">Total Ingreso</span>
+                                <span className="font-black text-[var(--color-tertiary)] text-xl">{lastSale.total_price.toFixed(2)} <span className="text-base text-gray-500 font-bold">Bs</span></span>
                             </div>
                             <div>
-                                <span className="text-green-500/50 block text-xs uppercase tracking-wider mb-1">Costo Interno (FIFO)</span>
-                                <span className="text-green-400">{lastSale.total_cost.toFixed(2)} Bs</span>
+                                <span className="text-gray-400 block text-xs font-bold uppercase tracking-wider mb-1">Costo Interno (FIFO)</span>
+                                <span className="text-emerald-500 font-bold text-lg">{lastSale.total_cost.toFixed(2)} Bs</span>
                             </div>
                         </div>
                     </div>
