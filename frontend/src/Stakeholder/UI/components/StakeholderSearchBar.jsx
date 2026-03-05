@@ -61,9 +61,9 @@ export const StakeholderSearchBar = ({
 
     const Badge = ({ t }) => {
         if (t === 'customer') {
-            return <span className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/20 text-blue-400 border border-blue-500/30">CLIENTE</span>;
+            return <span className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-200">CLIENTE</span>;
         }
-        return <span className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-green-500/20 text-green-400 border border-green-500/30">PROVEEDOR</span>;
+        return <span className="ml-2 px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-600 border border-emerald-200">PROVEEDOR</span>;
     };
 
     return (
@@ -75,7 +75,7 @@ export const StakeholderSearchBar = ({
 
                 <input
                     type="text"
-                    className="w-full bg-black/40 border border-gray-700/50 text-white rounded-xl pl-11 pr-10 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all placeholder-gray-600 shadow-inner"
+                    className={`w-full bg-[var(--color-quinary)] border ${isOpen ? 'border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]/20' : 'border-gray-200 hover:border-gray-300'} text-[var(--color-tertiary)] rounded-2xl pl-11 pr-10 py-3 focus:outline-none transition-all placeholder-gray-400 font-medium`}
                     placeholder={placeholder}
                     value={query}
                     onChange={handleInputChange}
@@ -87,7 +87,7 @@ export const StakeholderSearchBar = ({
                     <button
                         type="button"
                         onClick={clearSelection}
-                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-500 hover:text-white transition-colors"
+                        className="absolute inset-y-0 right-0 flex items-center pr-4 text-gray-400 hover:text-[var(--color-primary)] transition-colors"
                     >
                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                     </button>
@@ -96,32 +96,32 @@ export const StakeholderSearchBar = ({
 
             {/* Dropdown Results */}
             {isOpen && (
-                <div className="absolute z-50 w-full mt-2 bg-gray-900 border border-white/10 rounded-xl shadow-2xl overflow-hidden max-h-60 overflow-y-auto custom-scrollbar">
+                <div className="absolute z-50 w-full mt-2 bg-[var(--color-quinary)] border border-gray-100 rounded-2xl shadow-lg overflow-hidden max-h-60 overflow-y-auto custom-scrollbar animate-fade-in">
                     {isSearching ? (
-                        <div className="p-4 flex items-center justify-center text-gray-400 text-sm gap-2">
-                            <div className="animate-spin h-4 w-4 border-2 border-gray-500 border-t-transparent rounded-full"></div>
+                        <div className="p-4 flex items-center justify-center text-gray-500 font-medium text-sm gap-2">
+                            <div className="animate-spin h-4 w-4 border-2 border-[var(--color-primary)] border-t-transparent rounded-full"></div>
                             Buscando...
                         </div>
                     ) : results.length > 0 ? (
-                        <ul className="divide-y divide-white/5">
+                        <ul className="py-1">
                             {results.map(item => (
                                 <li
                                     key={item.id}
-                                    className="p-3 hover:bg-white/5 cursor-pointer transition-colors"
+                                    className="px-4 py-3 hover:bg-gray-50 text-[var(--color-tertiary)] cursor-pointer transition-colors"
                                     onClick={() => handleSelect(item)}
                                 >
                                     <div className="flex justify-between items-center">
                                         <div className="flex items-center">
-                                            <span className="font-medium text-gray-200">{item.nombre}</span>
+                                            <span className="font-medium">{item.nombre}</span>
                                             {(type === 'all') && <Badge t={item.type} />}
                                         </div>
-                                        <span className="text-sm font-mono text-gray-500">{item.tipo_documento}: {item.numero_documento}</span>
+                                        <span className="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-0.5 rounded">{item.tipo_documento}: {item.numero_documento}</span>
                                     </div>
                                 </li>
                             ))}
                         </ul>
                     ) : (
-                        <div className="p-4 text-center text-sm text-gray-500">
+                        <div className="p-4 text-center text-sm font-medium text-gray-500">
                             No se encontraron resultados
                         </div>
                     )}

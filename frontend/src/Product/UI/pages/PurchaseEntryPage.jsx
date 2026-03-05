@@ -14,6 +14,7 @@ export const PurchaseEntryPage = () => {
         product_id: '', quantity: 0, unit_cost: 0, supplier_id: '', expiration_date: ''
     });
     const [message, setMessage] = useState('');
+    const [validationError, setValidationError] = useState('');
 
     useEffect(() => {
         fetchProducts();
@@ -27,6 +28,13 @@ export const PurchaseEntryPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
+        setValidationError('');
+
+        if (!formData.supplier_id) {
+            setValidationError('Debe seleccionar un proveedor para registrar la compra.');
+            return;
+        }
+
         try {
             const dataToSubmit = {
                 ...formData,
@@ -103,21 +111,26 @@ export const PurchaseEntryPage = () => {
                             </div>
 
                             <div>
-                                <label className={labelClasses}>Proveedor (Opcional)</label>
+                                <label className={labelClasses}>Proveedor <span className="text-red-500">*</span></label>
                                 <StakeholderSearchBar
                                     type="supplier"
                                     placeholder="Buscar proveedor..."
                                     onSelect={(id) => setFormData({ ...formData, supplier_id: id || '' })}
+                                    required={true}
                                 />
+                                <p className="mt-2 text-xs font-bold text-gray-500 flex items-center gap-1.5">
+                                    <PhosphorIcons.Info size={14} weight="bold" />
+                                    Si no existe el proveedor, regístrelo en la sección "Proveedores".
+                                </p>
                             </div>
                         </div>
                     </div>
 
                     <div className="pt-4">
-                        {error && (
+                        {(error || validationError) && (
                             <div className="bg-red-50 border border-red-100 text-red-600 px-6 py-4 rounded-2xl text-sm flex items-center gap-3 shadow-sm font-medium">
                                 <PhosphorIcons.WarningCircle size={20} weight="fill" className="shrink-0 text-red-500" />
-                                {error}
+                                {error || validationError}
                             </div>
                         )}
                         {message && (

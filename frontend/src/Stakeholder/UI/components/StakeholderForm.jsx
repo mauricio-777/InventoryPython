@@ -53,16 +53,16 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
         onSave(processedData);
     };
 
-    const inputClasses = "w-full bg-black/40 border border-gray-700/50 text-white rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all placeholder-gray-600 shadow-inner";
-    const labelClasses = "block text-sm font-medium text-gray-400 mb-2";
+    const inputClasses = "w-full bg-[var(--color-quinary)] border border-gray-200 text-[var(--color-tertiary)] rounded-2xl px-4 py-3 placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] transition-all shadow-sm";
+    const labelClasses = "block text-sm font-bold text-gray-600 mb-2";
 
     return (
-        <div className="bg-gray-900 border border-white/10 p-6 md:p-8 rounded-3xl w-full">
-            <div className="flex justify-between items-center mb-8 border-b border-white/5 pb-4">
-                <h2 className="text-2xl md:text-3xl font-light text-white">
-                    {initialData ? 'Editar' : 'Nuevo'} <span className="font-bold text-green-400">{title}</span>
+        <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 md:p-8 w-full">
+            <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
+                <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-tertiary)]">
+                    {initialData ? 'Editar' : 'Nuevo'} <span className="font-light text-[var(--color-primary)]">{title}</span>
                 </h2>
-                <button onClick={onCancel} className="text-gray-500 hover:text-white transition-colors bg-white/5 p-2 rounded-full">
+                <button onClick={onCancel} className="text-gray-500 hover:text-[var(--color-primary)] transition-colors bg-[var(--color-quaternary)] hover:bg-gray-200 p-2 rounded-full">
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
                 </button>
             </div>
@@ -71,7 +71,7 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Basic Info - Shared */}
                     <div>
-                        <label className={labelClasses}>Nombre / Razón Social <span className="text-green-500">*</span></label>
+                        <label className={labelClasses}>Nombre / Razón Social <span className="text-red-500">*</span></label>
                         <input type="text" required className={inputClasses} placeholder="Ej. Empresa SA" value={formData.nombre} onChange={e => setFormData({ ...formData, nombre: e.target.value })} />
                     </div>
 
@@ -85,7 +85,7 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
                             />
                         </div>
                         <div className="col-span-2">
-                            <label className={labelClasses}>N° Documento <span className="text-green-500">*</span></label>
+                            <label className={labelClasses}>N° Documento <span className="text-red-500">*</span></label>
                             <input type="text" required className={inputClasses} placeholder="Documento único" value={formData.numero_documento} onChange={e => setFormData({ ...formData, numero_documento: e.target.value })} />
                         </div>
                     </div>
@@ -132,14 +132,14 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
                     )}
                 </div>
 
-                <div className="flex justify-end gap-4 pt-6 border-t border-white/5">
-                    <Button type="button" variant="secondary" onClick={onCancel} disabled={loading} className="px-6">
+                <div className="flex justify-end gap-4 pt-6 border-t border-gray-100">
+                    <Button type="button" variant="secondary" onClick={onCancel} disabled={loading} className="px-6 bg-gray-100 text-gray-700 hover:bg-gray-200 font-bold border-none">
                         Cancelar
                     </Button>
-                    <Button type="submit" variant="primary" disabled={loading} className="px-8 shadow-green-500/20">
+                    <Button type="submit" variant="primary" disabled={loading} className="px-8 shadow-sm font-bold">
                         {loading ? (
                             <span className="flex items-center gap-2">
-                                <div className="animate-spin h-4 w-4 border-2 border-gray-900 border-t-transparent rounded-full"></div>
+                                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
                                 Guardando...
                             </span>
                         ) : (

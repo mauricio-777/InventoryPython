@@ -25,10 +25,21 @@ export const CustomSelect = ({ options, value, onChange, placeholder = "Seleccio
         setIsOpen(false);
     };
 
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+        } else if (e.key === 'Escape') {
+            setIsOpen(false);
+        }
+    };
+
     return (
         <div className={`relative ${className}`} ref={dropdownRef}>
             <div
-                className={`w-full bg-[var(--color-quinary)] border ${isOpen ? 'border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]/20' : 'border-gray-200 hover:border-gray-300'} text-[var(--color-tertiary)] rounded-2xl px-4 py-3 cursor-pointer transition-all flex items-center justify-between ${!selectedOption && 'text-gray-400 font-medium'}`}
+                tabIndex={0}
+                onKeyDown={handleKeyDown}
+                className={`w-full bg-[var(--color-quinary)] border ${isOpen ? 'border-[var(--color-primary)] ring-2 ring-[var(--color-primary)]/20' : 'border-gray-200 hover:border-gray-300'} text-[var(--color-tertiary)] rounded-2xl px-4 py-3 cursor-pointer transition-all flex items-center justify-between focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] ${!selectedOption ? 'text-gray-400 font-medium' : ''}`}
                 onClick={() => setIsOpen(!isOpen)}
             >
                 <span className="truncate">{displayValue}</span>
