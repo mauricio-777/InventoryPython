@@ -122,7 +122,9 @@ export const useAuthLogin = () => {
             }
             throw new Error(data.message || 'Error en login');
         } catch (err) {
-            const msg = err.response?.data?.message || err.message || 'Error de conexión';
+            // Priorizar el mensaje del backend (err.response.data.message) sobre
+            // el mensaje genérico de Axios (err.message = "Request failed with status..")
+            const msg = err.response?.data?.message ?? err.message ?? 'Error de conexión';
             setError(msg);
             throw new Error(msg);
         } finally {

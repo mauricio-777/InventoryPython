@@ -41,14 +41,19 @@ export const ROUTES = {
 
 /**
  * Navigation items definition, shared between MainLayout and any future drawer/menu.
- * The `roles` array defines which user roles can see the item (empty = all roles).
+ *
+ * roles: [] → visible to ALL roles (no restriction).
+ * roles: ['admin', 'gestor'] → admin + gestor only.
+ * roles: ['admin'] → admin only.
+ *
+ * These match the backend @require_role decorators in each controller.
  */
 export const NAV_ITEMS = [
     {
         id: ROUTES.PRODUCTS,
         name: 'Catálogo',
         icon: 'Package',
-        roles: [],
+        roles: ['admin', 'gestor', 'consultor'],  // GET: todos | POST/PUT/DELETE: admin, gestor
     },
     {
         id: ROUTES.PURCHASES,
@@ -66,19 +71,19 @@ export const NAV_ITEMS = [
         id: ROUTES.BATCHES,
         name: 'Stock Activo',
         icon: 'Archive',
-        roles: [],
+        roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.CUSTOMERS,
         name: 'Clientes',
         icon: 'Users',
-        roles: [],
+        roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.SUPPLIERS,
         name: 'Proveedores',
         icon: 'Truck',
-        roles: [],
+        roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.USERS,
@@ -90,19 +95,19 @@ export const NAV_ITEMS = [
         id: ROUTES.DASHBOARD,
         name: 'Dashboard',
         icon: 'ChartBar',
-        roles: [],
+        roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.REPORTS_VALUATION,
         name: 'Reporte Valorización',
         icon: 'ChartLineUp',
-        roles: [],
+        roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.REPORTS_ROTATION,
         name: 'Reporte Rotación',
         icon: 'ArrowClockwise',
-        roles: [],
+        roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.AUDIT,

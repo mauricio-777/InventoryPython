@@ -6,6 +6,7 @@ import { ForgotPasswordPage } from './Auth/UI/pages/ForgotPasswordPage.jsx';
 import { ResetPasswordPage } from './Auth/UI/pages/ResetPasswordPage.jsx';
 import { RoleGuard } from './Auth/UI/components/RoleGuard.jsx';
 import { useUserRole } from './CommonLayer/hooks/useUserRole.js';
+import { NAV_ITEMS } from './Router/routes.js';
 import { ProductListPage } from './Product/UI/pages/ProductListPage.jsx';
 import { PurchaseEntryPage } from './Product/UI/pages/PurchaseEntryPage.jsx';
 import { PointOfSalePage } from './Product/UI/pages/PointOfSalePage.jsx';
@@ -20,8 +21,15 @@ import { CustomersPage } from './Stakeholder/UI/pages/CustomersPage.jsx';
 import { SuppliersPage } from './Stakeholder/UI/pages/SuppliersPage.jsx';
 import { UsersPage } from './Auth/UI/pages/UsersPage.jsx';
 
+/** Devuelve el primer módulo accesible para un rol dado. */
+function getDefaultView(role) {
+  const first = NAV_ITEMS.find(item =>
+    !item.roles || item.roles.length === 0 || item.roles.includes(role)
+  );
+  return first?.id ?? 'products';
+}
+
 function App() {
-  const [currentView, setView] = useState('products');
   const { userRole } = useUserRole();
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -29,6 +37,11 @@ function App() {
     }
     return false;
   });
+
+  // El módulo activo — se inicializa con el rol que haya en localStorage
+  const [currentView, setView] = useState(() =>
+    getDefaultView(localStorage.getItem('userRole') || '')
+  );
 
   const [authView, setAuthView] = useState('login'); // 'login', 'forgot', 'reset'
   const [resetToken, setResetToken] = useState(null);
@@ -46,14 +59,20 @@ function App() {
     }
   }, []);
 
+  // Cuando cambia el rol (tras login), ir al módulo por defecto de ese rol
+  useEffect(() => {
+    if (userRole) {
+      setView(getDefaultView(userRole));
+    }
+  }, [userRole]);
+
   const handleLoginSuccess = () => {
     setIsLoggedIn(true);
   };
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    // useUserRole ya maneja el localStorage, pero al setear state aquí, 
-    // forzamos el re-render para mostrar LoginForm.
+    setView('products'); // Resetear vista para el próximo usuario
   };
 
   // Si no está autenticado, mostrar vistas públicas

@@ -3,6 +3,7 @@ import { useUserManager } from '../../Application/useAuth.js';
 import { UserForm } from '../components/UserForm.jsx';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
+import { useToast } from '../../../CommonLayer/context/ToastContext.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
 
 const ROLE_LABELS = {
@@ -31,6 +32,7 @@ export const UsersPage = () => {
     const [editingUser, setEditingUser] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [confirmDeactivate, setConfirmDeactivate] = useState(null);
+    const { showToast } = useToast();
 
     useEffect(() => {
         fetchUsers();
@@ -51,12 +53,14 @@ export const UsersPage = () => {
         try {
             if (editingUser) {
                 await updateUser(editingUser.id, data);
+                showToast('Usuario actualizado exitosamente.', 'success');
             } else {
                 await createUser(data);
+                showToast('Usuario creado exitosamente.', 'success');
             }
             handleCloseForm();
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, 'error');
         }
     };
 
@@ -68,8 +72,9 @@ export const UsersPage = () => {
         if (!confirmDeactivate) return;
         try {
             await deactivateUser(confirmDeactivate.id);
+            showToast(`Usuario "${confirmDeactivate.username}" desactivado.`, 'info');
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, 'error');
         } finally {
             setConfirmDeactivate(null);
         }
@@ -253,9 +258,9 @@ export const UsersPage = () => {
 
             {/* User Form Modal */}
             {isFormVisible && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:pl-56 animate-fade-in">
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={handleCloseForm} />
-                    <div className="relative z-10 w-full max-w-lg max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl animate-slide-up shadow-2xl">
+                    <div className="relative z-10 w-full max-w-lg animate-slide-up shadow-2xl rounded-3xl">
                         <UserForm
                             initialData={editingUser}
                             roles={roles}
@@ -269,7 +274,7 @@ export const UsersPage = () => {
 
             {/* Deactivate Confirm Dialog */}
             {confirmDeactivate && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 animate-fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:pl-56 animate-fade-in">
                     <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setConfirmDeactivate(null)} />
                     <div className="relative z-10 w-full max-w-sm bg-[var(--color-quinary)] border border-gray-100 rounded-3xl p-7 shadow-2xl">
                         <div className="flex items-center gap-3 mb-4">

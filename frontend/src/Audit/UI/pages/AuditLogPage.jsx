@@ -275,9 +275,9 @@ export const AuditLogPage = () => {
                                             </td>
                                             <td className="px-6 py-4 text-center">
                                                 <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border shadow-sm w-max ${log.action === 'CREATE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
-                                                        log.action === 'UPDATE' ? 'bg-amber-50 text-amber-600 border-amber-100' :
-                                                            log.action === 'DELETE' ? 'bg-red-50 text-red-600 border-red-100' :
-                                                                'bg-gray-50 text-gray-600 border-gray-200'
+                                                    log.action === 'UPDATE' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                                        log.action === 'DELETE' ? 'bg-red-50 text-red-600 border-red-100' :
+                                                            'bg-gray-50 text-gray-600 border-gray-200'
                                                     }`}>
                                                     {log.action === 'CREATE' ? <PhosphorIcons.PlusCircle weight="bold" /> :
                                                         log.action === 'UPDATE' ? <PhosphorIcons.PencilSimple weight="bold" /> :
@@ -341,7 +341,7 @@ export const AuditLogPage = () => {
 
             {/* Details Modal */}
             {showDetails && selectedLogDetails && (
-                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 animate-fade-in">
+                <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4 md:pl-56 animate-fade-in">
                     <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto animate-slide-up">
                         <div className="p-8">
                             <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-100">
@@ -370,8 +370,8 @@ export const AuditLogPage = () => {
                                             <p className="text-gray-500 font-bold text-xs uppercase tracking-wider mb-1">Acción</p>
                                             <p className="font-medium text-[var(--color-tertiary)] flex items-center gap-1.5">
                                                 <span className={`w-2 h-2 rounded-full ${selectedLogDetails.action === 'CREATE' ? 'bg-emerald-500' :
-                                                        selectedLogDetails.action === 'UPDATE' ? 'bg-amber-500' :
-                                                            selectedLogDetails.action === 'DELETE' ? 'bg-red-500' : 'bg-gray-500'
+                                                    selectedLogDetails.action === 'UPDATE' ? 'bg-amber-500' :
+                                                        selectedLogDetails.action === 'DELETE' ? 'bg-red-500' : 'bg-gray-500'
                                                     }`}></span>
                                                 {selectedLogDetails.action}
                                             </p>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
+import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const StakeholderForm = ({ type = 'customer', initialData = null, onSave, onCancel, loading }) => {
     const isCustomer = type === 'customer';
@@ -13,7 +14,9 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
         direccion: '',
         telefono: '',
         email: '',
-        condicion_pago: 'CONTADO'
+        condicion_pago: 'CONTADO',
+        canal_pedido: '',
+        canal_entrega: ''
     };
 
     const defaultSupplierData = {
@@ -31,6 +34,12 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
         initialData || (isCustomer ? defaultCustomerData : defaultSupplierData)
     );
 
+    useEffect(() => {
+        if (initialData) {
+            setFormData(initialData);
+        }
+    }, [initialData]);
+
     const docTypeOptions = [
         { value: 'DNI', label: 'DNI' },
         { value: 'RUC', label: 'RUC' },
@@ -42,73 +51,138 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
         { value: 'CREDITO', label: 'Crédito' }
     ];
 
+    const canalPedidoOptions = [
+        { value: '', label: '— Sin especificar —' },
+        { value: 'PRESENCIAL', label: 'Presencial' },
+        { value: 'WHATSAPP', label: 'WhatsApp' },
+        { value: 'TELEFONO', label: 'Teléfono' },
+        { value: 'ONLINE', label: 'Online / Web' },
+        { value: 'OTRO', label: 'Otro' },
+    ];
+
+    const canalEntregaOptions = [
+        { value: '', label: '— Sin especificar —' },
+        { value: 'RECOGE_TIENDA', label: 'Recoge en tienda' },
+        { value: 'DELIVERY_DOMICILIO', label: 'Delivery a domicilio' },
+        { value: 'COURIER', label: 'Courier / Envío' },
+        { value: 'OTRO', label: 'Otro' },
+    ];
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
         let processedData = { ...formData };
         if (!isCustomer) {
-            processedData.plazo_entrega_dias = processedData.plazo_entrega_dias ? parseInt(processedData.plazo_entrega_dias, 10) : null;
+            processedData.plazo_entrega_dias = processedData.plazo_entrega_dias
+                ? parseInt(processedData.plazo_entrega_dias, 10)
+                : null;
         }
-
         onSave(processedData);
     };
 
-    const inputClasses = "w-full bg-[var(--color-quinary)] border border-gray-200 text-[var(--color-tertiary)] rounded-2xl px-4 py-3 placeholder:text-gray-400 focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] transition-all shadow-sm";
-    const labelClasses = "block text-sm font-bold text-gray-600 mb-2";
+    const inputClasses = "w-full bg-[var(--color-quaternary)]/50 border border-gray-200 text-[var(--color-tertiary)] rounded-2xl px-4 py-2.5 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/30 focus:border-[var(--color-primary)]/60 transition-all text-sm font-medium";
+    const labelClasses = "block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider";
 
     return (
-        <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 md:p-8 w-full">
-            <div className="flex justify-between items-center mb-8 border-b border-gray-100 pb-4">
-                <h2 className="text-2xl md:text-3xl font-bold text-[var(--color-tertiary)]">
-                    {initialData ? 'Editar' : 'Nuevo'} <span className="font-light text-[var(--color-primary)]">{title}</span>
-                </h2>
-                <button onClick={onCancel} className="text-gray-500 hover:text-[var(--color-primary)] transition-colors bg-[var(--color-quaternary)] hover:bg-gray-200 p-2 rounded-full">
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+        <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_20px_40px_rgba(0,0,0,0.08)] p-6 w-full">
+            {/* Header */}
+            <div className="flex justify-between items-center mb-5 pb-4 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-[var(--color-primary)]/10 rounded-2xl border border-[var(--color-primary)]/20 text-[var(--color-primary)]">
+                        {isCustomer
+                            ? <PhosphorIcons.Users size={20} weight="fill" />
+                            : <PhosphorIcons.Truck size={20} weight="fill" />
+                        }
+                    </div>
+                    <h2 className="text-xl font-bold text-[var(--color-tertiary)]">
+                        {initialData ? 'Editar' : 'Nuevo'}{' '}
+                        <span className="font-light text-[var(--color-primary)]">{title}</span>
+                    </h2>
+                </div>
+                <button
+                    type="button"
+                    onClick={onCancel}
+                    className="text-gray-400 hover:text-[var(--color-tertiary)] transition-colors bg-gray-100 hover:bg-gray-200 p-2 rounded-xl"
+                >
+                    <PhosphorIcons.X size={18} weight="bold" />
                 </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Basic Info - Shared */}
+            <form onSubmit={handleSubmit} className="space-y-4">
+                {/* Nombre + Tipo + N° Documento en una fila */}
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto_1fr] gap-3 items-end">
                     <div>
                         <label className={labelClasses}>Nombre / Razón Social <span className="text-red-500">*</span></label>
-                        <input type="text" required className={inputClasses} placeholder="Ej. Empresa SA" value={formData.nombre} onChange={e => setFormData({ ...formData, nombre: e.target.value })} />
+                        <input
+                            type="text"
+                            required
+                            className={inputClasses}
+                            placeholder="Ej. Empresa SA"
+                            value={formData.nombre}
+                            onChange={e => setFormData({ ...formData, nombre: e.target.value })}
+                        />
                     </div>
-
-                    <div className="grid grid-cols-3 gap-2">
-                        <div className="col-span-1">
-                            <label className={labelClasses}>Tipo</label>
-                            <CustomSelect
-                                options={docTypeOptions}
-                                value={formData.tipo_documento}
-                                onChange={e => setFormData({ ...formData, tipo_documento: e.target.value })}
-                            />
-                        </div>
-                        <div className="col-span-2">
-                            <label className={labelClasses}>N° Documento <span className="text-red-500">*</span></label>
-                            <input type="text" required className={inputClasses} placeholder="Documento único" value={formData.numero_documento} onChange={e => setFormData({ ...formData, numero_documento: e.target.value })} />
-                        </div>
+                    <div className="min-w-[90px]">
+                        <label className={labelClasses}>Tipo</label>
+                        <CustomSelect
+                            options={docTypeOptions}
+                            value={formData.tipo_documento}
+                            onChange={e => setFormData({ ...formData, tipo_documento: e.target.value })}
+                        />
                     </div>
-
-                    {/* Contact Info - Shared */}
-                    <div className="md:col-span-2">
-                        <label className={labelClasses}>Dirección</label>
-                        <input type="text" className={inputClasses} placeholder="Dirección física" value={formData.direccion} onChange={e => setFormData({ ...formData, direccion: e.target.value })} />
+                    <div>
+                        <label className={labelClasses}>N° Documento <span className="text-red-500">*</span></label>
+                        <input
+                            type="text"
+                            required
+                            className={inputClasses}
+                            placeholder="Documento único"
+                            value={formData.numero_documento}
+                            onChange={e => setFormData({ ...formData, numero_documento: e.target.value })}
+                        />
                     </div>
+                </div>
 
+                {/* Dirección */}
+                <div>
+                    <label className={labelClasses}>Dirección</label>
+                    <input
+                        type="text"
+                        className={inputClasses}
+                        placeholder="Dirección física"
+                        value={formData.direccion}
+                        onChange={e => setFormData({ ...formData, direccion: e.target.value })}
+                    />
+                </div>
+
+                {/* Teléfono + Email */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label className={labelClasses}>Teléfono</label>
-                        <input type="text" className={inputClasses} placeholder="+591 70000000" value={formData.telefono} onChange={e => setFormData({ ...formData, telefono: e.target.value })} />
+                        <input
+                            type="text"
+                            className={inputClasses}
+                            placeholder="+591 70000000"
+                            value={formData.telefono}
+                            onChange={e => setFormData({ ...formData, telefono: e.target.value })}
+                        />
                     </div>
-
                     <div>
                         <label className={labelClasses}>Correo Electrónico</label>
-                        <input type="email" className={inputClasses} placeholder="contacto@empresa.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} />
+                        <input
+                            type="email"
+                            className={inputClasses}
+                            placeholder="contacto@empresa.com"
+                            value={formData.email}
+                            onChange={e => setFormData({ ...formData, email: e.target.value })}
+                        />
                     </div>
+                </div>
 
-                    {/* Specific Fields */}
-                    {isCustomer && (
-                        <div>
+                {/* Campos específicos según tipo */}
+                {isCustomer && (
+                    <div className="space-y-3">
+                        {/* Condición de pago — fila propia */}
+                        <div className="max-w-xs">
                             <label className={labelClasses}>Condición de Pago Habitual</label>
                             <CustomSelect
                                 options={paymentOptions}
@@ -116,35 +190,87 @@ export const StakeholderForm = ({ type = 'customer', initialData = null, onSave,
                                 onChange={e => setFormData({ ...formData, condicion_pago: e.target.value })}
                             />
                         </div>
-                    )}
-
-                    {!isCustomer && (
-                        <>
+                        {/* ¿Cómo se hace el pedido? / ¿Cómo se hace la entrega? */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                             <div>
-                                <label className={labelClasses}>Plazo de Entrega (Días)</label>
-                                <input type="number" min="0" className={inputClasses} placeholder="Ej. 15" value={formData.plazo_entrega_dias} onChange={e => setFormData({ ...formData, plazo_entrega_dias: e.target.value })} />
+                                <label className={labelClasses}>
+                                    <span className="inline-flex items-center gap-1.5">
+                                        ¿Cómo se hace el pedido?
+                                    </span>
+                                </label>
+                                <CustomSelect
+                                    options={canalPedidoOptions}
+                                    value={formData.canal_pedido || ''}
+                                    onChange={e => setFormData({ ...formData, canal_pedido: e.target.value })}
+                                />
                             </div>
-                            <div className="md:col-span-2">
-                                <label className={labelClasses}>Condiciones de Compra (Notas)</label>
-                                <textarea rows="2" className={`${inputClasses} resize-none`} placeholder="Acuerdos, mínimos de compra, etc." value={formData.condiciones_compra} onChange={e => setFormData({ ...formData, condiciones_compra: e.target.value })} />
+                            <div>
+                                <label className={labelClasses}>
+                                    <span className="inline-flex items-center gap-1.5">
+                                        ¿Cómo se hace la entrega?
+                                    </span>
+                                </label>
+                                <CustomSelect
+                                    options={canalEntregaOptions}
+                                    value={formData.canal_entrega || ''}
+                                    onChange={e => setFormData({ ...formData, canal_entrega: e.target.value })}
+                                />
                             </div>
-                        </>
-                    )}
-                </div>
+                        </div>
+                    </div>
+                )}
 
-                <div className="flex justify-end gap-4 pt-6 border-t border-gray-100">
-                    <Button type="button" variant="secondary" onClick={onCancel} disabled={loading} className="px-6 bg-gray-100 text-gray-700 hover:bg-gray-200 font-bold border-none">
+                {!isCustomer && (
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div>
+                            <label className={labelClasses}>Plazo de Entrega (Días)</label>
+                            <input
+                                type="number"
+                                min="0"
+                                className={inputClasses}
+                                placeholder="Ej. 15"
+                                value={formData.plazo_entrega_dias}
+                                onChange={e => setFormData({ ...formData, plazo_entrega_dias: e.target.value })}
+                            />
+                        </div>
+                        <div>
+                            <label className={labelClasses}>Condiciones de Compra</label>
+                            <input
+                                type="text"
+                                className={inputClasses}
+                                placeholder="Acuerdos, mínimos, etc."
+                                value={formData.condiciones_compra}
+                                onChange={e => setFormData({ ...formData, condiciones_compra: e.target.value })}
+                            />
+                        </div>
+                    </div>
+                )}
+
+                {/* Botones */}
+                <div className="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={onCancel}
+                        disabled={loading}
+                        className="px-5 font-bold text-gray-600"
+                    >
                         Cancelar
                     </Button>
-                    <Button type="submit" variant="primary" disabled={loading} className="px-8 shadow-sm font-bold">
+                    <Button
+                        type="submit"
+                        variant="primary"
+                        disabled={loading}
+                        className="px-7 font-bold shadow-sm"
+                    >
                         {loading ? (
                             <span className="flex items-center gap-2">
-                                <div className="animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></div>
+                                <PhosphorIcons.Spinner size={16} className="animate-spin" />
                                 Guardando...
                             </span>
                         ) : (
                             <span className="flex items-center gap-2">
-                                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                                <PhosphorIcons.FloppyDisk size={16} weight="bold" />
                                 Guardar {title}
                             </span>
                         )}

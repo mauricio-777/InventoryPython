@@ -62,27 +62,27 @@ export const ProductFormPage = ({ onCancel, onSuccess }) => {
         }
     };
 
-    const inputClasses = "w-full bg-[var(--color-quinary)] border border-gray-200 text-[var(--color-tertiary)] rounded-2xl px-4 py-3 focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/10 focus:border-[var(--color-primary)] transition-all placeholder-gray-400 shadow-sm";
-    const labelClasses = "block text-sm font-bold text-gray-600 mb-2";
+    const inputClasses = "w-full bg-[var(--color-quaternary)]/50 border border-gray-200 text-[var(--color-tertiary)] rounded-2xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)] transition-all placeholder-gray-400";
+    const labelClasses = "block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider";
 
     return (
         <div className="bg-[var(--color-quinary)] shadow-[0_20px_40px_rgba(0,0,0,0.1)] border border-gray-100 rounded-3xl overflow-hidden w-full max-w-4xl mx-auto">
-            <div className="px-8 py-6 border-b border-gray-100 bg-white sticky top-0 z-20 flex justify-between items-center">
-                <h2 className="text-2xl font-bold text-[var(--color-tertiary)] flex items-center gap-3 tracking-tight">
+            <div className="px-6 py-4 border-b border-gray-100 bg-[var(--color-quinary)] flex justify-between items-center rounded-t-3xl">
+                <h2 className="text-xl font-bold text-[var(--color-tertiary)] flex items-center gap-3 tracking-tight">
                     <div className="p-2.5 bg-[var(--color-primary)]/10 rounded-xl shadow-sm border border-[var(--color-primary)]/20">
-                        <PhosphorIcons.Package size={24} weight="fill" className="text-[var(--color-primary)]" />
+                        <PhosphorIcons.Package size={20} weight="fill" className="text-[var(--color-primary)]" />
                     </div>
                     Registrar Producto
                 </h2>
-                <button type="button" onClick={onCancel} className="text-gray-400 hover:text-gray-600 transition-colors bg-gray-50 hover:bg-gray-100 p-2 rounded-full border border-gray-200">
-                    <PhosphorIcons.X size={20} weight="bold" />
+                <button type="button" onClick={onCancel} className="text-gray-400 hover:text-[var(--color-tertiary)] transition-colors bg-gray-100 hover:bg-gray-200 p-2 rounded-xl border border-gray-200">
+                    <PhosphorIcons.X size={18} weight="bold" />
                 </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-8 bg-gray-50/50 pb-28 sm:pb-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <form onSubmit={handleSubmit} className="p-5 bg-gray-50/30">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
                     {/* Columna Izquierda */}
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                         <div>
                             <label className={labelClasses}>SKU (Código Único)</label>
                             <input type="text" required placeholder="Ej. PRD-001" className={inputClasses} value={formData.sku} onChange={e => setFormData({ ...formData, sku: e.target.value })} />
@@ -95,12 +95,12 @@ export const ProductFormPage = ({ onCancel, onSuccess }) => {
 
                         <div>
                             <label className={labelClasses}>Descripción</label>
-                            <textarea rows="4" className={`${inputClasses} resize-none`} placeholder="Opcional..." value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
+                            <textarea rows="3" className={`${inputClasses} resize-none`} placeholder="Opcional..." value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} />
                         </div>
                     </div>
 
                     {/* Columna Derecha */}
-                    <div className="space-y-6">
+                    <div className="space-y-4">
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label className={labelClasses}>Categoría</label>
@@ -142,14 +142,18 @@ export const ProductFormPage = ({ onCancel, onSuccess }) => {
                             </div>
                         </div>
 
-                        <div className="p-5 bg-white border border-gray-200 rounded-2xl shadow-sm">
-                            <div className="flex items-center justify-between mb-2">
+                        <div className="p-5 bg-[var(--color-quaternary)]/40 border border-gray-200 rounded-2xl shadow-sm">
+                            <div className="flex items-center justify-between">
                                 <label className="text-sm font-bold text-gray-700 cursor-pointer select-none flex-1 flex items-center gap-2" htmlFor="perishable">
                                     ¿Es producto Perecedero?
                                 </label>
-                                <div className="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in" onClick={() => setFormData({ ...formData, is_perishable: !formData.is_perishable })}>
-                                    <input type="checkbox" id="perishable" className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer border-gray-200 bg-gray-300 top-0 left-0 checked:right-0 checked:border-[var(--color-primary)] checked:bg-[var(--color-primary)]" style={{ transform: formData.is_perishable ? 'translateX(100%)' : 'translateX(0)', transition: 'transform 0.2s', borderColor: formData.is_perishable ? 'var(--color-primary)' : '#e5e7eb', zIndex: 1 }} checked={formData.is_perishable} readOnly />
-                                    <div className="toggle-label block overflow-hidden h-6 rounded-full bg-gray-200 border border-gray-300 cursor-pointer"></div>
+                                <div
+                                    className="relative flex items-center cursor-pointer"
+                                    onClick={() => setFormData({ ...formData, is_perishable: !formData.is_perishable })}
+                                >
+                                    <input type="checkbox" id="perishable" className="sr-only" checked={formData.is_perishable} readOnly />
+                                    <div className={`block w-12 h-6 rounded-full transition-colors ${formData.is_perishable ? 'bg-[var(--color-primary)]' : 'bg-gray-300'}`} />
+                                    <div className={`dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform shadow-sm ${formData.is_perishable ? 'translate-x-6' : 'translate-x-0'}`} />
                                 </div>
                             </div>
 
@@ -180,11 +184,11 @@ export const ProductFormPage = ({ onCancel, onSuccess }) => {
                     </div>
                 )}
 
-                <div className="fixed sm:relative bottom-0 left-0 w-full sm:w-auto p-4 sm:p-0 bg-white border-t sm:border-0 border-gray-200 sm:bg-transparent flex flex-col-reverse sm:flex-row items-center justify-end gap-3 sm:mt-10 sm:pt-6 sm:border-t mt-0 pt-0">
-                    <Button type="button" variant="secondary" onClick={onCancel} className="w-full sm:w-auto shadow-sm px-6">
+                <div className="flex flex-row items-center justify-end gap-3 mt-8 pt-6 border-t border-gray-100">
+                    <Button type="button" variant="secondary" onClick={onCancel} className="shadow-sm px-6">
                         Cancelar
                     </Button>
-                    <Button type="submit" disabled={submitting} className="w-full sm:w-auto py-3 px-8 shadow-sm">
+                    <Button type="submit" disabled={submitting} className="py-3 px-8 shadow-sm">
                         {submitting ? (
                             <span className="flex items-center justify-center gap-2">
                                 <PhosphorIcons.Spinner size={20} className="animate-spin" />
@@ -199,10 +203,6 @@ export const ProductFormPage = ({ onCancel, onSuccess }) => {
                     </Button>
                 </div>
             </form>
-            <style>{`
-                .toggle-checkbox:checked { right: 0; border-color: var(--color-primary); }
-                .toggle-checkbox:checked + .toggle-label { background-color: var(--color-secondary); }
-            `}</style>
         </div>
     );
 };

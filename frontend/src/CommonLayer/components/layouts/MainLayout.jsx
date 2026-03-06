@@ -48,15 +48,15 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
             )}
 
             {/* Sidebar */}
-            <nav className={`fixed md:relative inset-y-0 left-0 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-72 bg-[var(--color-quinary)] md:bg-[var(--color-quinary)]/95 backdrop-blur-xl flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-30 transition-transform duration-300 ease-in-out h-full`}>
-                <div className="p-8 pb-4 hidden md:block">
-                    <h2 className="text-2xl font-bold text-[var(--color-tertiary)] tracking-tight">
+            <nav className={`fixed md:relative inset-y-0 left-0 transform ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-56 bg-[var(--color-quinary)] md:bg-[var(--color-quinary)]/95 backdrop-blur-xl flex flex-col shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-30 transition-transform duration-300 ease-in-out h-full shrink-0`}>
+                <div className="px-5 py-5 hidden md:block border-b border-gray-100">
+                    <h2 className="text-xl font-bold text-[var(--color-tertiary)] tracking-tight">
                         Inventory<span className="font-light text-[var(--color-primary)]">App</span>
                     </h2>
                 </div>
 
-                <div className="flex-1 px-4 py-4 md:py-6 overflow-y-auto custom-scrollbar mt-16 md:mt-0">
-                    <ul className="space-y-2">
+                <div className="flex-1 px-3 py-3 overflow-y-auto custom-scrollbar mt-16 md:mt-0">
+                    <ul className="space-y-1">
                         {filteredNavItems.map(item => {
                             const IconComponent = PhosphorIcons[item.icon] || PhosphorIcons.Circle;
                             const isActive = currentView === item.id;
@@ -64,18 +64,18 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
                             return (
                                 <li
                                     key={item.id}
-                                    className={`px-4 py-3 cursor-pointer transition-all duration-300 rounded-2xl flex items-center space-x-3 group ${isActive
-                                            ? 'bg-[var(--color-primary)] text-[var(--color-quinary)] shadow-md shadow-[var(--color-primary)]/20'
-                                            : 'text-gray-500 hover:bg-gray-50 hover:text-[var(--color-primary)]'
+                                    className={`px-3 py-2.5 cursor-pointer transition-all duration-300 rounded-xl flex items-center space-x-3 group ${isActive
+                                        ? 'bg-[var(--color-primary)] text-[var(--color-quinary)] shadow-md shadow-[var(--color-primary)]/20'
+                                        : 'text-gray-500 hover:bg-gray-50 hover:text-[var(--color-primary)]'
                                         }`}
                                     onClick={() => handleNav(item.id)}
                                 >
                                     <IconComponent
-                                        size={22}
+                                        size={20}
                                         weight={isActive ? "fill" : "regular"}
                                         className={`shrink-0 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}
                                     />
-                                    <span className="font-medium whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
+                                    <span className="font-medium text-sm whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
                                 </li>
                             );
                         })}
@@ -83,10 +83,10 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
                 </div>
 
                 {/* User Info Section */}
-                <div className="p-6 pt-4">
-                    <div className="bg-[var(--color-quaternary)]/50 rounded-3xl p-4 space-y-4 border border-gray-100">
+                <div className="p-4">
+                    <div className="bg-[var(--color-quaternary)]/50 rounded-2xl p-3 space-y-3 border border-gray-100">
                         <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-[var(--color-primary)] flex items-center justify-center shrink-0 shadow-sm text-[var(--color-quinary)] font-bold text-sm">
+                            <div className="w-8 h-8 rounded-full bg-[var(--color-primary)] flex items-center justify-center shrink-0 shadow-sm text-[var(--color-quinary)] font-bold text-xs">
                                 {userName?.[0]?.toUpperCase() || '?'}
                             </div>
                             <div className="flex-1 min-w-0">
@@ -100,9 +100,9 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
                         </div>
                         <button
                             onClick={handleLogoutClick}
-                            className="w-full px-4 py-2.5 text-sm font-medium bg-white hover:bg-gray-50 text-[var(--color-tertiary)] rounded-2xl border border-gray-200 transition-colors shadow-sm flex items-center justify-center gap-2 group"
+                            className="w-full px-3 py-2 text-xs font-medium bg-white hover:bg-gray-50 text-[var(--color-tertiary)] rounded-xl border border-gray-200 transition-colors shadow-sm flex items-center justify-center gap-2 group"
                         >
-                            <PhosphorIcons.SignOut size={18} weight="bold" className="text-gray-400 group-hover:text-red-500 transition-colors" />
+                            <PhosphorIcons.SignOut size={16} weight="bold" className="text-gray-400 group-hover:text-red-500 transition-colors" />
                             Cerrar sesión
                         </button>
                     </div>

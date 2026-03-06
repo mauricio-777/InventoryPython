@@ -34,7 +34,9 @@ def create_customer():
         direccion=data.get('direccion'),
         telefono=data.get('telefono'),
         email=data.get('email'),
-        condicion_pago=data.get('condicion_pago', 'CONTADO')
+        condicion_pago=data.get('condicion_pago', 'CONTADO'),
+        canal_pedido=data.get('canal_pedido'),
+        canal_entrega=data.get('canal_entrega')
     )
     
     try:
@@ -47,7 +49,9 @@ def create_customer():
             "direccion": customer.direccion,
             "telefono": customer.telefono,
             "email": customer.email,
-            "condicion_pago": customer.condicion_pago
+            "condicion_pago": customer.condicion_pago,
+            "canal_pedido": customer.canal_pedido,
+            "canal_entrega": customer.canal_entrega
         }), 201
     except IntegrityError:
         db.rollback()
@@ -76,7 +80,9 @@ def get_customers():
         "direccion": c.direccion,
         "telefono": c.telefono,
         "email": c.email,
-        "condicion_pago": c.condicion_pago
+        "condicion_pago": c.condicion_pago,
+        "canal_pedido": c.canal_pedido,
+        "canal_entrega": c.canal_entrega
     } for c in customers]
     
     return jsonify(result), 200
@@ -98,7 +104,9 @@ def get_customer(customer_id):
         "direccion": customer.direccion,
         "telefono": customer.telefono,
         "email": customer.email,
-        "condicion_pago": customer.condicion_pago
+        "condicion_pago": customer.condicion_pago,
+        "canal_pedido": customer.canal_pedido,
+        "canal_entrega": customer.canal_entrega
     }), 200
 
 @router.route('/<customer_id>', methods=['PUT', 'PATCH'])
@@ -128,6 +136,8 @@ def update_customer(customer_id):
     if 'telefono' in data: customer.telefono = data['telefono']
     if 'email' in data: customer.email = data['email']
     if 'condicion_pago' in data: customer.condicion_pago = data['condicion_pago']
+    if 'canal_pedido' in data: customer.canal_pedido = data['canal_pedido']
+    if 'canal_entrega' in data: customer.canal_entrega = data['canal_entrega']
     
     updated_customer = repo.update(customer)
     return jsonify({
@@ -138,7 +148,9 @@ def update_customer(customer_id):
         "direccion": updated_customer.direccion,
         "telefono": updated_customer.telefono,
         "email": updated_customer.email,
-        "condicion_pago": updated_customer.condicion_pago
+        "condicion_pago": updated_customer.condicion_pago,
+        "canal_pedido": updated_customer.canal_pedido,
+        "canal_entrega": updated_customer.canal_entrega
     }), 200
 
 @router.route('/<customer_id>', methods=['DELETE'])

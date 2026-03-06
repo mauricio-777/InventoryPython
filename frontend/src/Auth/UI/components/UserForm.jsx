@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
+import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
 
 const ROLE_LABELS = {
@@ -69,28 +70,37 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
     };
 
     const inputClass = (field) =>
-        `w-full bg-white text-[var(--color-tertiary)] rounded-2xl border ${errors[field] ? 'border-red-500' : 'border-gray-200'} px-4 py-3 focus:border-[var(--color-primary)] focus:ring-4 focus:ring-[var(--color-primary)]/10 outline-none transition-all shadow-sm font-medium`;
+        `w-full bg-[var(--color-quaternary)]/50 text-[var(--color-tertiary)] rounded-2xl border ${errors[field] ? 'border-red-500' : 'border-gray-200'} px-4 py-2.5 focus:border-[var(--color-primary)] focus:ring-2 focus:ring-[var(--color-primary)]/20 outline-none transition-all text-sm font-medium`;
 
-    const labelClass = "block text-sm font-bold text-gray-500 mb-2 uppercase tracking-wider text-xs";
+    const labelClass = "block text-xs font-bold text-gray-500 mb-1.5 uppercase tracking-wider";
 
     return (
-        <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-2xl p-8">
+        <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-2xl p-6">
             {/* Header */}
-            <div className="flex items-center gap-4 mb-8 pb-4 border-b border-gray-100">
-                <div className="p-3 bg-[var(--color-primary)]/10 rounded-2xl border border-[var(--color-primary)]/20 text-[var(--color-primary)] shadow-sm">
-                    {isEditing ? <PhosphorIcons.PencilSimple size={24} weight="fill" /> : <PhosphorIcons.UserPlus size={24} weight="fill" />}
+            <div className="flex items-center justify-between gap-3 mb-5 pb-4 border-b border-gray-100">
+                <div className="flex items-center gap-3">
+                    <div className="p-2.5 bg-[var(--color-primary)]/10 rounded-2xl border border-[var(--color-primary)]/20 text-[var(--color-primary)] shadow-sm">
+                        {isEditing ? <PhosphorIcons.PencilSimple size={20} weight="fill" /> : <PhosphorIcons.UserPlus size={20} weight="fill" />}
+                    </div>
+                    <div>
+                        <h2 className="text-xl font-bold text-[var(--color-tertiary)]">
+                            {isEditing ? 'Editar Usuario' : 'Nuevo Usuario'}
+                        </h2>
+                        <p className="text-gray-500 font-medium text-xs mt-0.5">
+                            {isEditing ? `Modificando: ${initialData?.username}` : 'Completa los datos del nuevo usuario.'}
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-2xl font-bold text-[var(--color-tertiary)]">
-                        {isEditing ? 'Editar Usuario' : 'Nuevo Usuario'}
-                    </h2>
-                    <p className="text-gray-500 font-medium text-sm mt-1">
-                        {isEditing ? `Modificando: ${initialData?.username}` : 'Completa los datos del nuevo usuario.'}
-                    </p>
-                </div>
+                <button
+                    type="button"
+                    onClick={onCancel}
+                    className="text-gray-400 hover:text-[var(--color-tertiary)] transition-colors bg-gray-100 hover:bg-gray-200 p-2 rounded-xl shrink-0"
+                >
+                    <PhosphorIcons.X size={18} weight="bold" />
+                </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4">
                 {/* Username */}
                 <div>
                     <label className={labelClass}>
@@ -141,19 +151,17 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
                 {/* Role */}
                 <div>
                     <label className={labelClass}>Rol</label>
-                    <select
-                        name="role_id"
+                    <CustomSelect
+                        options={roles.map(r => ({ value: String(r.id), label: ROLE_LABELS[r.name] || r.name }))}
                         value={form.role_id}
-                        onChange={handleChange}
-                        className={`${inputClass('role_id')} cursor-pointer appearance-none bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%239CA3AF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E')] bg-[length:12px_12px] bg-[right_1rem_center] bg-no-repeat pr-10`}
-                    >
-                        <option value="" className="text-gray-500 bg-white">Seleccionar rol...</option>
-                        {roles.map(r => (
-                            <option key={r.id} value={r.id} className="text-[var(--color-tertiary)] bg-white">
-                                {ROLE_LABELS[r.name] || r.name}
-                            </option>
-                        ))}
-                    </select>
+                        onChange={(e) => {
+                            setForm(prev => ({ ...prev, role_id: e.target.value }));
+                            setErrors(prev => ({ ...prev, role_id: undefined }));
+                        }}
+                        placeholder="Seleccionar rol..."
+                        required={true}
+                        className={errors.role_id ? 'ring-2 ring-red-400' : ''}
+                    />
                     {errors.role_id && <p className="text-red-500 text-xs font-bold mt-1.5 flex items-center gap-1"><PhosphorIcons.WarningCircle weight="fill" />{errors.role_id}</p>}
                 </div>
 

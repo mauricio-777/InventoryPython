@@ -48,7 +48,7 @@ export const Modal = ({
 
     return (
         <div
-            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[var(--color-tertiary)]/30 backdrop-blur-sm animate-fade-in"
+            className="fixed inset-0 z-50 flex items-center justify-center p-4 md:pl-56 bg-[var(--color-tertiary)]/30 backdrop-blur-sm animate-fade-in"
             onClick={(e) => { if (e.target === e.currentTarget) onClose?.(); }}
             role="dialog"
             aria-modal="true"

@@ -107,7 +107,7 @@ export const ProductListPage = () => {
 
             {/* Modal Overlay para ProductFormPage */}
             {isFormVisible && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:pl-56 animate-fade-in">
                     <div
                         className="absolute inset-0 bg-[var(--color-tertiary)]/30 backdrop-blur-sm"
                         onClick={() => setFormVisible(false)}

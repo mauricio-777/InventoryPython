@@ -3,14 +3,17 @@ import { useSupplierActions } from '../../Application/useStakeholderSearch.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { StakeholderForm } from '../components/StakeholderForm.jsx';
 import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
+import { useToast } from '../../../CommonLayer/context/ToastContext.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const SuppliersPage = () => {
     const { suppliers, fetchSuppliers, createSupplier, updateSupplier, deleteSupplier, loading, error } = useSupplierActions();
     const { hasRole } = useUserRole();
+    const { showToast } = useToast();
     const [isFormVisible, setFormVisible] = useState(false);
     const [editingSupplier, setEditingSupplier] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
     useEffect(() => {
         fetchSuppliers();
@@ -35,22 +38,28 @@ export const SuppliersPage = () => {
         try {
             if (editingSupplier) {
                 await updateSupplier(editingSupplier.id, data);
+                showToast('Proveedor actualizado exitosamente.', 'success');
             } else {
                 await createSupplier(data);
+                showToast('Proveedor creado exitosamente.', 'success');
             }
             handleCloseForm();
         } catch (err) {
-            alert(err.message);
+            showToast(err.message, 'error');
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm('¿Está seguro de eliminar este proveedor?')) {
-            try {
-                await deleteSupplier(id);
-            } catch (err) {
-                alert(err.message);
-            }
+    const handleDeleteRequest = (id) => setDeleteConfirmId(id);
+
+    const handleDeleteConfirm = async () => {
+        if (!deleteConfirmId) return;
+        try {
+            await deleteSupplier(deleteConfirmId);
+            showToast('Proveedor eliminado.', 'success');
+        } catch (err) {
+            showToast(err.message, 'error');
+        } finally {
+            setDeleteConfirmId(null);
         }
     };
 
@@ -162,7 +171,7 @@ export const SuppliersPage = () => {
                                                 <button onClick={() => handleOpenForm(s)} className="p-2 bg-[var(--color-quaternary)] hover:bg-[var(--color-primary)]/10 text-[var(--color-secondary)] hover:text-[var(--color-primary)] rounded-xl transition-colors border border-transparent hover:border-[var(--color-primary)]/20 shadow-sm">
                                                     <PhosphorIcons.PencilSimple size={16} weight="bold" />
                                                 </button>
-                                                <button onClick={() => handleDelete(s.id)} className="p-2 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 rounded-xl transition-colors border border-transparent hover:border-red-200 shadow-sm">
+                                                <button onClick={() => handleDeleteRequest(s.id)} className="p-2 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 rounded-xl transition-colors border border-transparent hover:border-red-200 shadow-sm">
                                                     <PhosphorIcons.Trash size={16} weight="bold" />
                                                 </button>
                                             </div>
@@ -182,9 +191,9 @@ export const SuppliersPage = () => {
             </div>
 
             {isFormVisible && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:pl-56 animate-fade-in">
                     <div className="absolute inset-0 bg-[var(--color-tertiary)]/30 backdrop-blur-sm" onClick={handleCloseForm}></div>
-                    <div className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl animate-slide-up shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+                    <div className="relative z-10 w-full max-w-2xl animate-slide-up shadow-[0_20px_40px_rgba(0,0,0,0.1)] rounded-3xl">
                         <StakeholderForm
                             type="supplier"
                             initialData={editingSupplier}
@@ -192,6 +201,34 @@ export const SuppliersPage = () => {
                             onCancel={handleCloseForm}
                             loading={loading}
                         />
+                    </div>
+                </div>
+            )}
+
+            {/* Confirm Delete Dialog */}
+            {deleteConfirmId && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:pl-56 animate-fade-in">
+                    <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setDeleteConfirmId(null)} />
+                    <div className="relative z-10 w-full max-w-sm bg-[var(--color-quinary)] border border-gray-100 rounded-2xl p-6 shadow-2xl animate-slide-up">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2.5 bg-red-50 rounded-xl border border-red-100 text-red-500">
+                                <PhosphorIcons.Trash size={20} weight="fill" />
+                            </div>
+                            <h3 className="text-base font-bold text-[var(--color-tertiary)]">Eliminar proveedor</h3>
+                        </div>
+                        <p className="text-gray-500 text-sm font-medium mb-6 leading-relaxed">
+                            ¿Estás seguro de eliminar este proveedor? Esta acción no se puede deshacer.
+                        </p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setDeleteConfirmId(null)}
+                                className="flex-1 px-4 py-2.5 text-sm font-medium bg-[var(--color-quaternary)] hover:bg-gray-100 text-[var(--color-tertiary)] rounded-xl border border-gray-200 transition-colors"
+                            >Cancelar</button>
+                            <button
+                                onClick={handleDeleteConfirm}
+                                className="flex-1 px-4 py-2.5 text-sm font-bold bg-red-500 hover:bg-red-600 text-white rounded-xl transition-colors shadow-sm"
+                            >Eliminar</button>
+                        </div>
                     </div>
                 </div>
             )}

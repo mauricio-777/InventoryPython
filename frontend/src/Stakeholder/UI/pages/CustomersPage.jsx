@@ -3,14 +3,17 @@ import { useCustomerActions } from '../../Application/useStakeholderSearch.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { StakeholderForm } from '../components/StakeholderForm.jsx';
 import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
+import { useToast } from '../../../CommonLayer/context/ToastContext.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const CustomersPage = () => {
     const { customers, fetchCustomers, createCustomer, updateCustomer, deleteCustomer, loading, error } = useCustomerActions();
     const { hasRole } = useUserRole();
+    const { showToast } = useToast();
     const [isFormVisible, setFormVisible] = useState(false);
     const [editingCustomer, setEditingCustomer] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const [deleteConfirmId, setDeleteConfirmId] = useState(null);
 
     useEffect(() => {
         fetchCustomers();
@@ -35,23 +38,28 @@ export const CustomersPage = () => {
         try {
             if (editingCustomer) {
                 await updateCustomer(editingCustomer.id, data);
+                showToast('Cliente actualizado exitosamente.', 'success');
             } else {
                 await createCustomer(data);
+                showToast('Cliente creado exitosamente.', 'success');
             }
             handleCloseForm();
         } catch (err) {
-            // Error managed by hook, could trigger local toast
-            alert(err.message);
+            showToast(err.message, 'error');
         }
     };
 
-    const handleDelete = async (id) => {
-        if (window.confirm('¿Está seguro de eliminar este cliente?')) {
-            try {
-                await deleteCustomer(id);
-            } catch (err) {
-                alert(err.message);
-            }
+    const handleDeleteRequest = (id) => setDeleteConfirmId(id);
+
+    const handleDeleteConfirm = async () => {
+        if (!deleteConfirmId) return;
+        try {
+            await deleteCustomer(deleteConfirmId);
+            showToast('Cliente eliminado.', 'success');
+        } catch (err) {
+            showToast(err.message, 'error');
+        } finally {
+            setDeleteConfirmId(null);
         }
     };
 
@@ -113,7 +121,9 @@ export const CustomersPage = () => {
                                 <th className="px-6 py-4">Nombre / Razón Social</th>
                                 <th className="px-6 py-4">Documento</th>
                                 <th className="px-6 py-4">Contacto</th>
-                                <th className="px-6 py-4">Condición Pago</th>
+                                <th className="px-6 py-4">Pago</th>
+                                <th className="px-6 py-4">Pedido</th>
+                                <th className="px-6 py-4">Entrega</th>
                                 {hasRole(['admin', 'gestor']) && <th className="px-6 py-4 text-right">Acciones</th>}
                             </tr>
                         </thead>
@@ -153,13 +163,34 @@ export const CustomersPage = () => {
                                             {c.condicion_pago}
                                         </span>
                                     </td>
+                                    <td className="px-6 py-4">
+                                        {c.canal_pedido ? (
+                                            <span className="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-blue-50 text-blue-600 border border-blue-100 whitespace-nowrap">
+                                                {c.canal_pedido === 'PRESENCIAL' && 'Presencial'}
+                                                {c.canal_pedido === 'WHATSAPP' && 'WhatsApp'}
+                                                {c.canal_pedido === 'TELEFONO' && 'Teléfono'}
+                                                {c.canal_pedido === 'ONLINE' && 'Online'}
+                                                {c.canal_pedido === 'OTRO' && 'Otro'}
+                                            </span>
+                                        ) : <span className="text-gray-300 text-xs">—</span>}
+                                    </td>
+                                    <td className="px-6 py-4">
+                                        {c.canal_entrega ? (
+                                            <span className="px-2.5 py-1 rounded-xl text-[10px] font-bold bg-violet-50 text-violet-600 border border-violet-100 whitespace-nowrap">
+                                                {c.canal_entrega === 'RECOGE_TIENDA' && 'Recoge'}
+                                                {c.canal_entrega === 'DELIVERY_DOMICILIO' && 'Delivery'}
+                                                {c.canal_entrega === 'COURIER' && 'Courier'}
+                                                {c.canal_entrega === 'OTRO' && 'Otro'}
+                                            </span>
+                                        ) : <span className="text-gray-300 text-xs">—</span>}
+                                    </td>
                                     {hasRole(['admin', 'gestor']) && (
                                         <td className="px-6 py-4 text-right">
                                             <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button onClick={() => handleOpenForm(c)} className="p-2 bg-[var(--color-quaternary)] hover:bg-[var(--color-primary)]/10 text-[var(--color-secondary)] hover:text-[var(--color-primary)] rounded-xl transition-colors border border-transparent hover:border-[var(--color-primary)]/20 shadow-sm">
                                                     <PhosphorIcons.PencilSimple size={16} weight="bold" />
                                                 </button>
-                                                <button onClick={() => handleDelete(c.id)} className="p-2 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 rounded-xl transition-colors border border-transparent hover:border-red-200 shadow-sm">
+                                                <button onClick={() => handleDeleteRequest(c.id)} className="p-2 bg-red-50 hover:bg-red-100 text-red-500 hover:text-red-600 rounded-xl transition-colors border border-transparent hover:border-red-200 shadow-sm">
                                                     <PhosphorIcons.Trash size={16} weight="bold" />
                                                 </button>
                                             </div>
@@ -179,9 +210,9 @@ export const CustomersPage = () => {
             </div>
 
             {isFormVisible && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 animate-fade-in">
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:pl-56 animate-fade-in">
                     <div className="absolute inset-0 bg-[var(--color-tertiary)]/30 backdrop-blur-sm" onClick={handleCloseForm}></div>
-                    <div className="relative z-10 w-full max-w-2xl max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl animate-slide-up shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+                    <div className="relative z-10 w-full max-w-2xl animate-slide-up shadow-[0_20px_40px_rgba(0,0,0,0.1)] rounded-3xl">
                         <StakeholderForm
                             type="customer"
                             initialData={editingCustomer}
@@ -189,6 +220,34 @@ export const CustomersPage = () => {
                             onCancel={handleCloseForm}
                             loading={loading}
                         />
+                    </div>
+                </div>
+            )}
+
+            {/* Confirm Delete Dialog */}
+            {deleteConfirmId && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:pl-56 animate-fade-in">
+                    <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setDeleteConfirmId(null)} />
+                    <div className="relative z-10 w-full max-w-sm bg-[var(--color-quinary)] border border-gray-100 rounded-2xl p-6 shadow-2xl animate-slide-up">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-2.5 bg-red-50 rounded-xl border border-red-100 text-red-500">
+                                <PhosphorIcons.Trash size={20} weight="fill" />
+                            </div>
+                            <h3 className="text-base font-bold text-[var(--color-tertiary)]">Eliminar cliente</h3>
+                        </div>
+                        <p className="text-gray-500 text-sm font-medium mb-6 leading-relaxed">
+                            ¿Estás seguro de eliminar este cliente? Esta acción no se puede deshacer.
+                        </p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={() => setDeleteConfirmId(null)}
+                                className="flex-1 px-4 py-2.5 text-sm font-medium bg-[var(--color-quaternary)] hover:bg-gray-100 text-[var(--color-tertiary)] rounded-xl border border-gray-200 transition-colors"
+                            >Cancelar</button>
+                            <button
+                                onClick={handleDeleteConfirm}
+                                className="flex-1 px-4 py-2.5 text-sm font-bold bg-red-500 hover:bg-red-600 text-white rounded-xl transition-colors shadow-sm"
+                            >Eliminar</button>
+                        </div>
                     </div>
                 </div>
             )}

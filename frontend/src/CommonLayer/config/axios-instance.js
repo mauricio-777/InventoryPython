@@ -16,13 +16,27 @@ function getDefaultHeaders() {
     };
 }
 
+/**
+ * Extrae el mensaje de error de una respuesta HTTP fallida.
+ * Si el body es JSON con propiedad 'message', lo usa. Si no, usa el texto crudo.
+ */
+async function extractErrorMessage(response) {
+    const text = await response.text();
+    try {
+        const json = JSON.parse(text);
+        return json.message || text;
+    } catch {
+        return text;
+    }
+}
+
 export const axiosInstance = {
     get: async (url) => {
         const res = await fetch(`${API_URL}${url}`, {
             method: 'GET',
             headers: getDefaultHeaders()
         });
-        if (!res.ok) throw new Error(await res.text());
+        if (!res.ok) throw new Error(await extractErrorMessage(res));
         return { data: await res.json() };
     },
     post: async (url, data) => {
@@ -31,7 +45,7 @@ export const axiosInstance = {
             headers: getDefaultHeaders(),
             body: JSON.stringify(data)
         });
-        if (!res.ok) throw new Error(await res.text());
+        if (!res.ok) throw new Error(await extractErrorMessage(res));
         return { data: await res.json() };
     },
     put: async (url, data) => {
@@ -40,7 +54,7 @@ export const axiosInstance = {
             headers: getDefaultHeaders(),
             body: JSON.stringify(data)
         });
-        if (!res.ok) throw new Error(await res.text());
+        if (!res.ok) throw new Error(await extractErrorMessage(res));
         return { data: await res.json() };
     },
     patch: async (url, data) => {
@@ -49,7 +63,7 @@ export const axiosInstance = {
             headers: getDefaultHeaders(),
             body: data ? JSON.stringify(data) : undefined
         });
-        if (!res.ok) throw new Error(await res.text());
+        if (!res.ok) throw new Error(await extractErrorMessage(res));
         return { data: await res.json() };
     },
     delete: async (url) => {
@@ -57,7 +71,7 @@ export const axiosInstance = {
             method: 'DELETE',
             headers: getDefaultHeaders()
         });
-        if (!res.ok) throw new Error(await res.text());
+        if (!res.ok) throw new Error(await extractErrorMessage(res));
         return { data: await res.json() };
     }
 };
