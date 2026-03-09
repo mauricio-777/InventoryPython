@@ -96,7 +96,7 @@ export const BatchDetailsPage = () => {
                                     {batches.map(b => (
                                         <tr key={b.id} className="hover:bg-blue-50/50 transition-colors duration-200">
                                             <td className="px-6 py-4 font-mono text-[var(--color-tertiary)] font-medium text-xs tracking-wider" title={b.id}>
-                                                {b.id.substring(0, 8)}...
+                                                {String(b.id).substring(0, 8)}...
                                             </td>
                                             <td className="px-6 py-4 text-gray-600 font-medium whitespace-nowrap">
                                                 <div className="flex items-center gap-1.5">

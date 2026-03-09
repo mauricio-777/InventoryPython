@@ -49,8 +49,8 @@ def create_product():
 @router.route('/', methods=['GET'])
 @require_role('admin', 'gestor', 'consultor')
 def get_products():
-    skip = int(request.args.get('skip', 0))
-    limit = int(request.args.get('limit', 100))
+    skip = request.args.get('skip', 0, type=int)
+    limit = request.args.get('limit', 100, type=int)
     
     db = next(get_db())
     repo = ProductRepository(db)

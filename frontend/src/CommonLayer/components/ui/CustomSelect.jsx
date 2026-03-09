@@ -47,7 +47,7 @@ export const CustomSelect = ({ options, value, onChange, placeholder = "Seleccio
             </div>
 
             {isOpen && (
-                <div className="absolute z-50 w-full mt-2 bg-[var(--color-quinary)] border border-gray-100 rounded-2xl shadow-lg overflow-hidden max-h-60 overflow-y-auto custom-scrollbar animate-fade-in">
+                <div className="absolute z-50 w-full mt-2 bg-[var(--color-quinary)] border border-gray-100 rounded-2xl shadow-lg overflow-hidden max-h-56 overflow-y-auto w-full max-w-[calc(100vw-2rem)] sm:max-w-none custom-scrollbar animate-fade-in break-words">
                     <ul className="py-1">
                         {(!required || !value) && (
                             <li
@@ -66,7 +66,7 @@ export const CustomSelect = ({ options, value, onChange, placeholder = "Seleccio
                                     }`}
                                 onClick={() => handleSelect(opt.value)}
                             >
-                                <span className="truncate">{opt.label}</span>
+                                <span className="flex-1 whitespace-normal break-words pr-2">{opt.label}</span>
                                 {value === opt.value && (
                                     <PhosphorIcons.CheckCircle weight="fill" className="w-5 h-5 shrink-0 text-[var(--color-primary)]" />
                                 )}

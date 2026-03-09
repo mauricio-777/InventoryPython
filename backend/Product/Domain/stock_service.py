@@ -107,3 +107,58 @@ class StockService:
         self.db.refresh(new_movement)
 
         return new_movement, total_cost
+
+    def reserve_batch_for_picking(self, batch_id: str, quantity: int, product_id: str = None) -> Batch:
+        """Called during the PICKING phase. Reserves stock from a specific physical batch or auto-assigns."""
+        if batch_id == 'DUMMY_BATCH_PARA_UI' and product_id:
+            # MVP: Auto-assign oldest batch with enough stock
+            batches = self.repo.get_batches_by_product(product_id, active_only=True)
+            batches.sort(key=lambda b: (b.expiration_date.replace(tzinfo=timezone.utc) if b.expiration_date else datetime.max.replace(tzinfo=timezone.utc), 
+                                        b.purchase_date.replace(tzinfo=timezone.utc) if b.purchase_date else datetime.max.replace(tzinfo=timezone.utc)))
+            
+            # Find the first batch with sufficient quantity
+            batch = next((b for b in batches if b.available_quantity >= quantity), None)
+            if not batch:
+                raise HTTPException(status_code=400, detail="No single physical batch has enough stock to fulfill this item. (Advanced batch splitting is pending).")
+        else:
+            batch = self.db.query(Batch).filter(Batch.id == batch_id).first()
+            if not batch:
+                raise HTTPException(status_code=404, detail="Batch not found")
+        
+        if batch.available_quantity < quantity:
+            raise HTTPException(status_code=400, detail=f"Insufficient stock in batch {batch_id}")
+            
+        batch.available_quantity -= quantity
+        self.db.commit()
+        self.db.refresh(batch)
+        return batch
+
+    def dispatch_order(self, order) -> List[Movement]:
+        """Called when order moves to EN_ROUTE/DELIVERED. Generates the final EXIT movements."""
+        movements = []
+        for item in order.items:
+            # We only generate movements for items that were actually picked and assigned a batch
+            if item.quantity_picked > 0 and item.batch_id:
+                batch = self.db.query(Batch).filter(Batch.id == item.batch_id).first()
+                if not batch:
+                    continue
+                
+                mov_id = str(uuid.uuid4())
+                new_movement = Movement(
+                    id=mov_id,
+                    product_id=item.product_id,
+                    customer_id=order.customer_id,
+                    type=MovementType.EXIT,
+                    quantity=item.quantity_picked,
+                    unit_price=item.unit_price,
+                    total_price=item.unit_price * item.quantity_picked,
+                    total_cost=batch.unit_cost * item.quantity_picked,
+                    reference_id=order.id, # Link movement directly to the Order
+                    notes=f"Order {order.id} Dispatch (Picked from Location {batch.location_id})"
+                )
+                self.db.add(new_movement)
+                movements.append(new_movement)
+        
+        self.db.commit()
+        return movements
+

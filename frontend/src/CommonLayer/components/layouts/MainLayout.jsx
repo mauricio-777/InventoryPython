@@ -26,6 +26,14 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
         return item.roles.includes(userRole);
     });
 
+    // Agrupar items por categoría
+    const groupedNavItems = filteredNavItems.reduce((acc, item) => {
+        const cat = item.category || 'General';
+        if (!acc[cat]) acc[cat] = [];
+        acc[cat].push(item);
+        return acc;
+    }, {});
+
     return (
         <div className="flex h-screen bg-[var(--color-quaternary)] overflow-hidden text-[var(--color-tertiary)] font-sans relative">
 
@@ -56,30 +64,39 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
                 </div>
 
                 <div className="flex-1 px-3 py-3 overflow-y-auto custom-scrollbar mt-16 md:mt-0">
-                    <ul className="space-y-1">
-                        {filteredNavItems.map(item => {
-                            const IconComponent = PhosphorIcons[item.icon] || PhosphorIcons.Circle;
-                            const isActive = currentView === item.id;
+                    <div className="space-y-6">
+                        {Object.entries(groupedNavItems).map(([category, items]) => (
+                            <div key={category}>
+                                <h3 className="px-3 text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">
+                                    {category}
+                                </h3>
+                                <ul className="space-y-1">
+                                    {items.map(item => {
+                                        const IconComponent = PhosphorIcons[item.icon] || PhosphorIcons.Circle;
+                                        const isActive = currentView === item.id;
 
-                            return (
-                                <li
-                                    key={item.id}
-                                    className={`px-3 py-2.5 cursor-pointer transition-all duration-300 rounded-xl flex items-center space-x-3 group ${isActive
-                                        ? 'bg-[var(--color-primary)] text-[var(--color-quinary)] shadow-md shadow-[var(--color-primary)]/20'
-                                        : 'text-gray-500 hover:bg-gray-50 hover:text-[var(--color-primary)]'
-                                        }`}
-                                    onClick={() => handleNav(item.id)}
-                                >
-                                    <IconComponent
-                                        size={20}
-                                        weight={isActive ? "fill" : "regular"}
-                                        className={`shrink-0 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}
-                                    />
-                                    <span className="font-medium text-sm whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
-                                </li>
-                            );
-                        })}
-                    </ul>
+                                        return (
+                                            <li
+                                                key={item.id}
+                                                className={`px-3 py-2.5 cursor-pointer transition-all duration-300 rounded-xl flex items-center space-x-3 group ${isActive
+                                                    ? 'bg-[var(--color-primary)] text-[var(--color-quinary)] shadow-md shadow-[var(--color-primary)]/20'
+                                                    : 'text-gray-500 hover:bg-gray-50 hover:text-[var(--color-primary)]'
+                                                    }`}
+                                                onClick={() => handleNav(item.id)}
+                                            >
+                                                <IconComponent
+                                                    size={20}
+                                                    weight={isActive ? "fill" : "regular"}
+                                                    className={`shrink-0 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}
+                                                />
+                                                <span className="font-medium text-sm whitespace-nowrap overflow-hidden text-ellipsis">{item.name}</span>
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 {/* User Info Section */}
@@ -95,6 +112,8 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
                                     {userRole === 'admin' && 'Administrador'}
                                     {userRole === 'gestor' && 'Gestor'}
                                     {userRole === 'consultor' && 'Consultor'}
+                                    {userRole === 'picker' && 'Almacenero'}
+                                    {userRole === 'driver' && 'Repartidor'}
                                 </p>
                             </div>
                         </div>

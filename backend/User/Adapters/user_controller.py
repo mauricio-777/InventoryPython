@@ -26,8 +26,8 @@ def list_users():
     try:
         db = next(get_db())
         service = _get_service(db)
-        skip = int(request.args.get('skip', 0))
-        limit = int(request.args.get('limit', 100))
+        skip = request.args.get('skip', 0, type=int)
+        limit = request.args.get('limit', 100, type=int)
         users = service.list_users(skip=skip, limit=limit)
         return jsonify({
             "status": "success",

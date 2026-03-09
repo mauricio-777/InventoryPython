@@ -60,8 +60,8 @@ def create_customer():
 @router.route('/', methods=['GET'])
 @require_role('admin', 'gestor', 'consultor')
 def get_customers():
-    skip = int(request.args.get('skip', 0))
-    limit = int(request.args.get('limit', 100))
+    skip = request.args.get('skip', 0, type=int)
+    limit = request.args.get('limit', 100, type=int)
     search_query = request.args.get('q', '')
     
     db = next(get_db())

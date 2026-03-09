@@ -8,11 +8,11 @@ function getUserRole() {
     return 'consultor';
 }
 
-// Headers por defecto con autenticación
 function getDefaultHeaders() {
     return {
         'Content-Type': 'application/json',
-        'X-User-Role': getUserRole()
+        'X-User-Role': getUserRole(),
+        'X-User-Id': typeof window !== 'undefined' ? localStorage.getItem('userName') || 'system' : 'system'
     };
 }
 

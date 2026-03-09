@@ -11,9 +11,13 @@ from Stakeholder.Domain.customer import Customer
 from Stakeholder.Domain.supplier import Supplier
 # Otros modelos necesarios para la DB
 from Product.Domain.batch import Batch
-from Product.Domain.movement import Movement
+from Product.Domain.movement import Movement, MovementType
 from Product.Domain.price_history import PriceHistory
 from Audit.Domain.audit_log import AuditLog
+from Warehouse.Domain.location import Location
+from Order.Domain.order import Order, OrderStatus
+from Order.Domain.order_item import OrderItem
+from datetime import datetime, timedelta
 
 # 1. Eliminar la base de datos anterior
 DB_PATH = "./inventory.db"
@@ -35,7 +39,9 @@ try:
     role_admin = Role(name="admin", description="Administrador del sistema")
     role_gestor = Role(name="gestor", description="Gestor operativo de inventario")
     role_consultor = Role(name="consultor", description="Consultor de solo lectura")
-    db.add_all([role_admin, role_gestor, role_consultor])
+    role_picker = Role(name="picker", description="Almacenero - Recolección de Pedidos")
+    role_driver = Role(name="driver", description="Repartidor - Despacho y Entregas")
+    db.add_all([role_admin, role_gestor, role_consultor, role_picker, role_driver])
     db.commit()
 
     print("Insertando usuarios...")
@@ -63,7 +69,23 @@ try:
         active=True,
         role_id=role_consultor.id
     )
-    db.add_all([user_admin, user_gestor, user_consultor])
+    user_picker = User(
+        id=str(uuid.uuid4()),
+        username="almacenero",
+        email="almacen@empresa.com",
+        password_hash=generate_password_hash("almacen123"),
+        active=True,
+        role_id=role_picker.id
+    )
+    user_driver = User(
+        id=str(uuid.uuid4()),
+        username="repartidor",
+        email="reparto@empresa.com",
+        password_hash=generate_password_hash("repartidor123"),
+        active=True,
+        role_id=role_driver.id
+    )
+    db.add_all([user_admin, user_gestor, user_consultor, user_picker, user_driver])
     db.commit()
 
     print("Insertando productos (5 perecederos, 5 no perecederos)...")
@@ -82,6 +104,17 @@ try:
         Product(id=str(uuid.uuid4()), sku="CAR-VAC-1KG", name="Carne de Primera Vacuno", category="Carnes", unit_measure="KILO", unit_value=1.0, is_perishable=True, suggested_price=45.0),
     ]
     db.add_all(productos)
+    db.commit()
+
+    print("Insertando ubicaciones de almacén (Zoning)...")
+    ubicaciones = [
+        Location(id=str(uuid.uuid4()), zone="A-Secos", aisle="01", rack="A", level="01"),
+        Location(id=str(uuid.uuid4()), zone="A-Secos", aisle="01", rack="A", level="02"),
+        Location(id=str(uuid.uuid4()), zone="A-Secos", aisle="02", rack="B", level="01"),
+        Location(id=str(uuid.uuid4()), zone="B-Refri", aisle="01", rack="A", level="01"),
+        Location(id=str(uuid.uuid4()), zone="B-Refri", aisle="01", rack="A", level="02"),
+    ]
+    db.add_all(ubicaciones)
     db.commit()
 
     print("Insertando clientes (10)...")
@@ -116,6 +149,50 @@ try:
     db.add_all(proveedores)
     db.commit()
 
+    print("Generando stock inicial (Lotes asignados a Ubicaciones)...")
+    lotes_iniciales = []
+    movimientos_iniciales = []
+    now = datetime.utcnow()
+
+    # Distribuir algunos lotes para los productos
+    for i, prod in enumerate(productos):
+        # Elegir una ubicacion al azar (o por logica: perecederos a Refri)
+        ubicacion_asignada = ubicaciones[3] if prod.is_perishable else ubicaciones[0]
+        if i % 2 == 0:
+             ubicacion_asignada = ubicaciones[4] if prod.is_perishable else ubicaciones[1]
+
+        lote = Batch(
+            id=str(uuid.uuid4()),
+            product_id=prod.id,
+            initial_quantity=100,
+            available_quantity=100,
+            unit_cost=prod.suggested_price * 0.6, # Costo 60% del precio de venta
+            purchase_date=now - timedelta(days=10),
+            expiration_date=(now + timedelta(days=30)) if prod.is_perishable else None,
+            supplier_id=proveedores[i % len(proveedores)].id,
+            location_id=ubicacion_asignada.id,
+            entry_transaction_ref=f"COMPRA-INICIAL-{i}"
+        )
+        lotes_iniciales.append(lote)
+
+        # Crear tambien el movimiento de entrada para cuadrar caja/inventario
+        mov_entrada = Movement(
+            id=str(uuid.uuid4()),
+            product_id=prod.id,
+            supplier_id=lote.supplier_id,
+            type=MovementType.ENTRY,
+            quantity=100,
+            unit_price=lote.unit_cost,
+            total_price=100 * lote.unit_cost,
+            reference_id=lote.id,
+            notes="Carga de inventario inicial (Seed)"
+        )
+        movimientos_iniciales.append(mov_entrada)
+
+    db.add_all(lotes_iniciales)
+    db.add_all(movimientos_iniciales)
+    db.commit()
+
     print("\n===============================")
     print("¡Base de datos sembrada con éxito!")
     print("===============================")
@@ -129,8 +206,15 @@ try:
     print(" - Consultor:")
     print("   Usuario: consultor")
     print("   Constraseña: consultor123")
+    print(" - Almacenero (Picker):")
+    print("   Usuario: almacenero")
+    print("   Constraseña: almacen123")
+    print(" - Repartidor (Driver):")
+    print("   Usuario: repartidor")
+    print("   Constraseña: repartidor123")
     print("\nRegistros generados:")
-    print(f" - {len(productos)} productos (5 perecederos, 5 no perecederos)")
+    print(f" - {len(productos)} productos (con 1 lote inicial por producto)")
+    print(f" - {len(ubicaciones)} ubicaciones físicas de almacén")
     print(f" - {len(clientes)} clientes")
     print(f" - {len(proveedores)} proveedores")
 

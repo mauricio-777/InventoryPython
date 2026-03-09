@@ -41,11 +41,6 @@ export const useUserManager = () => {
         try {
             const data = await userApi.createUser(userData);
             await fetchUsers();
-            // Si se crea el usuario actual, actualizar el contexto
-            if (data.user) {
-                setUserName(data.user.username);
-                setUserRole(data.user.role_name);
-            }
             return data;
         } catch (err) {
             const msg = 'Error al crear usuario: ' + err.message;

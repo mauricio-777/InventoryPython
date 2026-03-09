@@ -15,5 +15,7 @@ class Batch(Base, AuditableEntity):
     expiration_date = Column(DateTime, nullable=True)
     supplier_id = Column(String(50), nullable=True)
     entry_transaction_ref = Column(String(100), nullable=True)
+    location_id = Column(String(50), ForeignKey("locations.id"), nullable=True)
 
     product = relationship("Product", back_populates="batches")
+    location = relationship("Location", back_populates="batches")

@@ -9,7 +9,6 @@ import { useUserRole } from './CommonLayer/hooks/useUserRole.js';
 import { NAV_ITEMS } from './Router/routes.js';
 import { ProductListPage } from './Product/UI/pages/ProductListPage.jsx';
 import { PurchaseEntryPage } from './Product/UI/pages/PurchaseEntryPage.jsx';
-import { PointOfSalePage } from './Product/UI/pages/PointOfSalePage.jsx';
 import { BatchDetailsPage } from './Product/UI/pages/BatchDetailsPage.jsx';
 import { MovementHistoryPage } from './Audit/UI/pages/MovementHistoryPage.jsx';
 import { AuditHistoryPage } from './Audit/UI/pages/AuditHistoryPage.jsx';
@@ -20,6 +19,10 @@ import { RotationReportPage } from './Report/UI/pages/RotationReportPage.jsx';
 import { CustomersPage } from './Stakeholder/UI/pages/CustomersPage.jsx';
 import { SuppliersPage } from './Stakeholder/UI/pages/SuppliersPage.jsx';
 import { UsersPage } from './Auth/UI/pages/UsersPage.jsx';
+import { LocationsPage } from './Warehouse/UI/pages/LocationsPage.jsx';
+import { OrdersPage } from './Order/UI/pages/OrdersPage.jsx';
+import { PickingPage } from './Order/UI/pages/PickingPage.jsx';
+import { DispatchPage } from './Order/UI/pages/DispatchPage.jsx';
 
 /** Devuelve el primer módulo accesible para un rol dado. */
 function getDefaultView(role) {
@@ -94,12 +97,27 @@ function App() {
           <PurchaseEntryPage />
         </RoleGuard>
       )}
-      {currentView === 'pos' && (
+      {currentView === 'orders' && (
         <RoleGuard allowedRoles={['admin', 'gestor']}>
-          <PointOfSalePage />
+          <OrdersPage />
+        </RoleGuard>
+      )}
+      {currentView === 'picking' && (
+        <RoleGuard allowedRoles={['admin', 'gestor', 'picker']}>
+          <PickingPage />
+        </RoleGuard>
+      )}
+      {currentView === 'dispatch' && (
+        <RoleGuard allowedRoles={['admin', 'gestor', 'driver']}>
+          <DispatchPage />
         </RoleGuard>
       )}
       {currentView === 'batches' && <BatchDetailsPage />}
+      {currentView === 'locations' && (
+        <RoleGuard allowedRoles={['admin', 'gestor']}>
+          <LocationsPage />
+        </RoleGuard>
+      )}
       {currentView === 'customers' && <CustomersPage />}
       {currentView === 'suppliers' && <SuppliersPage />}
       {currentView === 'users' && (

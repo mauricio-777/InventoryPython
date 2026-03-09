@@ -7,12 +7,16 @@ const ROLE_LABELS = {
     admin: 'Administrador',
     gestor: 'Gestor de Inventario',
     consultor: 'Consultor',
+    picker: 'Almacén (Picker)',
+    driver: 'Logística (Repartidor)'
 };
 
 const ROLE_COLORS = {
     admin: 'from-purple-50 to-purple-100 border-purple-200 text-purple-700',
     gestor: 'from-emerald-50 to-emerald-100 border-emerald-200 text-emerald-700',
     consultor: 'from-blue-50 to-blue-100 border-blue-200 text-blue-700',
+    picker: 'from-orange-50 to-orange-100 border-orange-200 text-orange-700',
+    driver: 'from-cyan-50 to-cyan-100 border-cyan-200 text-cyan-700',
 };
 
 /**
@@ -152,14 +156,19 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
                 <div>
                     <label className={labelClass}>Rol</label>
                     <CustomSelect
-                        options={roles.map(r => ({ value: String(r.id), label: ROLE_LABELS[r.name] || r.name }))}
                         value={form.role_id}
-                        onChange={(e) => {
-                            setForm(prev => ({ ...prev, role_id: e.target.value }));
+                        onChange={(val) => {
+                            setForm(prev => ({ ...prev, role_id: val }));
                             setErrors(prev => ({ ...prev, role_id: undefined }));
                         }}
-                        placeholder="Seleccionar rol..."
-                        required={true}
+                        options={[
+                            { value: "1", label: "Administrador" },
+                            { value: "2", label: "Gestor de Inventario" },
+                            { value: "3", label: "Consultor" },
+                            { value: "4", label: "Almacenero" },
+                            { value: "5", label: "Repartidor" }
+                        ]}
+                        placeholder="Selecciona un rol..."
                         className={errors.role_id ? 'ring-2 ring-red-400' : ''}
                     />
                     {errors.role_id && <p className="text-red-500 text-xs font-bold mt-1.5 flex items-center gap-1"><PhosphorIcons.WarningCircle weight="fill" />{errors.role_id}</p>}

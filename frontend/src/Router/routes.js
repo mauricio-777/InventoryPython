@@ -14,8 +14,11 @@ export const ROUTES = {
     // Products & inventory
     PRODUCTS: 'products',
     PURCHASES: 'purchases',
-    POS: 'pos',
     BATCHES: 'batches',
+    LOCATIONS: 'locations',
+    ORDERS: 'orders',
+    PICKING: 'picking',
+    DISPATCH: 'dispatch',
 
     // Stakeholders
     CUSTOMERS: 'customers',
@@ -49,80 +52,120 @@ export const ROUTES = {
  * These match the backend @require_role decorators in each controller.
  */
 export const NAV_ITEMS = [
+    // --- DASHBOARD ---
+    {
+        id: ROUTES.DASHBOARD,
+        category: 'General',
+        name: 'Dashboard',
+        icon: 'ChartBar',
+        roles: ['admin', 'gestor', 'consultor'],
+    },
+    // --- INVENTARIO ---
     {
         id: ROUTES.PRODUCTS,
-        name: 'Catálogo',
+        category: 'Inventario',
+        name: 'Catálogo Productos',
         icon: 'Package',
-        roles: ['admin', 'gestor', 'consultor'],  // GET: todos | POST/PUT/DELETE: admin, gestor
+        roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.PURCHASES,
+        category: 'Inventario',
         name: 'Comprar Lote',
         icon: 'ShoppingCart',
         roles: ['admin', 'gestor'],
     },
     {
-        id: ROUTES.POS,
-        name: 'Punto de Venta',
-        icon: 'Monitor',
-        roles: ['admin', 'gestor'],
-    },
-    {
         id: ROUTES.BATCHES,
+        category: 'Inventario',
         name: 'Stock Activo',
         icon: 'Archive',
         roles: ['admin', 'gestor', 'consultor'],
     },
     {
+        id: ROUTES.LOCATIONS,
+        category: 'Inventario',
+        name: 'Mapa Almacén',
+        icon: 'MapPinLine',
+        roles: ['admin', 'gestor'],
+    },
+    // --- LOGÍSTICA / PEDIDOS ---
+    {
+        id: ROUTES.ORDERS,
+        category: 'Logística',
+        name: 'Gestión Pedidos',
+        icon: 'Receipt',
+        roles: ['admin', 'gestor'],
+    },
+    {
+        id: ROUTES.PICKING,
+        category: 'Logística',
+        name: 'Panel Recolección',
+        icon: 'HandGrabbing',
+        roles: ['admin', 'gestor', 'picker'],
+    },
+    {
+        id: ROUTES.DISPATCH,
+        category: 'Logística',
+        name: 'Panel Repartidor',
+        icon: 'Truck',
+        roles: ['admin', 'gestor', 'driver'],
+    },
+    // --- CONTACTOS ---
+    {
         id: ROUTES.CUSTOMERS,
+        category: 'Contactos',
         name: 'Clientes',
         icon: 'Users',
         roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.SUPPLIERS,
+        category: 'Contactos',
         name: 'Proveedores',
         icon: 'Truck',
         roles: ['admin', 'gestor', 'consultor'],
     },
-    {
-        id: ROUTES.USERS,
-        name: 'Usuarios',
-        icon: 'UsersThree',
-        roles: ['admin'],
-    },
-    {
-        id: ROUTES.DASHBOARD,
-        name: 'Dashboard',
-        icon: 'ChartBar',
-        roles: ['admin', 'gestor', 'consultor'],
-    },
+    // --- REPORTES ---
     {
         id: ROUTES.REPORTS_VALUATION,
+        category: 'Reportes',
         name: 'Reporte Valorización',
         icon: 'ChartLineUp',
         roles: ['admin', 'gestor', 'consultor'],
     },
     {
         id: ROUTES.REPORTS_ROTATION,
+        category: 'Reportes',
         name: 'Reporte Rotación',
         icon: 'ArrowClockwise',
         roles: ['admin', 'gestor', 'consultor'],
     },
+    // --- SISTEMA Y AUDITORÍA ---
+    {
+        id: ROUTES.USERS,
+        category: 'Auditoría y Sistema',
+        name: 'Usuarios',
+        icon: 'UsersThree',
+        roles: ['admin'],
+    },
     {
         id: ROUTES.AUDIT,
+        category: 'Auditoría y Sistema',
         name: 'Audit. Movimientos',
         icon: 'ListDashes',
         roles: ['admin'],
     },
     {
         id: ROUTES.AUDIT_HISTORY,
+        category: 'Auditoría y Sistema',
         name: 'Historial Filtrado',
         icon: 'ClockCounterClockwise',
         roles: ['admin'],
     },
     {
         id: ROUTES.AUDIT_LOGS,
+        category: 'Auditoría y Sistema',
         name: 'Pista Auditoría',
         icon: 'Files',
         roles: ['admin'],

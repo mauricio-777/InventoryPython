@@ -11,6 +11,7 @@ from Stakeholder.Adapters.supplier_controller import router as supplier_router
 from Stakeholder.Adapters.stakeholder_controller import router as stakeholder_router
 from Report.Adapters.report_controller import router as report_router
 from Audit.Adapters.audit_controller import router as audit_router
+from Warehouse.Adapters.location_controller import router as location_router
 from Audit.Domain.audit_log import AuditLog
 from User.Domain.role import Role
 from User.Domain.user import User
@@ -20,6 +21,7 @@ from Auth.Adapters.auth_controller import router as auth_router
 from CommonLayer.middleware.exception_handler import register_exception_handlers
 from CommonLayer.middleware.logging_middleware import register_logging_middleware
 from CommonLayer.logging.logger import get_logger
+from Order.Adapters.order_controller import router as order_router
 
 logger = get_logger(__name__)
 
@@ -50,6 +52,8 @@ app.register_blueprint(report_router)
 app.register_blueprint(audit_router)
 app.register_blueprint(user_router)
 app.register_blueprint(auth_router)
+app.register_blueprint(location_router)
+app.register_blueprint(order_router)
 
 # ── Seed: roles y usuario admin inicial ──────────────────────────────────────
 with app.app_context():

@@ -26,6 +26,13 @@ class AuditableEntity:
     )
     updated_by = Column(String(50), nullable=True)
 
+    def set_audit_create(self, username: str):
+        self.created_by = username
+        self.updated_by = username
+
+    def set_audit_update(self, username: str):
+        self.updated_by = username
+
     def to_audit_dict(self) -> dict:
         """
         Return a dictionary with the audit metadata of this entity.
