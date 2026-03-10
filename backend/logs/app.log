@@ -5048,3 +5048,109 @@ FROM customers
 2026-03-09 23:13:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 1.1ms | ip=127.0.0.1
 2026-03-09 23:22:09 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
 2026-03-09 23:22:13 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-09 23:30:21 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-09 23:30:24 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-09 23:32:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-09 23:32:11 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'admin'.
+2026-03-09 23:32:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 259.2ms | ip=127.0.0.1
+2026-03-09 23:32:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 1.1ms | ip=127.0.0.1
+2026-03-09 23:32:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:32:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 66.3ms | ip=127.0.0.1
+2026-03-09 23:32:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 32.9ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.5ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 8.1ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 5.1ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 20.8ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 2.5ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 8.6ms | ip=127.0.0.1
+2026-03-09 23:32:29 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 3.3ms | ip=127.0.0.1
+2026-03-09 23:34:25 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:34:25 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/users/ | user=anonymous | status=400 | 1.1ms | ip=127.0.0.1
+2026-03-09 23:34:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:34:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/users/ | user=anonymous | status=400 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:35:39 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/fdc1f84f-99ee-4cf3-a483-69afb969a2cd | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-09 23:35:40 | INFO     | inventory.CommonLayer.middleware.logging_middleware | PUT /api/v1/users/fdc1f84f-99ee-4cf3-a483-69afb969a2cd | user=anonymous | status=200 | 350.2ms | ip=127.0.0.1
+2026-03-09 23:35:40 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:35:40 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 1.6ms | ip=127.0.0.1
+2026-03-09 23:36:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:36:10 | WARNING  | inventory.Auth.Domain.auth_service | Intento de login fallido: contrasena incorrecta para 'gestor'.
+2026-03-09 23:36:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=401 | 263.5ms | ip=127.0.0.1
+2026-03-09 23:36:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:36:42 | WARNING  | inventory.Auth.Domain.auth_service | Intento de login fallido: contrasena incorrecta para 'gestor'.
+2026-03-09 23:36:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=401 | 241.7ms | ip=127.0.0.1
+2026-03-09 23:36:46 | WARNING  | inventory.Auth.Domain.auth_service | Intento de login fallido: contrasena incorrecta para 'gestor'.
+2026-03-09 23:36:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=401 | 277.7ms | ip=127.0.0.1
+2026-03-09 23:36:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:36:51 | WARNING  | inventory.Auth.Domain.auth_service | Intento de login fallido: contrasena incorrecta para 'gestor'.
+2026-03-09 23:36:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=401 | 234.4ms | ip=127.0.0.1
+2026-03-09 23:36:55 | WARNING  | inventory.Auth.Domain.auth_service | Intento de login fallido: contrasena incorrecta para 'gestor'.
+2026-03-09 23:36:55 | WARNING  | inventory.Auth.Domain.auth_service | Usuario 'gestor' bloqueado tras 5 intentos fallidos.
+2026-03-09 23:36:55 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=401 | 361.6ms | ip=127.0.0.1
+2026-03-09 23:37:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:10 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'admin'.
+2026-03-09 23:37:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 377.8ms | ip=127.0.0.1
+2026-03-09 23:37:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 18.8ms | ip=127.0.0.1
+2026-03-09 23:37:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.5ms | ip=127.0.0.1
+2026-03-09 23:37:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:37:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 6.6ms | ip=127.0.0.1
+2026-03-09 23:37:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 4.4ms | ip=127.0.0.1
+2026-03-09 23:37:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 3.5ms | ip=127.0.0.1
+2026-03-09 23:37:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 3.1ms | ip=127.0.0.1
+2026-03-09 23:37:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 3.5ms | ip=127.0.0.1
+2026-03-09 23:37:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 3.9ms | ip=127.0.0.1
+2026-03-09 23:37:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/fdc1f84f-99ee-4cf3-a483-69afb969a2cd/unlock | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-09 23:38:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | PATCH /api/v1/users/fdc1f84f-99ee-4cf3-a483-69afb969a2cd/unlock | user=anonymous | status=200 | 16.9ms | ip=127.0.0.1
+2026-03-09 23:38:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-09 23:38:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-09 23:39:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:39:18 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'admin'.
+2026-03-09 23:39:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 307.0ms | ip=127.0.0.1
+2026-03-09 23:39:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:39:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.5ms | ip=127.0.0.1
+2026-03-09 23:39:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 5.1ms | ip=127.0.0.1
+2026-03-09 23:39:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 3.4ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 1.8ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 4.6ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 4.0ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 12.2ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 3.3ms | ip=127.0.0.1
+2026-03-09 23:39:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 2.3ms | ip=127.0.0.1
+2026-03-09 23:39:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 25.4ms | ip=127.0.0.1
+2026-03-09 23:39:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:39:59 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'gestor'.
+2026-03-09 23:39:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 299.9ms | ip=127.0.0.1
+2026-03-09 23:39:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:40:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:40:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.6ms | ip=127.0.0.1
+2026-03-09 23:40:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.9ms | ip=127.0.0.1
+2026-03-09 23:43:13 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-09 23:43:13 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-09 23:43:14 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 26.8ms | ip=127.0.0.1
+2026-03-09 23:43:14 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 24.0ms | ip=127.0.0.1
+2026-03-09 23:43:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-09 23:43:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-09 23:43:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-09 23:43:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/roles | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-09 23:43:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/config/login-limits | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-09 23:43:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 5.6ms | ip=127.0.0.1
+2026-03-09 23:43:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 6.3ms | ip=127.0.0.1
+2026-03-09 23:43:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 5.4ms | ip=127.0.0.1
+2026-03-09 23:43:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 4.6ms | ip=127.0.0.1
+2026-03-09 23:43:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/config/login-limits | user=anonymous | status=200 | 2.9ms | ip=127.0.0.1
+2026-03-09 23:43:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/roles | user=anonymous | status=200 | 2.1ms | ip=127.0.0.1
