@@ -165,3 +165,24 @@ def deactivate_user(user_id):
     except Exception as e:
         logger.error("Error desactivando usuario %s: %s", user_id, e)
         return jsonify({"status": "error", "message": str(e)}), 500
+
+
+# ── PATCH /api/v1/users/<user_id>/unlock ──────────────────────────
+@router.route('/<user_id>/unlock', methods=['PATCH'])
+@require_role('admin')
+def unlock_user(user_id):
+    """Desbloquea un usuario bloqueado. Solo admin."""
+    try:
+        db = next(get_db())
+        service = _get_service(db)
+        user = service.unlock_user(user_id)
+        return jsonify({
+            "status": "success",
+            "message": f"Usuario '{user.username}' desbloqueado correctamente.",
+            "user": user.to_dict()
+        }), 200
+    except ValueError as ve:
+        return jsonify({"status": "error", "message": str(ve)}), 400
+    except Exception as e:
+        logger.error("Error desbloqueando usuario %s: %s", user_id, e)
+        return jsonify({"status": "error", "message": str(e)}), 500

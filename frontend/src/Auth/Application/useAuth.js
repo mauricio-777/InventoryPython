@@ -83,6 +83,22 @@ export const useUserManager = () => {
         }
     }, [fetchUsers]);
 
+    const unlockUser = useCallback(async (id) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await userApi.unlockUser(id);
+            await fetchUsers();
+            return data;
+        } catch (err) {
+            const msg = 'Error al desbloquear usuario: ' + err.message;
+            setError(msg);
+            throw new Error(msg);
+        } finally {
+            setLoading(false);
+        }
+    }, [fetchUsers]);
+
     return {
         users,
         roles,
@@ -93,6 +109,7 @@ export const useUserManager = () => {
         createUser,
         updateUser,
         deactivateUser,
+        unlockUser,
     };
 };
 
@@ -132,4 +149,44 @@ export const useAuthLogin = () => {
         loading,
         error
     };
+};
+
+/**
+ * Hook para gestionar la configuración de límites de intentos de login.
+ */
+export const useLoginConfig = () => {
+    const [limits, setLimits] = useState({ gestor: 5, consultor: 5 });
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    const fetchLimits = useCallback(async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await userApi.getLoginLimits();
+            if (data.limits) setLimits(data.limits);
+        } catch (err) {
+            setError('Error al cargar configuración: ' + err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const saveLimits = useCallback(async (newLimits) => {
+        setLoading(true);
+        setError(null);
+        try {
+            const data = await userApi.updateLoginLimits(newLimits);
+            if (data.limits) setLimits(prev => ({ ...prev, ...data.limits }));
+            return data;
+        } catch (err) {
+            const msg = 'Error al guardar configuración: ' + err.message;
+            setError(msg);
+            throw new Error(msg);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    return { limits, loading, error, fetchLimits, saveLimits };
 };

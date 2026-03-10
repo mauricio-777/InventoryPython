@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useUserManager } from '../../Application/useAuth.js';
+import { useUserManager, useLoginConfig } from '../../Application/useAuth.js';
 import { UserForm } from '../components/UserForm.jsx';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { useUserRole } from '../../../CommonLayer/hooks/useUserRole.js';
@@ -26,22 +26,43 @@ export const UsersPage = () => {
     const {
         users, roles, loading, error,
         fetchUsers, fetchRoles,
-        createUser, updateUser, deactivateUser,
+        createUser, updateUser, deactivateUser, unlockUser,
     } = useUserManager();
 
     const { hasRole } = useUserRole();
     const isAdmin = hasRole('admin');
 
+    const {
+        limits, loading: configLoading, fetchLimits, saveLimits,
+    } = useLoginConfig();
+
     const [isFormVisible, setFormVisible] = useState(false);
     const [editingUser, setEditingUser] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
     const [confirmDeactivate, setConfirmDeactivate] = useState(null);
+    const [confirmUnlock, setConfirmUnlock] = useState(null);
+
+    // Login limits config local state
+    const [configGestor, setConfigGestor] = useState('');
+    const [configConsultor, setConfigConsultor] = useState('');
+    const [savingConfig, setSavingConfig] = useState(false);
+
     const { showToast } = useToast();
 
     useEffect(() => {
         fetchUsers();
         fetchRoles();
     }, [fetchUsers, fetchRoles]);
+
+    useEffect(() => {
+        if (isAdmin) fetchLimits();
+    }, [isAdmin, fetchLimits]);
+
+    // Sync local inputs with fetched limits
+    useEffect(() => {
+        setConfigGestor(String(limits.gestor ?? 5));
+        setConfigConsultor(String(limits.consultor ?? 5));
+    }, [limits]);
 
     const filtered = users.filter(u =>
         u.username?.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -82,6 +103,56 @@ export const UsersPage = () => {
         } finally {
             setConfirmDeactivate(null);
         }
+    };
+
+    const handleUnlockAction = async () => {
+        if (!confirmUnlock) return;
+        try {
+            await unlockUser(confirmUnlock.id);
+            showToast(`Usuario "${confirmUnlock.username}" desbloqueado.`, 'success');
+        } catch (err) {
+            showToast(err.message, 'error');
+        } finally {
+            setConfirmUnlock(null);
+        }
+    };
+
+    const handleSaveLimits = async () => {
+        const gestor = parseInt(configGestor, 10);
+        const consultor = parseInt(configConsultor, 10);
+        if (isNaN(gestor) || isNaN(consultor) || gestor < 1 || consultor < 1) {
+            showToast('Los límites deben ser números enteros positivos.', 'error');
+            return;
+        }
+        setSavingConfig(true);
+        try {
+            await saveLimits({ gestor, consultor });
+            showToast('Límites de intentos actualizados correctamente.', 'success');
+        } catch (err) {
+            showToast(err.message, 'error');
+        } finally {
+            setSavingConfig(false);
+        }
+    };
+
+    const getStatusBadge = (user) => {
+        if (user.is_locked) {
+            return (
+                <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold border shadow-sm w-max mx-auto bg-amber-50 text-amber-700 border-amber-200">
+                    <PhosphorIcons.Lock weight="bold" />
+                    Bloqueado
+                </span>
+            );
+        }
+        return (
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold border shadow-sm w-max mx-auto ${user.active
+                ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                : 'bg-red-50 text-red-600 border-red-100'
+                }`}>
+                {user.active ? <PhosphorIcons.CheckCircle weight="bold" /> : <PhosphorIcons.MinusCircle weight="bold" />}
+                {user.active ? 'Activo' : 'Inactivo'}
+            </span>
+        );
     };
 
     return (
@@ -138,9 +209,9 @@ export const UsersPage = () => {
                 <div className="w-full lg:w-2/3 grid grid-cols-2 lg:grid-cols-4 gap-4">
                     {[
                         { label: 'Total', value: users.length, icon: PhosphorIcons.UsersThree, color: 'text-[var(--color-primary)]', bg: 'bg-[var(--color-primary)]/10' },
-                        { label: 'Activos', value: users.filter(u => u.active).length, icon: PhosphorIcons.CheckCircle, color: 'text-emerald-600', bg: 'bg-emerald-50' },
+                        { label: 'Activos', value: users.filter(u => u.active && !u.is_locked).length, icon: PhosphorIcons.CheckCircle, color: 'text-emerald-600', bg: 'bg-emerald-50' },
                         { label: 'Inactivos', value: users.filter(u => !u.active).length, icon: PhosphorIcons.XCircle, color: 'text-red-600', bg: 'bg-red-50' },
-                        { label: 'Admins', value: users.filter(u => u.role_name === 'admin').length, icon: PhosphorIcons.ShieldStar, color: 'text-purple-600', bg: 'bg-purple-50' },
+                        { label: 'Bloqueados', value: users.filter(u => u.is_locked).length, icon: PhosphorIcons.Lock, color: 'text-amber-600', bg: 'bg-amber-50' },
                     ].map(stat => (
                         <div key={stat.label} className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-5 flex flex-col justify-between relative overflow-hidden group">
                             <div className="flex items-center justify-between mb-4">
@@ -187,14 +258,15 @@ export const UsersPage = () => {
                             </thead>
                             <tbody className="divide-y divide-gray-50 text-sm">
                                 {filtered.map(user => (
-                                    <tr key={user.id} className="hover:bg-gray-50/50 transition-colors duration-200">
+                                    <tr key={user.id} className={`hover:bg-gray-50/50 transition-colors duration-200 ${user.is_locked ? 'bg-amber-50/30' : ''}`}>
                                         {/* Username */}
                                         <td className="px-6 py-4">
                                             <div className="flex items-center gap-3">
-                                                <div className="w-10 h-10 rounded-full bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 flex items-center justify-center shrink-0">
-                                                    <span className="text-[var(--color-primary)] font-bold text-sm uppercase">
-                                                        {user.username?.[0] || '?'}
-                                                    </span>
+                                                <div className={`w-10 h-10 rounded-full border flex items-center justify-center shrink-0 ${user.is_locked ? 'bg-amber-100 border-amber-200' : 'bg-[var(--color-primary)]/10 border-[var(--color-primary)]/20'}`}>
+                                                    {user.is_locked
+                                                        ? <PhosphorIcons.Lock size={18} weight="bold" className="text-amber-600" />
+                                                        : <span className="text-[var(--color-primary)] font-bold text-sm uppercase">{user.username?.[0] || '?'}</span>
+                                                    }
                                                 </div>
                                                 <span className="text-[var(--color-tertiary)] font-bold">{user.username}</span>
                                             </div>
@@ -207,15 +279,9 @@ export const UsersPage = () => {
                                                 {ROLE_LABELS[user.role_name] || user.role_name || '—'}
                                             </span>
                                         </td>
-                                        {/* Active */}
+                                        {/* Status */}
                                         <td className="px-6 py-4 text-center">
-                                            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-[11px] font-bold border shadow-sm w-max mx-auto ${user.active
-                                                ? 'bg-emerald-50 text-emerald-600 border-emerald-100'
-                                                : 'bg-red-50 text-red-600 border-red-100'
-                                                }`}>
-                                                {user.active ? <PhosphorIcons.CheckCircle weight="bold" /> : <PhosphorIcons.MinusCircle weight="bold" />}
-                                                {user.active ? 'Activo' : 'Inactivo'}
-                                            </span>
+                                            {getStatusBadge(user)}
                                         </td>
                                         {/* Actions */}
                                         {isAdmin && (
@@ -229,14 +295,24 @@ export const UsersPage = () => {
                                                     >
                                                         <PhosphorIcons.PencilSimple size={18} weight="bold" />
                                                     </Button>
-                                                    {user.active && (
+                                                    {user.is_locked ? (
                                                         <button
-                                                            onClick={() => handleDeactivate(user)}
-                                                            title="Desactivar usuario"
-                                                            className="p-2 bg-white hover:bg-red-50 text-red-500 rounded-xl transition-colors border border-gray-200 hover:border-red-200 shadow-sm"
+                                                            onClick={() => setConfirmUnlock(user)}
+                                                            title="Desbloquear usuario"
+                                                            className="p-2 bg-white hover:bg-amber-50 text-amber-600 rounded-xl transition-colors border border-gray-200 hover:border-amber-200 shadow-sm"
                                                         >
-                                                            <PhosphorIcons.UserMinus size={18} weight="bold" />
+                                                            <PhosphorIcons.LockOpen size={18} weight="bold" />
                                                         </button>
+                                                    ) : (
+                                                        user.active && (
+                                                            <button
+                                                                onClick={() => handleDeactivate(user)}
+                                                                title="Desactivar usuario"
+                                                                className="p-2 bg-white hover:bg-red-50 text-red-500 rounded-xl transition-colors border border-gray-200 hover:border-red-200 shadow-sm"
+                                                            >
+                                                                <PhosphorIcons.UserMinus size={18} weight="bold" />
+                                                            </button>
+                                                        )
                                                     )}
                                                 </div>
                                             </td>
@@ -257,6 +333,67 @@ export const UsersPage = () => {
                     </div>
                     <p className="text-xl font-bold text-gray-600 mb-2">No se encontraron usuarios</p>
                     <p className="text-gray-500 font-medium">Intenta con otro término de búsqueda.</p>
+                </div>
+            )}
+
+            {/* ── Login Limits Config Panel (admin only) ─────────────────────── */}
+            {isAdmin && (
+                <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 animate-slide-up">
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="p-2.5 bg-amber-50 rounded-xl border border-amber-100">
+                            <PhosphorIcons.ShieldWarning size={22} weight="fill" className="text-amber-600" />
+                        </div>
+                        <div>
+                            <h2 className="text-base font-bold text-[var(--color-tertiary)]">Configuración de límites de intentos</h2>
+                            <p className="text-xs text-gray-500 font-medium mt-0.5">Define cuántos intentos fallidos pueden tener los Gestores y Consultores antes de ser bloqueados.</p>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                                Máx. intentos para <span className="text-emerald-600">Gestor</span>
+                            </label>
+                            <input
+                                type="number"
+                                min="1"
+                                max="20"
+                                value={configGestor}
+                                onChange={e => setConfigGestor(e.target.value)}
+                                disabled={configLoading}
+                                className="w-full bg-gray-50 text-[var(--color-tertiary)] border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 transition-all font-bold text-sm"
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                                Máx. intentos para <span className="text-blue-600">Consultor</span>
+                            </label>
+                            <input
+                                type="number"
+                                min="1"
+                                max="20"
+                                value={configConsultor}
+                                onChange={e => setConfigConsultor(e.target.value)}
+                                disabled={configLoading}
+                                className="w-full bg-gray-50 text-[var(--color-tertiary)] border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 transition-all font-bold text-sm"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="flex justify-end">
+                        <Button
+                            onClick={handleSaveLimits}
+                            variant="primary"
+                            disabled={savingConfig || configLoading}
+                            className="px-6 py-2.5 flex items-center gap-2"
+                        >
+                            {savingConfig
+                                ? <PhosphorIcons.Spinner size={16} className="animate-spin" />
+                                : <PhosphorIcons.FloppyDisk size={16} weight="bold" />
+                            }
+                            Guardar configuración
+                        </Button>
+                    </div>
                 </div>
             )}
 
@@ -299,6 +436,39 @@ export const UsersPage = () => {
                             </button>
                             <Button
                                 onClick={() => setConfirmDeactivate(null)}
+                                variant="secondary"
+                                className="flex-1 px-4"
+                            >
+                                Cancelar
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
+            {/* Unlock Confirm Dialog */}
+            {confirmUnlock && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:pl-56 animate-fade-in">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setConfirmUnlock(null)} />
+                    <div className="relative z-10 w-full max-w-sm bg-[var(--color-quinary)] border border-gray-100 rounded-3xl p-7 shadow-2xl">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="p-3 bg-amber-50 rounded-2xl border border-amber-100 text-amber-600">
+                                <PhosphorIcons.LockOpen size={24} weight="fill" />
+                            </div>
+                            <h3 className="text-lg font-bold text-[var(--color-tertiary)]">Desbloquear usuario</h3>
+                        </div>
+                        <p className="text-gray-600 text-sm font-medium mb-8 leading-relaxed">
+                            ¿Deseas desbloquear a <span className="font-bold text-[var(--color-tertiary)]">"{confirmUnlock.username}"</span>? Podrá volver a iniciar sesión y sus intentos fallidos serán reiniciados.
+                        </p>
+                        <div className="flex gap-3">
+                            <button
+                                onClick={handleUnlockAction}
+                                className="flex-1 px-4 py-3 bg-amber-50 hover:bg-amber-100 text-amber-700 rounded-xl border border-amber-200 transition-all font-bold shadow-sm"
+                            >
+                                Sí, desbloquear
+                            </button>
+                            <Button
+                                onClick={() => setConfirmUnlock(null)}
                                 variant="secondary"
                                 className="flex-1 px-4"
                             >

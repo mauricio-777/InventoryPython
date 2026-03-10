@@ -9,7 +9,7 @@ logger = get_logger(__name__)
 router = Blueprint('auth', __name__, url_prefix='/api/v1/auth')
 
 def _get_service(db):
-    return AuthService(UserRepository(db))
+    return AuthService(UserRepository(db), db=db)
 
 @router.route('/login', methods=['POST'])
 def login():

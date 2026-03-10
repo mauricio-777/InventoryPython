@@ -48,6 +48,46 @@ def update_db():
             else:
                 print(f"Error adding customer_id: {e}")
                 
+        # Add failed_attempts to users
+        try:
+            cursor.execute("ALTER TABLE users ADD COLUMN failed_attempts INTEGER DEFAULT 0;")
+            print("Added failed_attempts column to users.")
+        except sqlite3.OperationalError as e:
+            if "duplicate column name" in str(e):
+                print("Column failed_attempts already exists.")
+            else:
+                print(f"Error adding failed_attempts: {e}")
+
+        # Add is_locked to users
+        try:
+            cursor.execute("ALTER TABLE users ADD COLUMN is_locked INTEGER DEFAULT 0;")
+            print("Added is_locked column to users.")
+        except sqlite3.OperationalError as e:
+            if "duplicate column name" in str(e):
+                print("Column is_locked already exists.")
+            else:
+                print(f"Error adding is_locked: {e}")
+
+        # Create system_config table
+        try:
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS system_config (
+                    key TEXT PRIMARY KEY,
+                    value TEXT NOT NULL
+                );
+            """)
+            print("Table system_config ready.")
+        except sqlite3.OperationalError as e:
+            print(f"Error creating system_config: {e}")
+
+        # Seed default login limits if not present
+        try:
+            cursor.execute("INSERT OR IGNORE INTO system_config (key, value) VALUES ('max_attempts_gestor', '5');")
+            cursor.execute("INSERT OR IGNORE INTO system_config (key, value) VALUES ('max_attempts_consultor', '5');")
+            print("Default login limits seeded.")
+        except Exception as e:
+            print(f"Error seeding system_config: {e}")
+
         conn.commit()
         conn.close()
         print("Database update complete.")

@@ -93,6 +93,14 @@ class UserService:
         user.active = False
         return self.user_repo.update(user)
 
+    def unlock_user(self, user_id: str) -> User:
+        user = self.user_repo.get_by_id(user_id)
+        if not user:
+            raise ValueError("Usuario no encontrado.")
+        user.is_locked = False
+        user.failed_attempts = 0
+        return self.user_repo.update(user)
+
     def get_roles(self) -> List[Role]:
         return self.role_repo.get_all()
 

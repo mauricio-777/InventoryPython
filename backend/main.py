@@ -20,6 +20,8 @@ from User.Domain.user_service import UserService
 from Auth.Adapters.auth_controller import router as auth_router
 from CommonLayer.middleware.exception_handler import register_exception_handlers
 from CommonLayer.middleware.logging_middleware import register_logging_middleware
+from CommonLayer.middleware.config_controller import router as config_router
+from CommonLayer.domain.system_config import SystemConfig
 from CommonLayer.logging.logger import get_logger
 from Order.Adapters.order_controller import router as order_router
 
@@ -54,6 +56,7 @@ app.register_blueprint(user_router)
 app.register_blueprint(auth_router)
 app.register_blueprint(location_router)
 app.register_blueprint(order_router)
+app.register_blueprint(config_router)
 
 # ── Seed: roles y usuario admin inicial ──────────────────────────────────────
 with app.app_context():

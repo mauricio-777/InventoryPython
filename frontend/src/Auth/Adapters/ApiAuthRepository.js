@@ -51,5 +51,23 @@ export const userApi = {
         const { data } = await axiosInstance.patch(`${BASE}/${id}/deactivate`);
         return data;
     },
+
+    /** Desbloquea un usuario bloqueado por ID */
+    unlockUser: async (id) => {
+        const { data } = await axiosInstance.patch(`${BASE}/${id}/unlock`);
+        return data;
+    },
+
+    /** Obtiene los límites de intentos de login por rol */
+    getLoginLimits: async () => {
+        const { data } = await axiosInstance.get('/config/login-limits');
+        return data;
+    },
+
+    /** Actualiza los límites de intentos de login por rol */
+    updateLoginLimits: async (limits) => {
+        const { data } = await axiosInstance.put('/config/login-limits', limits);
+        return data;
+    },
 };
 
