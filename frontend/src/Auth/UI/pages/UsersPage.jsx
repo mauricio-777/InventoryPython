@@ -43,8 +43,7 @@ export const UsersPage = () => {
     const [confirmUnlock, setConfirmUnlock] = useState(null);
 
     // Login limits config local state
-    const [configGestor, setConfigGestor] = useState('');
-    const [configConsultor, setConfigConsultor] = useState('');
+    const [configNonAdmin, setConfigNonAdmin] = useState('');
     const [savingConfig, setSavingConfig] = useState(false);
 
     const { showToast } = useToast();
@@ -60,8 +59,7 @@ export const UsersPage = () => {
 
     // Sync local inputs with fetched limits
     useEffect(() => {
-        setConfigGestor(String(limits.gestor ?? 5));
-        setConfigConsultor(String(limits.consultor ?? 5));
+        setConfigNonAdmin(String(limits.non_admin ?? 5));
     }, [limits]);
 
     const filtered = users.filter(u =>
@@ -118,15 +116,14 @@ export const UsersPage = () => {
     };
 
     const handleSaveLimits = async () => {
-        const gestor = parseInt(configGestor, 10);
-        const consultor = parseInt(configConsultor, 10);
-        if (isNaN(gestor) || isNaN(consultor) || gestor < 1 || consultor < 1) {
-            showToast('Los límites deben ser números enteros positivos.', 'error');
+        const non_admin = parseInt(configNonAdmin, 10);
+        if (isNaN(non_admin) || non_admin < 1) {
+            showToast('El límite debe ser un número entero positivo.', 'error');
             return;
         }
         setSavingConfig(true);
         try {
-            await saveLimits({ gestor, consultor });
+            await saveLimits({ non_admin });
             showToast('Límites de intentos actualizados correctamente.', 'success');
         } catch (err) {
             showToast(err.message, 'error');
@@ -345,35 +342,21 @@ export const UsersPage = () => {
                         </div>
                         <div>
                             <h2 className="text-base font-bold text-[var(--color-tertiary)]">Configuración de límites de intentos</h2>
-                            <p className="text-xs text-gray-500 font-medium mt-0.5">Define cuántos intentos fallidos pueden tener los Gestores y Consultores antes de ser bloqueados.</p>
+                            <p className="text-xs text-gray-500 font-medium mt-0.5">Define cuántos intentos fallidos pueden tener los usuarios regulares antes de ser bloqueados.</p>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div className="mb-6">
                         <div>
                             <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                                Máx. intentos para <span className="text-emerald-600">Gestor</span>
+                                Máx. intentos para <span className="text-[var(--color-primary)]">Usuarios (No Administradores)</span>
                             </label>
                             <input
                                 type="number"
                                 min="1"
                                 max="20"
-                                value={configGestor}
-                                onChange={e => setConfigGestor(e.target.value)}
-                                disabled={configLoading}
-                                className="w-full bg-gray-50 text-[var(--color-tertiary)] border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 transition-all font-bold text-sm"
-                            />
-                        </div>
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                                Máx. intentos para <span className="text-blue-600">Consultor</span>
-                            </label>
-                            <input
-                                type="number"
-                                min="1"
-                                max="20"
-                                value={configConsultor}
-                                onChange={e => setConfigConsultor(e.target.value)}
+                                value={configNonAdmin}
+                                onChange={e => setConfigNonAdmin(e.target.value)}
                                 disabled={configLoading}
                                 className="w-full bg-gray-50 text-[var(--color-tertiary)] border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 transition-all font-bold text-sm"
                             />

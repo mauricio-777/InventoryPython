@@ -155,7 +155,7 @@ export const useAuthLogin = () => {
  * Hook para gestionar la configuración de límites de intentos de login.
  */
 export const useLoginConfig = () => {
-    const [limits, setLimits] = useState({ gestor: 5, consultor: 5 });
+    const [limits, setLimits] = useState({ non_admin: 5 });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 

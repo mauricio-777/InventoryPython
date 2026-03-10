@@ -10,8 +10,7 @@ router = Blueprint('config', __name__, url_prefix='/api/v1/config')
 
 # Claves de configuración válidas para límites de intentos
 LIMIT_KEYS = {
-    'gestor': 'max_attempts_gestor',
-    'consultor': 'max_attempts_consultor',
+    'non_admin': 'max_attempts_non_admin'
 }
 
 DEFAULT_LIMIT = 5
@@ -41,8 +40,7 @@ def get_login_limits():
         return jsonify({
             "status": "success",
             "limits": {
-                "gestor": _get_limit(db, 'gestor'),
-                "consultor": _get_limit(db, 'consultor'),
+                "non_admin": _get_limit(db, 'non_admin')
             }
         }), 200
     except Exception as e:

@@ -9,8 +9,6 @@ from CommonLayer.logging.logger import get_logger
 
 logger = get_logger(__name__)
 
-# Roles sujetos a bloqueo por intentos fallidos
-LOCKABLE_ROLES = {"gestor", "consultor"}
 DEFAULT_MAX_ATTEMPTS = 5
 
 
@@ -19,11 +17,11 @@ class AuthService:
         self.user_repo = user_repo
         self.db = db  # Sesión de DB para consultar SystemConfig
 
-    def _get_max_attempts(self, role_name: str) -> int:
-        """Obtiene el límite de intentos para un rol desde system_config."""
+    def _get_max_attempts(self) -> int:
+        """Obtiene el límite de intentos para roles no-admin desde system_config."""
         if self.db is None:
             return DEFAULT_MAX_ATTEMPTS
-        key = f"max_attempts_{role_name}"
+        key = "max_attempts_non_admin"
         try:
             cfg = self.db.query(SystemConfig).filter(SystemConfig.key == key).first()
             if cfg:
@@ -53,11 +51,11 @@ class AuthService:
         if not check_password_hash(user.password_hash, password):
             logger.warning("Intento de login fallido: contrasena incorrecta para '%s'.", username)
 
-            # Aplicar bloqueo solo a roles lockables (no al admin)
+            # Aplicar bloqueo a todos excepto admin
             role_name = user.role.name if user.role else ""
-            if role_name in LOCKABLE_ROLES:
+            if role_name != "admin":
                 user.failed_attempts = (user.failed_attempts or 0) + 1
-                max_attempts = self._get_max_attempts(role_name)
+                max_attempts = self._get_max_attempts()
                 remaining = max_attempts - user.failed_attempts
 
                 if remaining <= 0:
@@ -88,51 +86,3 @@ class AuthService:
         logger.info("Login exitoso para el usuario '%s'.", username)
         return user
 
-    def _get_serializer(self):
-        secret_key = current_app.config.get('SECRET_KEY', 'default-unsafe-key')
-        return URLSafeTimedSerializer(secret_key)
-
-    def generate_reset_token(self, username: str) -> str:
-        """
-        Genera un token de recuperacion para un usuario.
-        """
-        user = self.user_repo.get_by_username(username)
-        if not user:
-            logger.info("Solicitud de reset para usuario no existente: '%s'.", username)
-            return None
-
-        if not user.active:
-            logger.warning("Solicitud de reset para usuario inactivo: '%s'.", username)
-            raise ValueError("Esta cuenta ha sido desactivada. Contacte a un administrador.")
-
-        serializer = self._get_serializer()
-        token = serializer.dumps(username, salt='password-reset-salt')
-        logger.info("Token de recuperacion generado para '%s'.", username)
-        return token
-
-    def reset_password_with_token(self, token: str, new_password: str, max_age: int = 3600):
-        """
-        Valida el token y actualiza la contrasena del usuario.
-        max_age por defecto es 3600 segundos (1 hora).
-        """
-        serializer = self._get_serializer()
-        try:
-            username = serializer.loads(token, salt='password-reset-salt', max_age=max_age)
-        except SignatureExpired:
-            logger.warning("Token expirado.")
-            raise ValueError("El enlace de recuperacion ha expirado. Por favor, solicite uno nuevo.")
-        except BadSignature:
-            logger.warning("Token invalido.")
-            raise ValueError("Token de recuperacion invalido.")
-
-        user = self.user_repo.get_by_username(username)
-        if not user:
-            raise ValueError("Usuario no encontrado.")
-
-        if not user.active:
-            raise ValueError("Esta cuenta ha sido desactivada.")
-
-        user.password_hash = generate_password_hash(new_password)
-        self.user_repo.update(user)
-        logger.info("Contrasena restablecida exitosamente para el usuario '%s'.", username)
-        return True

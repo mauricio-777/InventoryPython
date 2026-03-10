@@ -7,7 +7,7 @@ import * as PhosphorIcons from '@phosphor-icons/react';
  * LoginForm — Formulario de autenticación real
  * Se conecta al backend para verificar credenciales y obtener el rol.
  */
-export const LoginForm = ({ onLoginSuccess, onForgotPassword }) => {
+export const LoginForm = ({ onLoginSuccess }) => {
     const { login, loading, error } = useAuthLogin();
     const [form, setForm] = useState({ username: '', password: '' });
     const [validationError, setValidationError] = useState('');
@@ -128,15 +128,7 @@ export const LoginForm = ({ onLoginSuccess, onForgotPassword }) => {
                                 'Iniciar sesión'
                             )}
                         </Button>
-                        <div className="text-center mt-6">
-                            <button
-                                type="button"
-                                onClick={onForgotPassword}
-                                className="text-gray-500 hover:text-[var(--color-primary)] text-sm font-medium transition-colors cursor-pointer"
-                            >
-                                ¿Olvidaste tu contraseña?
-                            </button>
-                        </div>
+
                     </form>
                 </div>
             </div>

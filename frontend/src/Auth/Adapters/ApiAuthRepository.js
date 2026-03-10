@@ -10,18 +10,6 @@ export const userApi = {
         return data; // Returns the full payload { status, message, user }
     },
 
-    /** Solicita enlace de restablecimiento de contraseña */
-    forgotPassword: async (username) => {
-        const { data } = await axiosInstance.post('/auth/forgot-password', { username });
-        return data;
-    },
-
-    /** Restablece la contraseña con un token válido */
-    resetPassword: async (token, newPassword) => {
-        const { data } = await axiosInstance.post('/auth/reset-password', { token, new_password: newPassword });
-        return data;
-    },
-
     /** Lista todos los usuarios */
     getUsers: async () => {
         const { data } = await axiosInstance.get(`${BASE}/`);

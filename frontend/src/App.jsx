@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import './App.css';
 import { MainLayout } from './CommonLayer/components/layouts/MainLayout.jsx';
 import { LoginForm } from './Auth/UI/components/LoginForm.jsx';
-import { ForgotPasswordPage } from './Auth/UI/pages/ForgotPasswordPage.jsx';
-import { ResetPasswordPage } from './Auth/UI/pages/ResetPasswordPage.jsx';
 import { RoleGuard } from './Auth/UI/components/RoleGuard.jsx';
 import { useUserRole } from './CommonLayer/hooks/useUserRole.js';
 import { NAV_ITEMS } from './Router/routes.js';
@@ -46,21 +44,7 @@ function App() {
     getDefaultView(localStorage.getItem('userRole') || '')
   );
 
-  const [authView, setAuthView] = useState('login'); // 'login', 'forgot', 'reset'
-  const [resetToken, setResetToken] = useState(null);
 
-  useEffect(() => {
-    // Check if the URL has a token parameter
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('token');
-    if (token) {
-      setResetToken(token);
-      setAuthView('reset');
-
-      // Clean up the URL visually without reloading
-      window.history.replaceState({}, document.title, window.location.pathname);
-    }
-  }, []);
 
   // Cuando cambia el rol (tras login), ir al módulo por defecto de ese rol
   useEffect(() => {
@@ -78,15 +62,9 @@ function App() {
     setView('products'); // Resetear vista para el próximo usuario
   };
 
-  // Si no está autenticado, mostrar vistas públicas
+  // Si no está autenticado, mostrar la vista pública
   if (!isLoggedIn) {
-    if (authView === 'forgot') {
-      return <ForgotPasswordPage onBackToLogin={() => setAuthView('login')} />;
-    }
-    if (authView === 'reset' && resetToken) {
-      return <ResetPasswordPage token={resetToken} onBackToLogin={() => setAuthView('login')} />;
-    }
-    return <LoginForm onLoginSuccess={handleLoginSuccess} onForgotPassword={() => setAuthView('forgot')} />;
+    return <LoginForm onLoginSuccess={handleLoginSuccess} />;
   }
 
   return (
