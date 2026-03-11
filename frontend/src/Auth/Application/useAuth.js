@@ -119,7 +119,7 @@ export const useUserManager = () => {
 export const useAuthLogin = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { setUserRole, setUserName } = useUserRole();
+    const { setUserRole, setUserName, setUserId } = useUserRole();
 
     const login = useCallback(async (username, password) => {
         setLoading(true);
@@ -127,6 +127,7 @@ export const useAuthLogin = () => {
         try {
             const data = await userApi.login(username, password);
             if (data.status === 'success' && data.user) {
+                setUserId(data.user.id);
                 setUserName(data.user.username);
                 // Asegurarse de usar role_name recibido del backend
                 setUserRole(data.user.role_name);
@@ -142,7 +143,7 @@ export const useAuthLogin = () => {
         } finally {
             setLoading(false);
         }
-    }, [setUserRole, setUserName]);
+    }, [setUserRole, setUserName, setUserId]);
 
     return {
         login,

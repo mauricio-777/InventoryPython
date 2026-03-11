@@ -8,11 +8,28 @@ function getUserRole() {
     return 'consultor';
 }
 
+// Helper para obtener el ID del usuario
+function getUserId() {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem('userId') || 'system';
+    }
+    return 'system';
+}
+
+// Helper para obtener el nombre del usuario
+function getUserName() {
+    if (typeof window !== 'undefined') {
+        return localStorage.getItem('userName') || 'system';
+    }
+    return 'system';
+}
+
 function getDefaultHeaders() {
     return {
         'Content-Type': 'application/json',
         'X-User-Role': getUserRole(),
-        'X-User-Id': typeof window !== 'undefined' ? localStorage.getItem('userName') || 'system' : 'system'
+        'X-User-ID': getUserId(),
+        'X-User-Name': getUserName()
     };
 }
 

@@ -7925,3 +7925,284 @@ FROM customers
 2026-03-11 09:19:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
 2026-03-11 09:19:19 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'repartidor'.
 2026-03-11 09:19:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 174.2ms | ip=127.0.0.1
+2026-03-11 09:19:56 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:19:56 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:20:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.7ms | ip=127.0.0.1
+2026-03-11 09:20:23 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'gestor'.
+2026-03-11 09:20:23 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 171.4ms | ip=127.0.0.1
+2026-03-11 09:20:23 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/locations/ | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:20:23 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/locations/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:20:23 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/locations/ | user=anonymous | status=200 | 20.0ms | ip=127.0.0.1
+2026-03-11 09:20:23 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/locations/ | user=anonymous | status=200 | 3.2ms | ip=127.0.0.1
+2026-03-11 09:20:26 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:20:26 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/suppliers/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:20:26 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:20:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/suppliers/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:20:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/locations/ | user=anonymous | status=200 | 6.6ms | ip=127.0.0.1
+2026-03-11 09:20:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 11.2ms | ip=127.0.0.1
+2026-03-11 09:20:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=200 | 5.3ms | ip=127.0.0.1
+2026-03-11 09:20:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/locations/ | user=anonymous | status=200 | 2.3ms | ip=127.0.0.1
+2026-03-11 09:20:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 5.2ms | ip=127.0.0.1
+2026-03-11 09:20:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/suppliers/ | user=anonymous | status=200 | 4.0ms | ip=127.0.0.1
+2026-03-11 09:20:28 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.9ms | ip=127.0.0.1
+2026-03-11 09:20:28 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.2ms | ip=127.0.0.1
+2026-03-11 09:20:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/customers/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:20:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/customers/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:20:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=200 | 7.5ms | ip=127.0.0.1
+2026-03-11 09:20:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/customers/ | user=anonymous | status=200 | 2.5ms | ip=127.0.0.1
+2026-03-11 09:22:18 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:22:19 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'almacen'.
+2026-03-11 09:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 237.4ms | ip=127.0.0.1
+2026-03-11 09:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:22:19 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'consultor']).
+2026-03-11 09:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:22:19 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'consultor']).
+2026-03-11 09:22:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=403 | 1.1ms | ip=127.0.0.1
+2026-03-11 09:22:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:22:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:22:22 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:22:22 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:22:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-11 09:22:27 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 2.2ms | ip=127.0.0.1
+2026-03-11 09:22:32 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:32 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.9ms | ip=127.0.0.1
+2026-03-11 09:22:37 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:22:37 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:37 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 2.4ms | ip=127.0.0.1
+2026-03-11 09:22:42 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:22:47 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:22:47 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:47 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.6ms | ip=127.0.0.1
+2026-03-11 09:22:52 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:52 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:22:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:22:56 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:22:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.7ms | ip=127.0.0.1
+2026-03-11 09:23:02 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:23:02 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:23:02 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.6ms | ip=127.0.0.1
+2026-03-11 09:23:07 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:23:07 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.3ms | ip=127.0.0.1
+2026-03-11 09:23:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:23:12 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:23:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.9ms | ip=127.0.0.1
+2026-03-11 09:23:17 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:23:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:23:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:23:22 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:23:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.7ms | ip=127.0.0.1
+2026-03-11 09:23:30 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:23:31 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:23:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:23:31 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'almacenero' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:23:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.2ms | ip=127.0.0.1
+2026-03-11 09:23:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:23:44 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'admin'.
+2026-03-11 09:23:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 199.6ms | ip=127.0.0.1
+2026-03-11 09:23:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:23:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:23:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 13.8ms | ip=127.0.0.1
+2026-03-11 09:23:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.8ms | ip=127.0.0.1
+2026-03-11 09:23:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:23:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.5ms | ip=127.0.0.1
+2026-03-11 09:23:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 11.3ms | ip=127.0.0.1
+2026-03-11 09:23:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:23:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 92.5ms | ip=127.0.0.1
+2026-03-11 09:23:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 21.0ms | ip=127.0.0.1
+2026-03-11 09:23:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:23:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.1ms | ip=127.0.0.1
+2026-03-11 09:23:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:23:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:24:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.3ms | ip=127.0.0.1
+2026-03-11 09:24:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:24:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 4.5ms | ip=127.0.0.1
+2026-03-11 09:24:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.0ms | ip=127.0.0.1
+2026-03-11 09:24:16 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:24:16 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.0ms | ip=127.0.0.1
+2026-03-11 09:24:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 2.9ms | ip=127.0.0.1
+2026-03-11 09:24:26 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:24:26 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 2.2ms | ip=127.0.0.1
+2026-03-11 09:24:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.2ms | ip=127.0.0.1
+2026-03-11 09:24:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:24:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 10.4ms | ip=127.0.0.1
+2026-03-11 09:24:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 7.4ms | ip=127.0.0.1
+2026-03-11 09:24:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:24:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.7ms | ip=127.0.0.1
+2026-03-11 09:24:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 0.8ms | ip=127.0.0.1
+2026-03-11 09:24:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 1.6ms | ip=127.0.0.1
+2026-03-11 09:24:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.6ms | ip=127.0.0.1
+2026-03-11 09:25:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.8ms | ip=127.0.0.1
+2026-03-11 09:25:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:25:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 2.6ms | ip=127.0.0.1
+2026-03-11 09:25:10 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 2.3ms | ip=127.0.0.1
+2026-03-11 09:25:16 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:25:16 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.1ms | ip=127.0.0.1
+2026-03-11 09:25:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:25:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 4.6ms | ip=127.0.0.1
+2026-03-11 09:25:26 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.0ms | ip=127.0.0.1
+2026-03-11 09:25:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:25:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:25:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:25:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:25:41 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.6ms | ip=127.0.0.1
+2026-03-11 09:25:46 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:25:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.8ms | ip=127.0.0.1
+2026-03-11 09:25:51 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 2.6ms | ip=127.0.0.1
+2026-03-11 09:25:56 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.6ms | ip=127.0.0.1
+2026-03-11 09:26:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:26:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.1ms | ip=127.0.0.1
+2026-03-11 09:26:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-11 09:26:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:26:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=200 | 3.0ms | ip=127.0.0.1
+2026-03-11 09:26:32 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:26:32 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 28.1ms | ip=127.0.0.1
+2026-03-11 09:27:13 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:27:13 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 66.2ms | ip=127.0.0.1
+2026-03-11 09:27:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 30.6ms | ip=127.0.0.1
+2026-03-11 09:27:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:27:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:27:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 8.8ms | ip=127.0.0.1
+2026-03-11 09:27:36 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.7ms | ip=127.0.0.1
+2026-03-11 09:27:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:27:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:27:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 68.7ms | ip=127.0.0.1
+2026-03-11 09:27:44 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 57.3ms | ip=127.0.0.1
+2026-03-11 09:27:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:27:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:27:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 1.9ms | ip=127.0.0.1
+2026-03-11 09:27:45 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.5ms | ip=127.0.0.1
+2026-03-11 09:28:00 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:28:01 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'repartidor'.
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 187.1ms | ip=127.0.0.1
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.9ms | ip=127.0.0.1
+2026-03-11 09:28:01 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'consultor']).
+2026-03-11 09:28:01 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'consultor']).
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=403 | 25.9ms | ip=127.0.0.1
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=403 | 3.5ms | ip=127.0.0.1
+2026-03-11 09:28:01 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/products/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'consultor']).
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=403 | 1.6ms | ip=127.0.0.1
+2026-03-11 09:28:01 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/reports/dashboard': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'consultor']).
+2026-03-11 09:28:01 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=403 | 4.8ms | ip=127.0.0.1
+2026-03-11 09:30:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:30:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:30:11 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:30:11 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 5.5ms | ip=127.0.0.1
+2026-03-11 09:30:12 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:30:12 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.5ms | ip=127.0.0.1
+2026-03-11 09:30:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:30:17 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:30:17 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:30:22 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:30:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.5ms | ip=127.0.0.1
+2026-03-11 09:30:27 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:30:28 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:30:28 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.5ms | ip=127.0.0.1
+2026-03-11 09:30:32 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:30:32 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:30:37 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:30:37 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:30:37 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.6ms | ip=127.0.0.1
+2026-03-11 09:31:06 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-11 09:31:07 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/orders/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:31:07 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:31:07 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 0.4ms | ip=127.0.0.1
+2026-03-11 09:31:08 | WARNING  | inventory.CommonLayer.middleware.auth_middleware | Acceso denegado a '/api/v1/orders/': rol 'repartidor' no tiene permiso (requerido: ['admin', 'gestor', 'picker', 'driver']).
+2026-03-11 09:31:08 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/orders/ | user=anonymous | status=403 | 1.1ms | ip=127.0.0.1
+2026-03-11 09:31:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:31:22 | WARNING  | inventory.Auth.Domain.auth_service | Intento de login fallido: contrasena incorrecta para 'consultor'.
+2026-03-11 09:31:22 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=401 | 392.1ms | ip=127.0.0.1
+2026-03-11 09:31:30 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:31:30 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'consultor'.
+2026-03-11 09:31:30 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 173.0ms | ip=127.0.0.1
+2026-03-11 09:31:30 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:31:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:31:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.3ms | ip=127.0.0.1
+2026-03-11 09:31:31 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 4.8ms | ip=127.0.0.1
+2026-03-11 09:31:33 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:31:33 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/dashboard | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:31:33 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 24.3ms | ip=127.0.0.1
+2026-03-11 09:31:33 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/dashboard | user=anonymous | status=200 | 29.2ms | ip=127.0.0.1
+2026-03-11 09:32:15 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:32:16 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:32:16 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 5.3ms | ip=127.0.0.1
+2026-03-11 09:32:16 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 5.3ms | ip=127.0.0.1
+2026-03-11 09:32:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/reports/rotation | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:32:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/reports/rotation | user=anonymous | status=200 | 93.9ms | ip=127.0.0.1
+2026-03-11 09:32:33 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/auth/login | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:32:34 | INFO     | inventory.Auth.Domain.auth_service | Login exitoso para el usuario 'admin'.
+2026-03-11 09:32:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | POST /api/v1/auth/login | user=anonymous | status=200 | 179.1ms | ip=127.0.0.1
+2026-03-11 09:32:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:32:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.3ms | ip=127.0.0.1
+2026-03-11 09:32:34 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 14.3ms | ip=127.0.0.1
+2026-03-11 09:32:35 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 4.8ms | ip=127.0.0.1
+2026-03-11 09:32:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:32:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/summary | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:32:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:32:42 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/summary | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 8.7ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/summary | user=anonymous | status=200 | 4.3ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 2.1ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/summary | user=anonymous | status=200 | 3.0ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/logs | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/logs | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 6.5ms | ip=127.0.0.1
+2026-03-11 09:32:43 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 12.9ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.1ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/users/ | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/products/ | user=anonymous | status=200 | 0.5ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 10.6ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 1.2ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 4.5ms | ip=127.0.0.1
+2026-03-11 09:33:19 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/products/ | user=anonymous | status=200 | 2.6ms | ip=127.0.0.1
+2026-03-11 09:33:20 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 2.5ms | ip=127.0.0.1
+2026-03-11 09:33:20 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/summary | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:33:20 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/users/ | user=anonymous | status=200 | 4.3ms | ip=127.0.0.1
+2026-03-11 09:33:20 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/summary | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:33:20 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/summary | user=anonymous | status=200 | 2.9ms | ip=127.0.0.1
+2026-03-11 09:33:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/summary | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:33:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/logs | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:33:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 1.6ms | ip=127.0.0.1
+2026-03-11 09:33:21 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 1.4ms | ip=127.0.0.1
+2026-03-11 09:38:16 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:38:16 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:38:39 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/logs | user=anonymous | status=200 | 0.2ms | ip=127.0.0.1
+2026-03-11 09:38:39 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 8.1ms | ip=127.0.0.1
+2026-03-11 09:39:31 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:39:31 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:40:58 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:40:58 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:41:02 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:41:02 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:41:13 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:41:13 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:41:52 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:41:52 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:42:07 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:42:07 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:42:35 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:42:35 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:42:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/logs | user=anonymous | status=200 | 10.8ms | ip=127.0.0.1
+2026-03-11 09:42:59 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 194.0ms | ip=127.0.0.1
+2026-03-11 09:43:13 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:43:13 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:43:24 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:43:24 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:43:38 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:43:38 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:43:49 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:43:49 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:44:21 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:44:21 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:44:58 | WARNING  | inventory.__main__ | Seed de datos demo omitido: No module named 'scripts'
+2026-03-11 09:44:58 | INFO     | inventory.__main__ | Starting Inventory API on http://0.0.0.0:8000
+2026-03-11 09:45:15 | INFO     | inventory.CommonLayer.middleware.logging_middleware | OPTIONS /api/v1/audit/logs | user=anonymous | status=200 | 1.5ms | ip=127.0.0.1
+2026-03-11 09:45:15 | INFO     | inventory.CommonLayer.middleware.logging_middleware | GET /api/v1/audit/logs | user=anonymous | status=200 | 6.2ms | ip=127.0.0.1

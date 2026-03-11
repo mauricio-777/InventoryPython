@@ -19,6 +19,13 @@ export const useUserRole = () => {
         return 'Usuario';
     });
 
+    const [userId, setUserIdState] = useState(() => {
+        if (typeof window !== 'undefined') {
+            return localStorage.getItem('userId') || 'system';
+        }
+        return 'system';
+    });
+
     const setUserRole = useCallback((role) => {
         setUserRoleState(role);
         localStorage.setItem('userRole', role);
@@ -29,11 +36,18 @@ export const useUserRole = () => {
         localStorage.setItem('userName', name);
     }, []);
 
+    const setUserId = useCallback((id) => {
+        setUserIdState(id);
+        localStorage.setItem('userId', id);
+    }, []);
+
     const clearUserData = useCallback(() => {
         setUserRoleState('consultor');
         setUserNameState('Usuario');
+        setUserIdState('system');
         localStorage.removeItem('userRole');
         localStorage.removeItem('userName');
+        localStorage.removeItem('userId');
     }, []);
 
     const hasRole = useCallback((role) => {
@@ -54,8 +68,10 @@ export const useUserRole = () => {
     return {
         userRole,
         userName,
+        userId,
         setUserRole,
         setUserName,
+        setUserId,
         clearUserData,
         hasRole,
         canAccess,

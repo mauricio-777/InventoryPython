@@ -4,6 +4,7 @@ from Database.config import get_db
 from User.Domain.user_service import UserService
 from User.Adapters.user_repository import UserRepository, RoleRepository
 from Auth.Adapters.mock_email_provider import MockEmailProvider
+from Audit.Application.audit_service import AuditService
 from CommonLayer.middleware.auth_middleware import require_role
 from CommonLayer.logging.logger import get_logger
 
@@ -15,7 +16,31 @@ email_provider = MockEmailProvider()
 
 
 def _get_service(db):
-    return UserService(UserRepository(db), RoleRepository(db))
+    user_repo = UserRepository(db)
+    role_repo = RoleRepository(db)
+    audit_service = AuditService(db)
+    return UserService(user_repo, role_repo, audit_service)
+
+
+def _get_audit_context():
+    """
+    Extrae información de auditoría del request.
+    Retorna (user_id, user_name, ip_address).
+    """
+    # Información del usuario logueado
+    user_role = request.headers.get("X-User-Role", "unknown").lower().strip()
+    user_id = request.headers.get("X-User-ID", "system")
+    user_name = request.headers.get("X-User-Name", user_role.title())
+    
+    # IP del cliente
+    ip_address = request.headers.get("X-Forwarded-For")
+    if not ip_address:
+        ip_address = request.remote_addr
+    else:
+        # Si hay X-Forwarded-For, tomar el primer IP (el del cliente real)
+        ip_address = ip_address.split(",")[0].strip()
+    
+    return user_id, user_name, ip_address
 
 
 # ── GET /api/v1/users/ ────────────────────────────────────────────────────────
@@ -74,12 +99,16 @@ def create_user():
 
         db = next(get_db())
         service = _get_service(db)
+        audit_user_id, audit_user_name, audit_ip_address = _get_audit_context()
 
         user = service.create_user(
             username=data['username'],
             email=data['email'],
             password=data['password'],
             role_id=int(data['role_id']),
+            audit_user_id=audit_user_id,
+            audit_user_name=audit_user_name,
+            audit_ip_address=audit_ip_address,
         )
 
         # Enviar email de bienvenida (mock)
@@ -131,7 +160,15 @@ def update_user(user_id):
 
         db = next(get_db())
         service = _get_service(db)
-        user = service.update_user(user_id, data)
+        audit_user_id, audit_user_name, audit_ip_address = _get_audit_context()
+        
+        user = service.update_user(
+            user_id,
+            data,
+            audit_user_id=audit_user_id,
+            audit_user_name=audit_user_name,
+            audit_ip_address=audit_ip_address,
+        )
 
         return jsonify({
             "status": "success",
@@ -154,7 +191,14 @@ def deactivate_user(user_id):
     try:
         db = next(get_db())
         service = _get_service(db)
-        user = service.deactivate_user(user_id)
+        audit_user_id, audit_user_name, audit_ip_address = _get_audit_context()
+        
+        user = service.deactivate_user(
+            user_id,
+            audit_user_id=audit_user_id,
+            audit_user_name=audit_user_name,
+            audit_ip_address=audit_ip_address,
+        )
         return jsonify({
             "status": "success",
             "message": f"Usuario '{user.username}' desactivado.",
@@ -175,7 +219,14 @@ def unlock_user(user_id):
     try:
         db = next(get_db())
         service = _get_service(db)
-        user = service.unlock_user(user_id)
+        audit_user_id, audit_user_name, audit_ip_address = _get_audit_context()
+        
+        user = service.unlock_user(
+            user_id,
+            audit_user_id=audit_user_id,
+            audit_user_name=audit_user_name,
+            audit_ip_address=audit_ip_address,
+        )
         return jsonify({
             "status": "success",
             "message": f"Usuario '{user.username}' desbloqueado correctamente.",
