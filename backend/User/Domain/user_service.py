@@ -13,6 +13,8 @@ PREDEFINED_ROLES = [
     {"name": "admin", "description": "Acceso total: gestión de usuarios, auditoría y todas las funcionalidades."},
     {"name": "gestor", "description": "Gestiona productos, lotes, entradas, salidas y reportes. Sin administración de usuarios."},
     {"name": "consultor", "description": "Solo lectura en todas las secciones del sistema."},
+    {"name": "almacenero", "description": "Gestiona movimientos de inventario, recepciones y despachos desde el almacén."},
+    {"name": "repartidor", "description": "Realiza entregas y registra confirmaciones de envíos."},
 ]
 
 DEFAULT_ADMIN = {

@@ -10,16 +10,16 @@ const ROLE_LABELS = {
     admin: 'Administrador',
     gestor: 'Gestor',
     consultor: 'Consultor',
-    picker: 'Almacenero',
-    driver: 'Repartidor',
+    almacenero: 'Almacenero',
+    repartidor: 'Repartidor',
 };
 
 const ROLE_BADGE = {
     admin: 'bg-purple-50 text-purple-600 border-purple-100',
     gestor: 'bg-emerald-50 text-emerald-600 border-emerald-100',
     consultor: 'bg-blue-50 text-blue-600 border-blue-100',
-    picker: 'bg-orange-50 text-orange-600 border-orange-100',
-    driver: 'bg-cyan-50 text-cyan-600 border-cyan-100',
+    almacenero: 'bg-orange-50 text-orange-600 border-orange-100',
+    repartidor: 'bg-cyan-50 text-cyan-600 border-cyan-100',
 };
 
 export const UsersPage = () => {

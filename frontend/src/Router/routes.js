@@ -102,14 +102,14 @@ export const NAV_ITEMS = [
         category: 'Logística',
         name: 'Panel Recolección',
         icon: 'HandGrabbing',
-        roles: ['admin', 'gestor', 'picker'],
+        roles: ['admin', 'gestor', 'almacenero'],
     },
     {
         id: ROUTES.DISPATCH,
         category: 'Logística',
         name: 'Panel Repartidor',
         icon: 'Truck',
-        roles: ['admin', 'gestor', 'driver'],
+        roles: ['admin', 'gestor', 'repartidor'],
     },
     // --- CONTACTOS ---
     {

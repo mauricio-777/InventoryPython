@@ -7,16 +7,16 @@ const ROLE_LABELS = {
     admin: 'Administrador',
     gestor: 'Gestor de Inventario',
     consultor: 'Consultor',
-    picker: 'Almacén (Picker)',
-    driver: 'Logística (Repartidor)'
+    almacenero: 'Almacenero',
+    repartidor: 'Repartidor'
 };
 
 const ROLE_COLORS = {
     admin: 'from-purple-50 to-purple-100 border-purple-200 text-purple-700',
     gestor: 'from-emerald-50 to-emerald-100 border-emerald-200 text-emerald-700',
     consultor: 'from-blue-50 to-blue-100 border-blue-200 text-blue-700',
-    picker: 'from-orange-50 to-orange-100 border-orange-200 text-orange-700',
-    driver: 'from-cyan-50 to-cyan-100 border-cyan-200 text-cyan-700',
+    almacenero: 'from-orange-50 to-orange-100 border-orange-200 text-orange-700',
+    repartidor: 'from-cyan-50 to-cyan-100 border-cyan-200 text-cyan-700',
 };
 
 /**
@@ -157,17 +157,14 @@ export const UserForm = ({ initialData = null, roles = [], onSave, onCancel, loa
                     <label className={labelClass}>Rol</label>
                     <CustomSelect
                         value={form.role_id}
-                        onChange={(val) => {
-                            setForm(prev => ({ ...prev, role_id: val }));
+                        onChange={(event) => {
+                            setForm(prev => ({ ...prev, role_id: event.target.value }));
                             setErrors(prev => ({ ...prev, role_id: undefined }));
                         }}
-                        options={[
-                            { value: "1", label: "Administrador" },
-                            { value: "2", label: "Gestor de Inventario" },
-                            { value: "3", label: "Consultor" },
-                            { value: "4", label: "Almacenero" },
-                            { value: "5", label: "Repartidor" }
-                        ]}
+                        options={roles.map(role => ({
+                            value: String(role.id),
+                            label: ROLE_LABELS[role.name] || role.name
+                        }))}
                         placeholder="Selecciona un rol..."
                         className={errors.role_id ? 'ring-2 ring-red-400' : ''}
                     />

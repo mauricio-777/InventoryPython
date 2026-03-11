@@ -5,13 +5,12 @@ import * as PhosphorIcons from '@phosphor-icons/react';
 
 export const MainLayout = ({ children, currentView, setView, onLogout }) => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const { userRole, userName, clearUserData } = useUserRole();
+    const { userRole, userName } = useUserRole();
 
     const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
     /** Cierra sesión y llama al callback del App */
     const handleLogoutClick = () => {
-        clearUserData();
         if (onLogout) onLogout();
     };
 
@@ -112,8 +111,8 @@ export const MainLayout = ({ children, currentView, setView, onLogout }) => {
                                     {userRole === 'admin' && 'Administrador'}
                                     {userRole === 'gestor' && 'Gestor'}
                                     {userRole === 'consultor' && 'Consultor'}
-                                    {userRole === 'picker' && 'Almacenero'}
-                                    {userRole === 'driver' && 'Repartidor'}
+                                    {userRole === 'almacenero' && 'Almacenero'}
+                                    {userRole === 'repartidor' && 'Repartidor'}
                                 </p>
                             </div>
                         </div>

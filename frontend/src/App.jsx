@@ -31,7 +31,7 @@ function getDefaultView(role) {
 }
 
 function App() {
-  const { userRole } = useUserRole();
+  const { userRole, clearUserData } = useUserRole();
   const [isLoggedIn, setIsLoggedIn] = useState(() => {
     if (typeof window !== 'undefined') {
       return localStorage.getItem('userRole') ? true : false;
@@ -39,32 +39,69 @@ function App() {
     return false;
   });
 
+  const [isSynced, setIsSynced] = useState(true); // Controla si el estado está sincronizado
+
   // El módulo activo — se inicializa con el rol que haya en localStorage
   const [currentView, setView] = useState(() =>
     getDefaultView(localStorage.getItem('userRole') || '')
   );
 
-
-
-  // Cuando cambia el rol (tras login), ir al módulo por defecto de ese rol
+  // Sincronizar currentView cuando el rol cambia
   useEffect(() => {
-    if (userRole) {
-      setView(getDefaultView(userRole));
+    if (isLoggedIn && userRole && userRole !== 'consultor') {
+      const defaultView = getDefaultView(userRole);
+      setView(defaultView);
     }
-  }, [userRole]);
+  }, [userRole, isLoggedIn]);
+
+  // Verificar que el rol en estado coincida con localStorage
+  useEffect(() => {
+    const storedRole = localStorage.getItem('userRole');
+    const storedStatus = !!storedRole;
+    
+    // Si hay mismatch entre estado y localStorage, ajustar
+    if (storedStatus !== isLoggedIn) {
+      // localStorage indica que estamos logueados pero App.jsx dice lo contrario
+      // O viceversa. Sincronizar.
+      setIsSynced(false);
+      const timer = setTimeout(() => {
+        setIsSynced(true);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isLoggedIn, userRole]);
 
   const handleLoginSuccess = () => {
-    setIsLoggedIn(true);
+    // Delay para asegurar que localStorage esté completamente actualizado desde useAuthLogin
+    setTimeout(() => {
+      setIsLoggedIn(true);
+      setIsSynced(true);
+    }, 100);
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
-    setView('products'); // Resetear vista para el próximo usuario
+    setIsSynced(false);
+    // Limpiar localStorage explícitamente
+    localStorage.removeItem('userRole');
+    localStorage.removeItem('userName');
+    // Limpiar hook state
+    clearUserData();
+    // Después, actualizar App state
+    setTimeout(() => {
+      setIsLoggedIn(false);
+      setView('products');
+      setIsSynced(true);
+    }, 100);
   };
 
   // Si no está autenticado, mostrar la vista pública
   if (!isLoggedIn) {
     return <LoginForm onLoginSuccess={handleLoginSuccess} />;
+  }
+
+  // Esperar a que el estado esté sincronizado antes de renderizar
+  if (!isSynced) {
+    return null; // No renderizar nada durante la sincronización
   }
 
   return (
@@ -81,12 +118,12 @@ function App() {
         </RoleGuard>
       )}
       {currentView === 'picking' && (
-        <RoleGuard allowedRoles={['admin', 'gestor', 'picker']}>
+        <RoleGuard allowedRoles={['admin', 'gestor', 'almacenero']}>
           <PickingPage />
         </RoleGuard>
       )}
       {currentView === 'dispatch' && (
-        <RoleGuard allowedRoles={['admin', 'gestor', 'driver']}>
+        <RoleGuard allowedRoles={['admin', 'gestor', 'repartidor']}>
           <DispatchPage />
         </RoleGuard>
       )}

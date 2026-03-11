@@ -5,7 +5,7 @@ from CommonLayer.logging.logger import get_logger
 logger = get_logger(__name__)
 
 # Mapeo de roles válidos del sistema
-VALID_ROLES = {"admin", "gestor", "consultor"}
+VALID_ROLES = {"admin", "gestor", "consultor", "almacenero", "repartidor"}
 
 
 def require_role(*roles):
