@@ -103,7 +103,7 @@ export function OrderFormPage({ onSuccess, onCancel }) {
     const labelClasses = "block text-sm font-bold text-gray-600 mb-2";
 
     return (
-        <div className="bg-white p-6 md:p-8 rounded-3xl w-full max-w-4xl mx-auto shadow-xl">
+        <div className="p-6 md:p-8 w-full max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-8 pb-4 border-b border-gray-100">
                 <Title icon={<PhosphorIcons.FileText size={28} weight="fill" className="text-[var(--color-primary)]" />}>
                     Nuevo Pedido
@@ -117,7 +117,7 @@ export function OrderFormPage({ onSuccess, onCancel }) {
 
             <form onSubmit={handleSubmit} className="space-y-8">
                 {/* Cabecera del pedido */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6 bg-gray-50 rounded-2xl border border-gray-100">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-2">
                     <div>
                         <label className={labelClasses}>Cliente <span className="text-red-500">*</span></label>
                         <CustomSelect

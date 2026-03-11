@@ -1,9 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useReports } from '../../../Report/Application/useReports.js';
 import { useProductActions } from '../../../Product/Application/useProductActions.js';
+import { useUserManager } from '../../../Auth/Application/useAuth.js';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
+
+const TIPO_MOVIMIENTO = {
+    'ENTRY': 'Entrada',
+    'EXIT': 'Salida',
+    'ADJUSTMENT': 'Ajuste',
+};
 
 export const AuditHistoryPage = () => {
     const {
@@ -13,6 +20,7 @@ export const AuditHistoryPage = () => {
     } = useReports();
 
     const { products, fetchProducts } = useProductActions();
+    const { users, fetchUsers } = useUserManager();
 
     const [movements, setMovements] = useState([]);
     const [filters, setFilters] = useState({
@@ -27,7 +35,8 @@ export const AuditHistoryPage = () => {
 
     useEffect(() => {
         fetchProducts();
-    }, [fetchProducts]);
+        fetchUsers();
+    }, [fetchProducts, fetchUsers]);
 
     const handleSearch = async () => {
         try {
@@ -66,6 +75,11 @@ export const AuditHistoryPage = () => {
     const productOptions = products.map(p => ({
         value: p.id,
         label: `${p.name} (${p.sku})`
+    }));
+
+    const userOptions = users.map(u => ({
+        value: u.username,   // La columna created_by guarda el username, no el ID
+        label: u.username
     }));
 
     const movementTypeOptions = [
@@ -159,14 +173,13 @@ export const AuditHistoryPage = () => {
                     <div>
                         <label className={labelClasses}>
                             <PhosphorIcons.User size={16} />
-                            Usuario (ID)
+                            Usuario
                         </label>
-                        <input
-                            type="text"
-                            placeholder="ID del usuario"
+                        <CustomSelect
+                            options={userOptions}
                             value={filters.user_id}
                             onChange={(e) => handleFilterChange('user_id', e.target.value)}
-                            className={inputClasses}
+                            placeholder="Todos los usuarios"
                         />
                     </div>
 
@@ -243,7 +256,7 @@ export const AuditHistoryPage = () => {
                                                     {m.type === 'ENTRY' ? <PhosphorIcons.ArrowDownLeft weight="bold" /> :
                                                         m.type === 'EXIT' ? <PhosphorIcons.ArrowUpRight weight="bold" /> :
                                                             <PhosphorIcons.ArrowsLeftRight weight="bold" />}
-                                                    {m.type}
+                                                    {TIPO_MOVIMIENTO[m.type] || m.type}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-center">

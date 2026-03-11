@@ -15,8 +15,9 @@ class StockService:
         self.repo = MovementRepository(db)
         self.product_repo = ProductRepository(db)
 
-    def register_entry(self, product_id: str, quantity: int, unit_cost: float, 
-                       supplier_id: Optional[str] = None, expiration_date: Optional[datetime] = None) -> Tuple[Batch, Movement]:
+    def register_entry(self, product_id: str, quantity: int, unit_cost: float,
+                       supplier_id: Optional[str] = None, expiration_date: Optional[datetime] = None,
+                       location_id: Optional[str] = None, user_id: str = 'system') -> Tuple[Batch, Movement]:
         if quantity <= 0:
             raise HTTPException(status_code=400, detail="Quantity must be greater than 0")
         
@@ -34,8 +35,10 @@ class StockService:
             unit_cost=unit_cost,
             purchase_date=datetime.now(timezone.utc),
             expiration_date=expiration_date,
-            supplier_id=supplier_id
+            supplier_id=supplier_id,
+            location_id=location_id
         )
+        new_batch.set_audit_create(user_id)
         self.repo.create_batch(new_batch)
 
         # Create Entry Movement
@@ -48,13 +51,14 @@ class StockService:
             unit_price=unit_cost,
             total_price=unit_cost * quantity,
             reference_id=batch_id,
-            notes="Purchase Entry"
+            notes="Recepción de compra"
         )
+        new_movement.set_audit_create(user_id)
         self.repo.create_movement(new_movement)
         
         return new_batch, new_movement
 
-    def register_exit(self, product_id: str, quantity: int, unit_price: Optional[float] = None, notes: str = "") -> Tuple[Movement, float]:
+    def register_exit(self, product_id: str, quantity: int, unit_price: Optional[float] = None, notes: str = "", user_id: str = "system") -> Tuple[Movement, float]:
         if quantity <= 0:
             raise HTTPException(status_code=400, detail="Quantity must be greater than 0")
 
@@ -102,8 +106,9 @@ class StockService:
             reference_id=",".join(affected_batches),
             notes=notes
         )
+        new_movement.set_audit_create(user_id)
         self.db.add(new_movement)
-        self.db.commit() # Save batch updates and movement
+        self.db.commit()
         self.db.refresh(new_movement)
 
         return new_movement, total_cost

@@ -7,6 +7,8 @@ from Product.Adapters.movement_repository import MovementRepository
 from Product.Adapters.product_repository import ProductRepository
 from Product.Domain.stock_service import StockService
 from CommonLayer.middleware.auth_middleware import require_role
+from Audit.Domain.audit_log import AuditLog
+from Audit.Adapters.audit_repository import AuditRepository
 from datetime import datetime, timezone
 
 router = Blueprint('batches', __name__, url_prefix='/api/v1/batches')
@@ -31,9 +33,28 @@ def receive_purchase():
             quantity=int(data.get('quantity')),
             unit_cost=float(data.get('unit_cost')),
             supplier_id=data.get('supplier_id'),
-            expiration_date=expiration_date
+            expiration_date=expiration_date,
+            location_id=data.get('location_id'),
+            user_id=request.headers.get('X-User-Id', 'system')
         )
         
+        # Registrar entrada en la pista de auditoría
+        try:
+            audit_repo = AuditRepository(db)
+            audit_log = AuditLog(
+                id=str(uuid.uuid4()),
+                user_id=user_id,
+                user_name=user_id,
+                action='CREATE',
+                table_name='batches',
+                record_id=batch.id,
+                description=f'Recepción de {batch.initial_quantity} unidades del producto {batch.product_id}',
+                new_values='{}'
+            )
+            audit_repo.create(audit_log)
+        except Exception:
+            pass  # No fallar si no se puede registrar auditoría
+
         return jsonify({
             "id": batch.id,
             "product_id": batch.product_id,
@@ -58,6 +79,10 @@ def get_batches_by_product(product_id):
     batches = repo.get_batches_by_product(product_id, active_only)
     result = []
     for b in batches:
+        # Obtener el código de ubicación si el lote tiene ubicación asignada
+        location_code = None
+        if b.location:
+            location_code = b.location.composite_code if hasattr(b.location, 'composite_code') else None
         result.append({
             "id": b.id,
             "product_id": b.product_id,
@@ -67,6 +92,8 @@ def get_batches_by_product(product_id):
             "purchase_date": b.purchase_date.isoformat(),
             "expiration_date": b.expiration_date.isoformat() if b.expiration_date else None,
             "supplier_id": b.supplier_id,
+            "location_id": b.location_id,
+            "location_code": location_code,
             "entry_transaction_ref": b.entry_transaction_ref
         })
     return jsonify(result), 200

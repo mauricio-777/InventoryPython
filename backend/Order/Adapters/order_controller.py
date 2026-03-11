@@ -2,6 +2,9 @@ from flask import Blueprint, request, jsonify
 from Database.config import SessionLocal
 from CommonLayer.middleware.auth_middleware import require_role
 from Order.Application.order_service import OrderService
+from Audit.Domain.audit_log import AuditLog
+from Audit.Adapters.audit_repository import AuditRepository
+import uuid
 
 router = Blueprint("order_controller", __name__, url_prefix="/api/v1/orders")
 
@@ -41,6 +44,19 @@ def create_order():
     try:
         service = OrderService(db)
         order = service.create_order(data, user_id)
+        # Auto-auditoría de creación de pedido
+        try:
+            audit_repo = AuditRepository(db)
+            audit_repo.create(AuditLog(
+                id=str(uuid.uuid4()),
+                user_id=user_id, user_name=user_id,
+                action='CREATE', table_name='orders',
+                record_id=order.id,
+                description=f'Pedido creado para cliente {data.get("customer_id", "")} con {len(data.get("items", []))} item(s)',
+                new_values='{}'
+            ))
+        except Exception:
+            pass
         return jsonify(order_to_dict(order)), 201
     except Exception as e:
         return jsonify({"message": str(e)}), 400
@@ -85,6 +101,19 @@ def update_order_status(order_id):
     try:
         service = OrderService(db)
         order = service.update_status(order_id, new_status, user_id)
+        # Auto-auditar cambios de estado
+        try:
+            audit_repo = AuditRepository(db)
+            audit_repo.create(AuditLog(
+                id=str(uuid.uuid4()),
+                user_id=user_id, user_name=user_id,
+                action='UPDATE', table_name='orders',
+                record_id=order_id,
+                description=f'Estado del pedido cambiado a {new_status}',
+                new_values='{}'
+            ))
+        except Exception:
+            pass
         return jsonify(order_to_dict(order)), 200
     except Exception as e:
         return jsonify({"message": str(e)}), 400

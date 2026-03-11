@@ -1,8 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuditLogs } from '../../Application/useAuditLogs.js';
+import { useUserManager } from '../../../Auth/Application/useAuth.js';
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
+
+const ACCION_LABEL = {
+    'CREATE': 'Crear',
+    'UPDATE': 'Actualizar',
+    'DELETE': 'Eliminar',
+};
+
+const ACCION_STYLE = {
+    'CREATE': 'bg-emerald-50 text-emerald-600 border-emerald-100',
+    'UPDATE': 'bg-blue-50 text-blue-600 border-blue-100',
+    'DELETE': 'bg-red-50 text-red-600 border-red-100',
+};
 
 export const AuditLogPage = () => {
     const {
@@ -12,6 +25,8 @@ export const AuditLogPage = () => {
         fetchAuditLogDetails,
         fetchAuditSummary
     } = useAuditLogs();
+
+    const { users, fetchUsers } = useUserManager();
 
     const [auditLogs, setAuditLogs] = useState([]);
     const [summary, setSummary] = useState(null);
@@ -27,6 +42,7 @@ export const AuditLogPage = () => {
     const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
+        fetchUsers();
         loadInitialData();
         // eslint-disable-next-line
     }, []);
@@ -35,20 +51,28 @@ export const AuditLogPage = () => {
         try {
             const summaryData = await fetchAuditSummary();
             setSummary(summaryData);
-            await handleSearch();
+            // Pass the current filters directly (avoids stale closure)
+            const initialFilters = {
+                user_id: '',
+                table_name: '',
+                start_date: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+                end_date: new Date().toISOString().split('T')[0]
+            };
+            const data = await fetchAuditLogs(initialFilters, 0, 50);
+            setAuditLogs(data || []);
         } catch (err) {
             console.error(err);
         }
     };
 
-    const handleSearch = async () => {
+    const handleSearch = useCallback(async () => {
         try {
             const data = await fetchAuditLogs(filters, pagination.skip, pagination.limit);
             setAuditLogs(data || []);
         } catch (err) {
             console.error(err);
         }
-    };
+    }, [filters, pagination, fetchAuditLogs]);
 
     const handleFilterChange = (key, value) => {
         setFilters(prev => ({
@@ -251,7 +275,7 @@ export const AuditLogPage = () => {
                             <table className="w-full text-left min-w-[1000px]">
                                 <thead>
                                     <tr className="bg-[var(--color-quaternary)]/50 text-gray-400 text-xs font-bold uppercase tracking-wider border-b border-gray-100">
-                                        <th className="px-6 py-4">Timestamp</th>
+                                        <th className="px-6 py-4">Fecha / Hora</th>
                                         <th className="px-6 py-4">Usuario</th>
                                         <th className="px-6 py-4">Tabla</th>
                                         <th className="px-6 py-4 text-center">Acción</th>
@@ -274,16 +298,12 @@ export const AuditLogPage = () => {
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-center">
-                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border shadow-sm w-max ${log.action === 'CREATE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
-                                                    log.action === 'UPDATE' ? 'bg-amber-50 text-amber-600 border-amber-100' :
-                                                        log.action === 'DELETE' ? 'bg-red-50 text-red-600 border-red-100' :
-                                                            'bg-gray-50 text-gray-600 border-gray-200'
-                                                    }`}>
+                                                <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold border shadow-sm w-max ${ACCION_STYLE[log.action] || 'bg-gray-50 text-gray-600 border-gray-200'}`}>
                                                     {log.action === 'CREATE' ? <PhosphorIcons.PlusCircle weight="bold" /> :
                                                         log.action === 'UPDATE' ? <PhosphorIcons.PencilSimple weight="bold" /> :
                                                             log.action === 'DELETE' ? <PhosphorIcons.Trash weight="bold" /> :
                                                                 <PhosphorIcons.Info weight="bold" />}
-                                                    {log.action}
+                                                    {ACCION_LABEL[log.action] || log.action}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-gray-500 font-mono text-xs">{log.record_id}</td>

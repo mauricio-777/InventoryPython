@@ -2,6 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { useDashboard } from '../../Application/useDashboard.js';
 import * as PhosphorIcons from '@phosphor-icons/react';
 
+// Etiquetas en español para tipos de movimiento
+const MOVEMENT_TYPE_LABELS = {
+    'ENTRY': 'Entrada',
+    'EXIT': 'Salida',
+    'ADJUSTMENT': 'Ajuste',
+};
+
 export const DashboardPage = () => {
     const {
         loading,
@@ -14,12 +21,21 @@ export const DashboardPage = () => {
         fetchRotationSummary
     } = useDashboard();
 
+    // Estado local para el input, no dispara la recarga automáticamente
+    const [thresholdInput, setThresholdInput] = useState(10);
     const [lowStockThreshold, setLowStockThreshold] = useState(10);
     const [selectedTab, setSelectedTab] = useState('overview');
 
     useEffect(() => {
         fetchDashboard(lowStockThreshold);
     }, [lowStockThreshold]);
+
+    const handleApplyThreshold = () => {
+        const parsed = parseInt(thresholdInput, 10);
+        if (!isNaN(parsed) && parsed > 0) {
+            setLowStockThreshold(parsed);
+        }
+    };
 
     if (loading) {
         return (
@@ -49,7 +65,7 @@ export const DashboardPage = () => {
             {/* Header */}
             <div className="flex flex-col gap-2">
                 <h1 className="text-4xl md:text-5xl font-bold text-[var(--color-tertiary)] tracking-tight">
-                    Real-time<br />inventory
+                    Inventario<br />en Tiempo Real
                 </h1>
             </div>
 
@@ -142,16 +158,23 @@ export const DashboardPage = () => {
             </div>
 
             {/* Threshold Control */}
-            <div className="flex gap-4 items-center bg-[var(--color-quinary)] w-max px-6 py-4 rounded-2xl shadow-sm border border-gray-100">
+            <div className="flex gap-3 items-center bg-[var(--color-quinary)] w-max px-6 py-4 rounded-2xl shadow-sm border border-gray-100">
                 <label className="text-gray-500 font-medium text-sm">Umbral Stock Bajo:</label>
                 <input
                     type="number"
                     min="1"
-                    value={lowStockThreshold}
-                    onChange={(e) => setLowStockThreshold(parseInt(e.target.value))}
+                    value={thresholdInput}
+                    onChange={(e) => setThresholdInput(e.target.value)}
                     className="px-3 py-1.5 bg-gray-50 text-[var(--color-tertiary)] font-bold rounded-xl border border-gray-200 w-20 outline-none focus:ring-2 focus:ring-[var(--color-primary)]/20"
+                    onKeyDown={(e) => e.key === 'Enter' && handleApplyThreshold()}
                 />
                 <span className="text-gray-400 text-sm font-medium">unidades</span>
+                <button
+                    onClick={handleApplyThreshold}
+                    className="px-4 py-1.5 bg-[var(--color-primary)] text-white text-sm font-bold rounded-xl hover:bg-[var(--color-primary)]/90 transition-colors shadow-sm"
+                >
+                    Aplicar
+                </button>
             </div>
 
             {/* Content Display */}
@@ -234,7 +257,7 @@ export const DashboardPage = () => {
                                                         : 'bg-red-50 text-red-600 border-red-100'
                                                     }`}>
                                                     {movement.type === 'ENTRY' ? <PhosphorIcons.ArrowDownLeft weight="bold" /> : <PhosphorIcons.ArrowUpRight weight="bold" />}
-                                                    {movement.type}
+                                                    {MOVEMENT_TYPE_LABELS[movement.type] || movement.type}
                                                 </span>
                                             </td>
                                             <td className="py-4 text-right text-[var(--color-tertiary)] font-bold">

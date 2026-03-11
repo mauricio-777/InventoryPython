@@ -41,6 +41,7 @@ export const UsersPage = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [confirmDeactivate, setConfirmDeactivate] = useState(null);
     const [confirmUnlock, setConfirmUnlock] = useState(null);
+    const [isConfigModalOpen, setIsConfigModalOpen] = useState(false);
 
     // Login limits config local state
     const [configNonAdmin, setConfigNonAdmin] = useState('');
@@ -171,14 +172,23 @@ export const UsersPage = () => {
                     </div>
                 </div>
                 {isAdmin && (
-                    <Button
-                        onClick={handleOpenCreate}
-                        variant="primary"
-                        className="w-full md:w-auto text-base py-3 px-6 shadow-sm flex items-center justify-center gap-2"
-                    >
-                        <PhosphorIcons.UserPlus size={20} weight="bold" />
-                        <span>Nuevo Usuario</span>
-                    </Button>
+                    <div className="flex gap-3">
+                        <button
+                            onClick={() => setIsConfigModalOpen(true)}
+                            title="Configuración de seguridad"
+                            className="p-3 bg-amber-50 hover:bg-amber-100 text-amber-600 rounded-2xl border border-amber-100 transition-colors shadow-sm"
+                        >
+                            <PhosphorIcons.ShieldWarning size={24} weight="fill" />
+                        </button>
+                        <Button
+                            onClick={handleOpenCreate}
+                            variant="primary"
+                            className="w-full md:w-auto text-base py-3 px-6 shadow-sm flex items-center justify-center gap-2"
+                        >
+                            <PhosphorIcons.UserPlus size={20} weight="bold" />
+                            <span>Nuevo Usuario</span>
+                        </Button>
+                    </div>
                 )}
             </div>
 
@@ -333,49 +343,49 @@ export const UsersPage = () => {
                 </div>
             )}
 
-            {/* ── Login Limits Config Panel (admin only) ─────────────────────── */}
-            {isAdmin && (
-                <div className="bg-[var(--color-quinary)] rounded-3xl border border-gray-100 shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 animate-slide-up">
-                    <div className="flex items-center gap-3 mb-6">
-                        <div className="p-2.5 bg-amber-50 rounded-xl border border-amber-100">
-                            <PhosphorIcons.ShieldWarning size={22} weight="fill" className="text-amber-600" />
-                        </div>
-                        <div>
-                            <h2 className="text-base font-bold text-[var(--color-tertiary)]">Configuración de límites de intentos</h2>
-                            <p className="text-xs text-gray-500 font-medium mt-0.5">Define cuántos intentos fallidos pueden tener los usuarios regulares antes de ser bloqueados.</p>
-                        </div>
-                    </div>
+            {/* Login Limits Config — ahora como modal */}
 
-                    <div className="mb-6">
-                        <div>
-                            <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-                                Máx. intentos para <span className="text-[var(--color-primary)]">Usuarios (No Administradores)</span>
-                            </label>
-                            <input
-                                type="number"
-                                min="1"
-                                max="20"
-                                value={configNonAdmin}
-                                onChange={e => setConfigNonAdmin(e.target.value)}
-                                disabled={configLoading}
-                                className="w-full bg-gray-50 text-[var(--color-tertiary)] border border-gray-200 rounded-2xl px-4 py-3 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 transition-all font-bold text-sm"
-                            />
+            {/* Config Modal */}
+            {isAdmin && isConfigModalOpen && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:pl-56 animate-fade-in">
+                    <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setIsConfigModalOpen(false)} />
+                    <div className="relative z-10 w-full max-w-md bg-[var(--color-quinary)] rounded-3xl shadow-2xl p-8 animate-slide-up">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2.5 bg-amber-50 rounded-xl border border-amber-100">
+                                    <PhosphorIcons.ShieldWarning size={22} weight="fill" className="text-amber-600" />
+                                </div>
+                                <div>
+                                    <h2 className="text-base font-bold text-[var(--color-tertiary)]">Configuración de Seguridad</h2>
+                                    <p className="text-xs text-gray-500 font-medium">Intentos máximos antes de bloqueo</p>
+                                </div>
+                            </div>
+                            <button onClick={() => setIsConfigModalOpen(false)} className="p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
+                                <PhosphorIcons.X size={22} weight="bold" />
+                            </button>
                         </div>
-                    </div>
-
-                    <div className="flex justify-end">
-                        <Button
-                            onClick={handleSaveLimits}
-                            variant="primary"
-                            disabled={savingConfig || configLoading}
-                            className="px-6 py-2.5 flex items-center gap-2"
-                        >
-                            {savingConfig
-                                ? <PhosphorIcons.Spinner size={16} className="animate-spin" />
-                                : <PhosphorIcons.FloppyDisk size={16} weight="bold" />
-                            }
-                            Guardar configuración
-                        </Button>
+                        <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
+                            Máx. intentos — <span className="text-[var(--color-primary)]">Usuarios (No Administradores)</span>
+                        </label>
+                        <input
+                            type="number" min="1" max="20"
+                            value={configNonAdmin}
+                            onChange={e => setConfigNonAdmin(e.target.value)}
+                            disabled={configLoading}
+                            className="w-full bg-gray-50 text-[var(--color-tertiary)] border border-gray-200 rounded-2xl px-4 py-3 mb-6 focus:outline-none focus:border-amber-400 focus:ring-4 focus:ring-amber-400/10 transition-all font-bold text-sm"
+                        />
+                        <div className="flex gap-3 justify-end">
+                            <Button variant="secondary" onClick={() => setIsConfigModalOpen(false)}>Cancelar</Button>
+                            <Button
+                                onClick={async () => { await handleSaveLimits(); setIsConfigModalOpen(false); }}
+                                variant="primary"
+                                disabled={savingConfig || configLoading}
+                                className="flex items-center gap-2"
+                            >
+                                {savingConfig ? <PhosphorIcons.Spinner size={16} className="animate-spin" /> : <PhosphorIcons.FloppyDisk size={16} weight="bold" />}
+                                Guardar
+                            </Button>
+                        </div>
                     </div>
                 </div>
             )}

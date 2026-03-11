@@ -160,7 +160,7 @@ export function OrdersPage() {
                         className="absolute inset-0 bg-[var(--color-tertiary)]/30 backdrop-blur-sm"
                         onClick={() => setIsFormVisible(false)}
                     ></div>
-                    <div className="relative z-10 w-full max-w-5xl max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl animate-slide-up shadow-[0_20px_40px_rgba(0,0,0,0.1)]">
+                    <div className="relative z-10 w-full max-w-5xl max-h-[90vh] overflow-y-auto custom-scrollbar rounded-3xl animate-slide-up shadow-[0_20px_40px_rgba(0,0,0,0.15)] bg-[var(--color-quinary)]">
                         <OrderFormPage
                             onSuccess={handleFormSuccess}
                             onCancel={() => setIsFormVisible(false)}

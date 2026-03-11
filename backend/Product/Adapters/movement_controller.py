@@ -17,6 +17,7 @@ def register_sale():
 
     db = next(get_db())
     stock_svc = StockService(db)
+    user_id = request.headers.get('X-User-Id', 'system')
     
     try:
         unit_price = data.get('unit_price')
@@ -27,7 +28,8 @@ def register_sale():
             product_id=data.get('product_id'),
             quantity=int(data.get('quantity')),
             unit_price=unit_price,
-            notes=data.get('notes', 'Sale')
+            notes=data.get('notes', 'Venta'),
+            user_id=user_id
         )
         
         return jsonify({

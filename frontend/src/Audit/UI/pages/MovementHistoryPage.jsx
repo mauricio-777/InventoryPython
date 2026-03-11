@@ -4,6 +4,12 @@ import { useProductActions } from '../../../Product/Application/useProductAction
 import { CustomSelect } from '../../../CommonLayer/components/ui/CustomSelect.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
 
+const TIPO_MOVIMIENTO = {
+    'ENTRY': 'Entrada',
+    'EXIT': 'Salida',
+    'ADJUSTMENT': 'Ajuste',
+};
+
 export const MovementHistoryPage = () => {
     const { fetchMovements, loading, error } = useAuditLogs();
     const { products, fetchProducts } = useProductActions();
@@ -110,7 +116,7 @@ export const MovementHistoryPage = () => {
                                                     {m.type === 'ENTRY' && <PhosphorIcons.ArrowDownLeft weight="bold" />}
                                                     {m.type === 'EXIT' && <PhosphorIcons.ArrowUpRight weight="bold" />}
                                                     {m.type !== 'ENTRY' && m.type !== 'EXIT' && <PhosphorIcons.ArrowsLeftRight weight="bold" />}
-                                                    {m.type}
+                                                    {TIPO_MOVIMIENTO[m.type] || m.type}
                                                 </span>
                                             </td>
                                             <td className="px-6 py-4 text-center">

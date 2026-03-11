@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { useReports } from '../../Application/useReports.js';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import * as PhosphorIcons from '@phosphor-icons/react';
+import * as XLSX from 'xlsx';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 
 export const ValuationReportPage = () => {
     const {
         loading,
         error,
         fetchValorizationReport,
-        exportValorizationReport
     } = useReports();
 
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
@@ -24,35 +26,62 @@ export const ValuationReportPage = () => {
         }
     };
 
-    const handleExport = async (format) => {
+    const handleExportExcel = () => {
+        if (!report) return;
+        setExporting(true);
         try {
-            setExporting(true);
-            const data = await exportValorizationReport(selectedDate, format);
-
-            if (format === 'json') {
-                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `valorization_${selectedDate}.json`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            } else if (format === 'csv') {
-                const url = window.URL.createObjectURL(data);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `valorization_${selectedDate}.csv`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            }
+            const rows = (report.details_by_product || []).map(p => ({
+                'Producto': p.product_name,
+                'SKU': p.product_sku,
+                'Cantidad Total': p.total_quantity,
+                'Costo Unit. Promedio (Bs)': p.average_unit_cost?.toFixed(2),
+                'Costo Total (Bs)': p.total_cost?.toFixed(2),
+            }));
+            const ws = XLSX.utils.json_to_sheet(rows);
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Valorización');
+            XLSX.writeFile(wb, `valorización_${selectedDate}.xlsx`);
         } catch (err) {
             console.error(err);
         } finally {
             setExporting(false);
         }
     };
+
+    const handleExportPDF = () => {
+        if (!report) return;
+        setExporting(true);
+        try {
+            const doc = new jsPDF({ orientation: 'landscape' });
+            doc.setFontSize(16);
+            doc.text(`Reporte de Valorización — ${selectedDate}`, 14, 16);
+            doc.setFontSize(11);
+            doc.text(`Valor Total del Inventario: Bs ${report.total_value?.toFixed(2)}`, 14, 24);
+
+            const body = (report.details_by_product || []).map(p => [
+                p.product_name,
+                p.product_sku,
+                p.total_quantity,
+                `Bs ${p.average_unit_cost?.toFixed(2)}`,
+                `Bs ${p.total_cost?.toFixed(2)}`,
+            ]);
+
+            autoTable(doc, {
+                startY: 30,
+                head: [['Producto', 'SKU', 'Cantidad', 'Costo Unit. Prom.', 'Costo Total']],
+                body,
+                styles: { fontSize: 9 },
+                headStyles: { fillColor: [37, 99, 235] },
+            });
+
+            doc.save(`valorización_${selectedDate}.pdf`);
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setExporting(false);
+        }
+    };
+
 
     return (
         <div className="animate-fade-in w-full max-w-7xl mx-auto space-y-8">
@@ -115,20 +144,20 @@ export const ValuationReportPage = () => {
                     {/* Export Buttons */}
                     <div className="flex flex-wrap gap-3">
                         <Button
-                            onClick={() => handleExport('csv')}
+                            onClick={handleExportExcel}
                             disabled={exporting}
                             variant="secondary"
                             className="shrink-0 flex items-center gap-2 shadow-sm font-medium">
-                            <PhosphorIcons.DownloadSimple size={20} weight="bold" />
-                            Descargar CSV
+                            <PhosphorIcons.FileXls size={20} weight="bold" />
+                            Descargar Excel (.xlsx)
                         </Button>
                         <Button
-                            onClick={() => handleExport('json')}
+                            onClick={handleExportPDF}
                             disabled={exporting}
                             variant="secondary"
                             className="shrink-0 flex items-center gap-2 shadow-sm font-medium">
-                            <PhosphorIcons.DownloadSimple size={20} weight="bold" />
-                            Descargar JSON
+                            <PhosphorIcons.FilePdf size={20} weight="bold" />
+                            Descargar PDF
                         </Button>
                     </div>
 

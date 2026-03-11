@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import * as PhosphorIcons from '@phosphor-icons/react';
 import { Title } from '../../../CommonLayer/components/ui/Title.jsx';
 import { Button } from '../../../CommonLayer/components/ui/Button.jsx';
 import { useOrderActions } from '../../Application/useOrderActions.js';
-
+import { axiosInstance } from '../../../CommonLayer/config/axios-instance.js';
 import { useToast } from '../../../CommonLayer/context/ToastContext.jsx';
 
 // Status color mapping
@@ -23,6 +23,8 @@ export function PickingPage() {
     const { orders, fetchOrders, updateOrderStatus, assignOrder, pickItem, loading } = useOrderActions();
 
     const [activeOrder, setActiveOrder] = useState(null);
+    // Map de product_id -> lote disponible (para mostrar ubicación cuando batch_id es null)
+    const [productBatches, setProductBatches] = useState({});
 
     useEffect(() => {
         fetchOrders();
@@ -31,6 +33,24 @@ export function PickingPage() {
         }, 5000);
         return () => clearInterval(interval);
     }, [fetchOrders]);
+
+    // Cuando se abre una tarea, cargar los lotes disponibles de cada producto
+    const loadBatchesForOrder = useCallback(async (order) => {
+        const productIds = [...new Set(order.items.filter(i => !i.batch_id).map(i => i.product_id))];
+        const batchMap = {};
+        await Promise.all(productIds.map(async (pid) => {
+            try {
+                const res = await axiosInstance.get(`/batches/product/${pid}?active_only=true`);
+                const batches = res.data;
+                if (batches && batches.length > 0) {
+                    // Ordenar por fecha de compra más antigua primero (FIFO)
+                    batches.sort((a, b) => new Date(a.purchase_date) - new Date(b.purchase_date));
+                    batchMap[pid] = batches[0]; // Tomar el primero disponible
+                }
+            } catch (_) { /* silent — no mostrar error si no hay lotes */ }
+        }));
+        setProductBatches(batchMap);
+    }, []);
 
     // Filter to only show PENDING or PICKING orders
     const pickingTasks = orders.filter(o => o.status === 'PENDING' || o.status === 'PICKING');
@@ -48,30 +68,31 @@ export function PickingPage() {
 
     const handleOpenTask = (order) => {
         setActiveOrder(order);
+        loadBatchesForOrder(order);
     };
 
     const handleCloseTask = () => {
         setActiveOrder(null);
+        setProductBatches({});
         fetchOrders();
     };
 
-    const handlePickItemClick = async (itemId, batchId, quantity) => {
-        if (!batchId) {
-            showToast("El sistema necesita asignar un lote primero (Pendiente UI avanzada)", "error");
-            return;
-        }
-
-        const result = await pickItem(itemId, batchId, quantity);
+    const handlePickItemClick = async (itemId, batchId, quantity, productId) => {
+        // Si no hay batch asignado en el item, enviar el productId para auto-asignación
+        const effectiveBatchId = batchId || 'DUMMY_BATCH_PARA_UI';
+        const result = await pickItem(itemId, effectiveBatchId, quantity);
         if (result.success) {
-            showToast('Item recolectado', 'success');
-            // Optimistically update active order or re-fetch
-            const updatedOrder = await fetchOrders(); // Simple refresh for now
+            showToast('Item recolectado correctamente', 'success');
+            const updatedOrder = await fetchOrders();
             if (updatedOrder.success) {
                 const refreshedOrder = updatedOrder.data.find(o => o.id === activeOrder.id);
-                if (refreshedOrder) setActiveOrder(refreshedOrder);
+                if (refreshedOrder) {
+                    setActiveOrder(refreshedOrder);
+                    loadBatchesForOrder(refreshedOrder);
+                }
             }
         } else {
-            showToast(result.error, 'error');
+            showToast(result.error || 'Error al recolectar item', 'error');
         }
     };
 
@@ -120,14 +141,28 @@ export function PickingPage() {
                                 <div key={item.id} className={`flex flex-col md:flex-row md:items-center justify-between p-4 rounded-xl border ${isFullyPicked ? 'bg-[var(--color-primary)]/5 border-[var(--color-primary)]/20' : 'bg-gray-50 border-gray-200'} transition-all`}>
                                     <div>
                                         <div className="font-bold text-lg text-gray-900">{item.product_name}</div>
-                                        <div className="text-sm font-semibold text-gray-500 mt-1 flex items-center gap-4">
+                                        <div className="text-sm font-semibold text-gray-500 mt-1 flex flex-wrap items-center gap-4">
                                             <span className="flex items-center gap-1">
                                                 <PhosphorIcons.MapPinLine size={16} />
-                                                Ubicación: <span className="text-[var(--color-primary)] border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/10 px-2 py-0.5 rounded-md min-w-[70px] text-center inline-block ml-1">{item.location_code || 'SIN ASIGNAR'}</span>
+                                                Ubicación:
+                                                {(() => {
+                                                    const loc = item.location_code && item.location_code !== 'N/A'
+                                                        ? item.location_code
+                                                        : productBatches[item.product_id]?.location_code || null;
+                                                    return loc
+                                                        ? <span className="text-[var(--color-primary)] border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/10 px-2 py-0.5 rounded-md min-w-[70px] text-center inline-block ml-1">{loc}</span>
+                                                        : <span className="text-gray-400 border border-gray-200 bg-gray-50 px-2 py-0.5 rounded-md inline-block ml-1">Lote sin ubicación</span>;
+                                                })()}
                                             </span>
                                             <span className="flex items-center gap-1">
                                                 <PhosphorIcons.Package size={16} />
-                                                Lote: <span className="text-[var(--color-secondary)] border border-[var(--color-secondary)]/20 bg-[var(--color-secondary)]/10 px-2 py-0.5 rounded-md inline-block ml-1">{item.batch_id || 'AUTO'}</span>
+                                                Lote:
+                                                {item.batch_id
+                                                    ? <span className="text-[var(--color-secondary)] border border-[var(--color-secondary)]/20 bg-[var(--color-secondary)]/10 px-2 py-0.5 rounded-md font-mono text-xs inline-block ml-1">{String(item.batch_id).substring(0, 8).toUpperCase()}</span>
+                                                    : productBatches[item.product_id]
+                                                        ? <span className="text-emerald-600 border border-emerald-200 bg-emerald-50 px-2 py-0.5 rounded-md font-mono text-xs inline-block ml-1">{String(productBatches[item.product_id].id).substring(0, 8).toUpperCase()} ✓</span>
+                                                        : <span className="text-red-500 border border-red-200 bg-red-50 px-2 py-0.5 rounded-md inline-block ml-1">Sin stock</span>
+                                                }
                                             </span>
                                         </div>
                                     </div>
@@ -141,13 +176,22 @@ export function PickingPage() {
                                         </div>
 
                                         {!isFullyPicked ? (
-                                            <Button
-                                                variant="secondary"
-                                                onClick={() => handlePickItemClick(item.id, item.batch_id || 'DUMMY_BATCH_PARA_UI', item.quantity_requested - item.quantity_picked)}
-                                                className="bg-white border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white"
-                                            >
-                                                Recolectar {item.quantity_requested - item.quantity_picked}
-                                            </Button>
+                                            productBatches[item.product_id] || item.batch_id
+                                                ? (
+                                                    <Button
+                                                        variant="secondary"
+                                                        onClick={() => handlePickItemClick(item.id, item.batch_id, item.quantity_requested - item.quantity_picked, item.product_id)}
+                                                        className="bg-white border-2 border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)] hover:text-white"
+                                                    >
+                                                        <PhosphorIcons.HandGrabbing size={16} weight="bold" className="inline mr-1" />
+                                                        Recolectar {item.quantity_requested - item.quantity_picked}
+                                                    </Button>
+                                                ) : (
+                                                    <div className="flex items-center gap-2 text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded-xl text-xs font-bold">
+                                                        <PhosphorIcons.Warning size={16} weight="fill" />
+                                                        Sin stock
+                                                    </div>
+                                                )
                                         ) : (
                                             <div className="bg-[var(--color-primary)] text-white p-2 rounded-full shadow-sm">
                                                 <PhosphorIcons.Check size={24} weight="bold" />

@@ -66,6 +66,14 @@ with app.app_context():
     finally:
         seed_db.close()
 
+# ── Seed: datos demo completos (productos, clientes, proveedores, etc.) ───────
+try:
+    from scripts.seed_data import run_seed
+    with app.app_context():
+        run_seed()
+except Exception as _seed_err:
+    logger.warning("Seed de datos demo omitido: %s", _seed_err)
+
 @app.route("/", methods=["GET"])
 def read_root():
     return jsonify({"status": "ok", "message": "Inventory API is running (Flask)", "version": "1.0.0"}), 200
